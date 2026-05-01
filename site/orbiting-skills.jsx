@@ -17,9 +17,8 @@ const orbitCss = `
   border: 1px dashed rgba(255,97,24, 0.25);
   transform: translate(-50%, -50%);
   pointer-events: none;
-}
-.orbit-container:hover .orbit-item-wrapper,
-.orbit-container:hover .orbit-item-content {
+.orbit-container:has(.orbit-item-content:hover) .orbit-item-wrapper,
+.orbit-container:has(.orbit-item-content:hover) .orbit-item-content {
   animation-play-state: paused !important;
 }
 .orbit-item-wrapper {
@@ -53,9 +52,12 @@ const orbitCss = `
   position: relative;
   transition: transform 0.3s ease;
 }
+.orbit-item-wrapper:has(.orbit-item-content:hover) {
+  z-index: 100;
+}
 .orbit-item-content:hover {
   transform: scale(1.15);
-  z-index: 10;
+  z-index: 100;
   box-shadow: 0 15px 40px rgba(255,97,24,0.2);
 }
 .orbit-label {
@@ -91,7 +93,7 @@ const orbitCss = `
   opacity: 0;
   pointer-events: none;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  z-index: 50;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   gap: 8px;
