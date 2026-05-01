@@ -291,12 +291,19 @@ function Hero({ t }) {
     return parts;
   })();
 
-  // 3 Unsplash photos: videosurveillance, infra réseau, réparation IT
+  const [index, setIndex] = React.useState(0);
   const photos = [
-    { url: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=1400&q=80&auto=format&fit=crop', label: 'Vidéosurveillance', icon: I.cam },
-    { url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=80&auto=format&fit=crop', label: 'Infrastructure réseau', icon: I.network },
-    { url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=80&auto=format&fit=crop', label: 'Réparation IT', icon: I.wrench },
+    { url: 'input/hero-vid.png', label: 'Vidéosurveillance', icon: I.cam },
+    { url: 'input/hero-net.png', label: 'Infrastructure réseau', icon: I.network },
+    { url: 'input/hero-rep.png', label: 'Dépannage & SAV', icon: I.wrench },
   ];
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % photos.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [photos.length]);
 
   return (
     <section style={{ position: 'relative', overflow: 'hidden', background: '#0a0a0b', color: '#fff', fontFamily: 'var(--font-body)' }}>
@@ -330,17 +337,29 @@ function Hero({ t }) {
         }
       `}</style>
 
-      {/* --- 3-photo triptych background --- */}
-      <div className="hero-photo-strip" style={{ position: 'absolute', inset: 0, zIndex: 0, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, #000 25%, #000 70%, transparent 100%)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 25%, #000 70%, transparent 100%)' }}>
+      {/* --- Infinite Carousel Background --- */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         {photos.map((p, i) => (
-          <div key={i} style={{
-            backgroundImage: `url(${p.url})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: 0.32,
-            filter: 'grayscale(0.3) contrast(1.05)',
-          }} />
+          <div key={i}
+            className={i === index ? 'active-slide' : ''}
+            style={{
+              position: 'absolute', inset: 0,
+              backgroundImage: `url(${p.url})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              opacity: i === index ? 0.45 : 0,
+              transition: 'opacity 1.5s ease-in-out',
+              filter: 'contrast(1.1) brightness(0.9)',
+            }} />
         ))}
+        {/* Subtle zoom animation for the current active slide */}
+        <style>{`
+          @keyframes hero-zoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+          }
+          .active-slide { animation: hero-zoom 8s linear infinite alternate; }
+        `}</style>
       </div>
       {/* dark overlay */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}30, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.85) 100%)` }} />
@@ -421,17 +440,26 @@ function Hero({ t }) {
               </a>
             </div>
 
-            {/* Photo legend chips */}
-            <div className="hero-fade-in hero-d500" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 8 }}>
+            {/* Carousel indicator / Legend chips */}
+            <div className="hero-fade-in hero-d500" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 12 }}>
               {photos.map((p, i) => (
-                <div key={i} style={{
+                <div key={i} onClick={() => setIndex(i)} style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
-                  border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)',
-                  borderRadius: 999, padding: '6px 12px', fontSize: 12, color: '#d4d4d8',
+                  border: i === index ? `1px solid ${t.accent}` : '1px solid rgba(255,255,255,0.1)',
+                  background: i === index ? `${t.accent}20` : 'rgba(255,255,255,0.04)',
+                  borderRadius: 999, padding: '8px 16px', fontSize: 13, color: i === index ? '#fff' : '#d4d4d8',
                   backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+                  cursor: 'pointer', transition: 'all 0.3s ease',
+                  boxShadow: i === index ? `0 0 20px ${t.accent}30` : 'none',
                 }}>
-                  <span style={{ color: t.accent, display: 'inline-flex' }}><p.icon size={13} /></span>
-                  {p.label}
+                  <span style={{ color: i === index ? '#fff' : t.accent, display: 'inline-flex' }}><p.icon size={14} /></span>
+                  <span style={{ fontWeight: i === index ? 700 : 500 }}>{p.label}</span>
+                  {i === index && (
+                    <div style={{
+                      width: 4, height: 4, borderRadius: '50%', background: '#fff',
+                      boxShadow: '0 0 8px #fff'
+                    }} />
+                  )}
                 </div>
               ))}
             </div>
