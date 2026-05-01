@@ -358,8 +358,8 @@ function Hero({ t }) {
       {/* dark overlay */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}30, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.85) 100%)` }} />
 
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1240, margin: '0 auto', padding: '90px 32px 80px', width: '100%' }}>
-        <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 48, alignItems: 'center' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1400, margin: '0 auto', padding: '90px 48px 80px', width: '100%' }}>
+        <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64, alignItems: 'center' }}>
 
           {/* --- LEFT --- */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 28, paddingTop: 12 }}>
@@ -379,7 +379,7 @@ function Hero({ t }) {
               margin: 0,
               fontFamily: 'var(--font-heading)',
               fontWeight: t.headingWeight,
-              fontSize: 'clamp(40px, 5vw, 72px)',
+              fontSize: 'clamp(48px, 6.5vw, 84px)',
               lineHeight: 1.12,
               letterSpacing: '-0.03em',
               color: '#fff',
@@ -408,25 +408,25 @@ function Hero({ t }) {
             </h1>
 
             {/* Description */}
-            <p className="hero-fade-in hero-d300" style={{ margin: 0, maxWidth: 540, fontSize: 18, lineHeight: 1.55, color: '#a1a1aa' }}>
+            <p className="hero-fade-in hero-d300" style={{ margin: 0, maxWidth: 640, fontSize: 22, lineHeight: 1.55, color: '#a1a1aa' }}>
               {t.heroSubtitle}
             </p>
 
             {/* CTAs */}
-            <div className="hero-fade-in hero-d400" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 4 }}>
+            <div className="hero-fade-in hero-d400" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 8 }}>
               <a href={`tel:${brand.phoneRaw}`} style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 borderRadius: 999, background: '#fff', color: '#0a0a0b',
-                padding: '15px 28px', fontSize: 14, fontWeight: 700, letterSpacing: '0.01em',
+                padding: '18px 32px', fontSize: 16, fontWeight: 700, letterSpacing: '0.01em',
                 textDecoration: 'none', transition: 'transform 0.15s, background 0.15s',
               }} onMouseEnter={e => e.currentTarget.style.background = '#e4e4e7'} onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
                 {t.ctaCopy}
-                <I.arrow size={16} />
+                <I.arrow size={18} />
               </a>
               <a href="#services" style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 borderRadius: 999, border: '1px solid rgba(255,255,255,0.14)', background: 'rgba(255,255,255,0.05)',
-                color: '#fff', padding: '15px 28px', fontSize: 14, fontWeight: 600,
+                color: '#fff', padding: '18px 32px', fontSize: 16, fontWeight: 600,
                 textDecoration: 'none', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
               }}>
                 <I.play size={13} />
@@ -451,23 +451,23 @@ function Hero({ t }) {
               <div style={{ position: 'absolute', top: -64, right: -64, width: 256, height: 256, borderRadius: '50%', background: `${t.accent}1A`, filter: 'blur(60px)', pointerEvents: 'none' }} />
 
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
-                  <div style={{ display: 'flex', height: 48, width: 48, alignItems: 'center', justifyContent: 'center', borderRadius: 16, background: 'rgba(255,255,255,0.1)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.2)', color: '#fff' }}>
-                    <I.target size={22} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32 }}>
+                  <div style={{ display: 'flex', height: 64, width: 64, alignItems: 'center', justifyContent: 'center', borderRadius: 20, background: 'rgba(255,255,255,0.1)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.2)', color: '#fff' }}>
+                    <I.target size={28} />
                   </div>
                   <div>
-                    <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em', color: '#fff', lineHeight: 1.1 }}>89+</div>
-                    <div style={{ fontSize: 13, color: '#a1a1aa' }}>Avis Google · ★ 4,9/5</div>
+                    <div style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.02em', color: '#fff', lineHeight: 1.1 }}>89+</div>
+                    <div style={{ fontSize: 15, color: '#a1a1aa', marginTop: 4 }}>Avis Google · ★ 4,9/5</div>
                   </div>
                 </div>
 
                 {/* Progress: satisfaction */}
-                <div style={{ marginBottom: 24 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 10 }}>
+                <div style={{ marginBottom: 32 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, marginBottom: 12 }}>
                     <span style={{ color: '#a1a1aa' }}>Satisfaction client</span>
                     <span style={{ color: '#fff', fontWeight: 600 }}>98%</span>
                   </div>
-                  <div style={{ height: 6, width: '100%', borderRadius: 999, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                  <div style={{ height: 8, width: '100%', borderRadius: 999, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
                     <div style={{ height: '100%', width: '98%', borderRadius: 999, background: `linear-gradient(90deg, #fff, ${t.accent})` }} />
                   </div>
                 </div>
@@ -484,16 +484,16 @@ function Hero({ t }) {
                 </div>
 
                 {/* Pills */}
-                <div style={{ marginTop: 28, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 999, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', padding: '5px 12px', fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', color: '#d4d4d8' }}>
-                    <span style={{ position: 'relative', width: 8, height: 8 }}>
+                <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 999, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', color: '#d4d4d8' }}>
+                    <span style={{ position: 'relative', width: 10, height: 10 }}>
                       <span className="hero-ping" />
-                      <span style={{ position: 'relative', display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#22c55e' }} />
+                      <span style={{ position: 'relative', display: 'inline-block', width: 10, height: 10, borderRadius: '50%', background: '#22c55e' }} />
                     </span>
                     EN LIGNE
                   </span>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 999, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', padding: '5px 12px', fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', color: '#d4d4d8' }}>
-                    <I.crown size={11} />
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 999, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', color: '#d4d4d8' }}>
+                    <I.crown size={13} />
                     PARIS · IDF
                   </span>
                 </div>
@@ -548,8 +548,8 @@ const HERO_CLIENTS = [
 function HeroStat({ value, label }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: 18, fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>{value}</span>
-      <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#71717a', marginTop: 4 }}>{label}</span>
+      <span style={{ fontSize: 24, fontWeight: 700, color: '#fff', lineHeight: 1.1 }}>{value}</span>
+      <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#71717a', marginTop: 6 }}>{label}</span>
     </div>
   );
 }
