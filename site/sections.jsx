@@ -576,8 +576,8 @@ function ClientLogos({ t }) {
 function Services({ t }) {
   const { services } = window.SAM_DATA;
   return (
-    <section id="services" style={{ padding: '100px 56px', background: 'var(--bg)' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+    <section id="services" style={{ padding: '100px 0', background: 'var(--bg)' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 56px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60, alignItems: 'start', marginBottom: 56 }}>
           <div>
             <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>// NOS SOLUTIONS</div>
@@ -594,10 +594,10 @@ function Services({ t }) {
             </div>
           </div>
         </div>
+      </div>
 
-        <div style={{ marginTop: 24 }}>
-          <ElegantCarousel />
-        </div>
+      <div style={{ marginTop: 24 }}>
+        <ElegantCarousel />
       </div>
     </section>);
 
