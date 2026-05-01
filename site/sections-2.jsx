@@ -380,7 +380,7 @@ function Footer({ t }) {
         <div style={{ padding: '40px 0 20px', display: 'flex', justifyContent: 'center' }}>
           <LocationMap 
             location={brand.address}
-            coordinates="48.8288° N, 2.3308° E"
+            coordinates="48.8358° N, 2.3276° E"
           />
         </div>
         <div style={{ paddingTop: 24, display: 'flex', justifyContent: 'space-between', fontSize: 12, opacity: 0.55 }}>

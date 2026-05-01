@@ -7,7 +7,7 @@ window.SAM_DATA = {
     phone: '09 75 52 97 43',
     phoneRaw: '+33975529743',
     email: 'contact@samnetworksolutions.fr',
-    address: '5 rue Bezout, 75014 Paris',
+    address: '43 rue Froidevaux, 75014 Paris',
     hours: '7 jours sur 7 · 8h–20h',
     founder: 'Samuel',
   },

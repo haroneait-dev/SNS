@@ -1,8 +1,8 @@
 const { motion, AnimatePresence, useMotionValue, useTransform, useSpring } = window.Motion;
 
 function LocationMap({
-  location = "5 rue Bezout, 75014 Paris",
-  coordinates = "48.8288° N, 2.3308° E",
+  location = "43 rue Froidevaux, 75014 Paris",
+  coordinates = "48.8358° N, 2.3276° E",
   className = "",
 }) {
   const [isHovered, setIsHovered] = React.useState(false);
@@ -37,7 +37,7 @@ function LocationMap({
     setIsExpanded(!isExpanded);
   };
 
-  const googleMapsUrl = "https://www.google.com/maps/place/5+Rue+Bezout,+75014+Paris";
+  const googleMapsUrl = "https://www.google.com/maps/place/43+Rue+Froidevaux,+75014+Paris";
 
   return (
     <motion.div
@@ -77,9 +77,9 @@ function LocationMap({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {/* Real Google Maps Iframe */}
+              {/* Real Google Maps Iframe for 43 rue Froidevaux */}
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.544158440013!2d2.3286190768656643!3d48.82882187132832!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6719602f066b1%3A0x6b772c67623910c!2s5%20Rue%20Bezout%2C%2075014%20Paris!5e0!3m2!1sfr!2sfr!4v1714588000000!5m2!1sfr!2sfr"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.273766299105!2d2.3254295768658826!3d48.835824871329584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671c0bd62df9d%3A0xc3911f6213791000!2s43%20Rue%20Froidevaux%2C%2075014%20Paris!5e0!3m2!1sfr!2sfr!4v1714589000000!5m2!1sfr!2sfr"
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
