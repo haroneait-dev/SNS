@@ -24,6 +24,8 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/framer-motion@12.4.7/dist/framer-motion.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/engine@3.3.0/tsparticles.engine.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3.3.0/tsparticles.slim.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -42,6 +44,7 @@
 <script type="text/babel" src="site/expand-map.jsx"></script>
 <script type="text/babel" src="site/elegant-carousel.jsx"></script>
 <script type="text/babel" src="site/orbiting-skills.jsx"></script>
+<script type="text/babel" src="site/sparkles.jsx"></script>
 <script type="text/babel" src="site/liquid-button.jsx"></script>
 <script type="text/babel" src="site/sections.jsx"></script>
 <script type="text/babel" src="site/sections-2.jsx"></script>
@@ -131,6 +134,9 @@ function App() {
       
       {/* 3. Pourquoi Sam Network Solutions (DarkSection) */}
       <DarkSection t={t} />
+      
+      {/* Partenaires (Sparkles) */}
+      <PartnersSection t={t} />
       
       {/* 4. Avis clients */}
       {t.showTestimonials && <Testimonials t={t} />}
