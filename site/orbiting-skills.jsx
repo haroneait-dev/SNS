@@ -18,6 +18,10 @@ const orbitCss = `
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+.orbit-container:hover .orbit-item-wrapper,
+.orbit-container:hover .orbit-item-content {
+  animation-play-state: paused !important;
+}
 .orbit-item-wrapper {
   position: absolute;
   top: 50%;
@@ -71,8 +75,43 @@ const orbitCss = `
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .orbit-item-content:hover .orbit-label {
+  opacity: 0; /* Hide small label when card shows */
+}
+.orbit-card {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(15px);
+  width: 240px;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  border: 1px solid var(--ink-faint);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+.orbit-item-content:hover .orbit-card {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(25px);
+}
+.orbit-card h4 {
+  margin: 0;
+  font-family: var(--font-heading);
+  color: var(--ink);
+  font-size: 16px;
+}
+.orbit-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
 }
 `;
 
@@ -108,14 +147,14 @@ const Icons = {
 
 const orbitItems = [
   // Inner Orbit
-  { id: '1', radius: 100, size: 48, speed: 12, icon: 'Calendar', label: '10+ Ans Exp.', angle: 0 },
-  { id: '2', radius: 100, size: 48, speed: 12, icon: 'MapPin', label: 'Basés à Paris', angle: 120 },
-  { id: '3', radius: 100, size: 48, speed: 12, icon: 'Star', label: '89+ Avis 4.9★', angle: 240 },
+  { id: '1', radius: 100, size: 48, speed: 12, icon: 'Calendar', label: '10+ Ans Exp.', angle: 0, desc: "Une décennie de savoir-faire technique au service des professionnels." },
+  { id: '2', radius: 100, size: 48, speed: 12, icon: 'MapPin', label: 'Basés à Paris', angle: 120, desc: "Intervention rapide en Île-de-France depuis nos locaux du 14ème arrondissement." },
+  { id: '3', radius: 100, size: 48, speed: 12, icon: 'Star', label: '89+ Avis 4.9★', angle: 240, desc: "La satisfaction de nos clients est notre meilleure carte de visite." },
   
   // Outer Orbit
-  { id: '4', radius: 180, size: 56, speed: 20, icon: 'Server', label: 'Infogérance', angle: 45, reverse: true },
-  { id: '5', radius: 180, size: 56, speed: 20, icon: 'Camera', label: 'Vidéosurveillance', angle: 165, reverse: true },
-  { id: '6', radius: 180, size: 56, speed: 20, icon: 'Clock', label: 'Intervention < 4h', angle: 285, reverse: true },
+  { id: '4', radius: 180, size: 56, speed: 20, icon: 'Server', label: 'Infogérance', angle: 45, reverse: true, desc: "Maintenance préventive, sauvegardes et support technique dédié pour votre TPE/PME." },
+  { id: '5', radius: 180, size: 56, speed: 20, icon: 'Camera', label: 'Vidéosurveillance', angle: 165, reverse: true, desc: "Installation de caméras IP haute définition avec accès sécurisé sur smartphone." },
+  { id: '6', radius: 180, size: 56, speed: 20, icon: 'Clock', label: 'Intervention < 4h', angle: 285, reverse: true, desc: "En cas d'urgence critique, nos techniciens sont sur place en un temps record." },
 ];
 
 function OrbitingSkills() {
@@ -123,7 +162,7 @@ function OrbitingSkills() {
   const outerRadius = 180;
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+    <div className="orbit-container" style={{ position: 'relative', width: '100%', height: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
       
       {/* Center Logo/Icon */}
       <div style={{
@@ -163,6 +202,12 @@ function OrbitingSkills() {
               }}>
                 <Icon />
                 <div className="orbit-label">{item.label}</div>
+                
+                {/* Mini fiche */}
+                <div className="orbit-card">
+                  <h4>{item.label}</h4>
+                  <p>{item.desc}</p>
+                </div>
               </div>
             </div>
           </div>
