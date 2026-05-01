@@ -23,7 +23,7 @@ const solutionsSlides = [
     description:
       'Solutions VoIP flexibles et économiques. Gérez vos appels, vos files d\'attente et votre standard depuis n\'importe où.',
     accent: '#ff6118',
-    imageUrl: 'https://images.unsplash.com/photo-1551703599-6b3e8379aa81?w=1200&q=80&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=80&auto=format&fit=crop',
   },
   {
     title: 'Dépannage & SAV',
