@@ -17,6 +17,7 @@ const orbitCss = `
   border: 1px dashed rgba(255,97,24, 0.25);
   transform: translate(-50%, -50%);
   pointer-events: none;
+}
 .orbit-container:has(.orbit-item-content:hover) .orbit-item-wrapper,
 .orbit-container:has(.orbit-item-content:hover) .orbit-item-content {
   animation-play-state: paused !important;
