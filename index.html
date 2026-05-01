@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sam Network Solutions — Réseau, sécurité, dépannage IT à Paris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Serif&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+  ::selection { background: var(--accent); color: #fff; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="site/data.jsx"></script>
+<script type="text/babel" src="site/sections.jsx"></script>
+<script type="text/babel" src="site/sections-2.jsx"></script>
+<script type="text/babel" src="site/tweaks.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#ff6118",
+  "accentDeep": "#ff6118",
+  "navy": "#34778f",
+  "navyDeep": "#34778f",
+  "bg": "#FBF9F4",
+  "bgWarm": "#F2EDE3",
+  "ink": "#34778f",
+  "fontHeading": "Inter",
+  "fontBody": "Inter",
+  "headingWeight": 700,
+  "headingItalic": true,
+  "headingSize": 88,
+  "bodySize": 17,
+  "radius": 12,
+  "shadow": "soft",
+  "buttonStyle": "filled",
+  "ctaCopy": "Demander un devis gratuit",
+  "heroTitle": "L'infrastructure IT qui se voit à ce qu'on ne la voit pas.",
+  "heroSubtitle": "Réseau, téléphonie, vidéosurveillance, sécurité informatique. Sam Network Solutions intervient à Paris et en Île-de-France, 7 jours sur 7.",
+  "badgeText": "Disponible 7j\/7 · 09 75 52 97 43",
+  "showBadge": true,
+  "showHaloOrange": true,
+  "showHaloNavy": true,
+  "showLogos": true,
+  "showStats": true,
+  "showProcess": true,
+  "showTestimonials": true,
+  "showFAQ": true,
+  "density": "regular",
+  "navStyle": "minimal",
+  "heroLayout": "split",
+  "heroCardRotate": -1.5,
+  "navySection": true,
+  "grainOverlay": false,
+  "italicAccent": true
+}/*EDITMODE-END*/;
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  const cssVars = {
+    '--accent': t.accent,
+    '--accent-deep': t.accentDeep,
+    '--accent-soft': t.accent + '15',
+    '--accent-glow': t.accent + '30',
+    '--navy': t.navy,
+    '--navy-deep': t.navyDeep,
+    '--navy-soft': t.navy + '0F',
+    '--bg': t.bg,
+    '--bg-warm': t.bgWarm,
+    '--ink': t.ink,
+    '--ink-soft': t.ink + 'B0',
+    '--ink-mute': t.ink + '70',
+    '--ink-faint': t.ink + '30',
+    '--font-heading': `"${t.fontHeading}", serif`,
+    '--font-body': `"${t.fontBody}", system-ui, sans-serif`,
+    '--font-mono': `"JetBrains Mono", monospace`,
+    '--radius': t.radius + 'px',
+    '--radius-sm': (t.radius * 0.6) + 'px',
+    '--radius-lg': (t.radius * 1.5) + 'px',
+    '--heading-weight': t.headingWeight,
+    '--hero-size': t.headingSize + 'px',
+    '--body-size': t.bodySize + 'px',
+    '--shadow-card': t.shadow === 'soft' ? '0 30px 80px -20px rgba(14,31,61,0.18), 0 4px 12px rgba(14,31,61,0.06), 0 0 0 1px rgba(14,31,61,0.04)' :
+                     t.shadow === 'sharp' ? '0 8px 24px rgba(14,31,61,0.12), 0 0 0 1px rgba(14,31,61,0.08)' :
+                     t.shadow === 'flat' ? '0 0 0 1px rgba(14,31,61,0.12)' :
+                     'none',
+    '--shadow-cta': `0 8px 24px ${t.accent}45`,
+    fontSize: t.bodySize + 'px',
+  };
+
+  return (
+    <div style={cssVars}>
+      <Header t={t} />
+      <Hero t={t} />
+      {t.showLogos && <ClientLogos t={t} />}
+      <Services t={t} />
+      {t.showStats && <Stats t={t} />}
+      {t.navySection && <DarkSection t={t} />}
+      {t.showProcess && <Process t={t} />}
+      {t.showTestimonials && <Testimonials t={t} />}
+      <Pricing t={t} />
+      {t.showFAQ && <FAQ t={t} />}
+      <CTA t={t} />
+      <Footer t={t} />
+
+      <SiteTweaks t={t} setTweak={setTweak} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+</script>
+</body>
+</html>
