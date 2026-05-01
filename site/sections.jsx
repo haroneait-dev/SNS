@@ -341,7 +341,6 @@ function Hero({ t }) {
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         {photos.map((p, i) => (
           <div key={i}
-            className={i === index ? 'active-slide' : ''}
             style={{
               position: 'absolute', inset: 0,
               backgroundImage: `url(${p.url})`,
@@ -352,13 +351,8 @@ function Hero({ t }) {
               filter: 'contrast(1.1) brightness(0.9)',
             }} />
         ))}
-        {/* Subtle zoom animation for the current active slide */}
         <style>{`
-          @keyframes hero-zoom {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
-          }
-          .active-slide { animation: hero-zoom 8s linear infinite alternate; }
+          /* Zoom removed */
         `}</style>
       </div>
       {/* dark overlay */}
@@ -440,29 +434,7 @@ function Hero({ t }) {
               </a>
             </div>
 
-            {/* Carousel indicator / Legend chips */}
-            <div className="hero-fade-in hero-d500" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 12 }}>
-              {photos.map((p, i) => (
-                <div key={i} onClick={() => setIndex(i)} style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  border: i === index ? `1px solid ${t.accent}` : '1px solid rgba(255,255,255,0.1)',
-                  background: i === index ? `${t.accent}20` : 'rgba(255,255,255,0.04)',
-                  borderRadius: 999, padding: '8px 16px', fontSize: 13, color: i === index ? '#fff' : '#d4d4d8',
-                  backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
-                  cursor: 'pointer', transition: 'all 0.3s ease',
-                  boxShadow: i === index ? `0 0 20px ${t.accent}30` : 'none',
-                }}>
-                  <span style={{ color: i === index ? '#fff' : t.accent, display: 'inline-flex' }}><p.icon size={14} /></span>
-                  <span style={{ fontWeight: i === index ? 700 : 500 }}>{p.label}</span>
-                  {i === index && (
-                    <div style={{
-                      width: 4, height: 4, borderRadius: '50%', background: '#fff',
-                      boxShadow: '0 0 8px #fff'
-                    }} />
-                  )}
-                </div>
-              ))}
-            </div>
+            {/* Indicators removed */}
           </div>
 
           {/* --- RIGHT --- */}
