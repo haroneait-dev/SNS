@@ -1,4 +1,37 @@
 // Sections part 2: Stats, DarkSection, Process, Testimonials, Pricing, FAQ, CTA, Footer
+function AboutUs({ t }) {
+  const { stats, brand } = window.SAM_DATA;
+  return (
+    <section id="about" style={{ padding: '100px 56px', background: 'var(--bg-warm)', borderBottom: '1px solid var(--ink-faint)' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80, alignItems: 'center' }}>
+        <div>
+          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', fontWeight: 600 }}>// QUI SOMMES-NOUS</div>
+          <h2 style={{ margin: '14px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em' }}>
+            Partenaire de votre <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>croissance digitale</em>.
+          </h2>
+          <p style={{ marginTop: 22, fontSize: 18, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
+            Sam Network Solutions est une équipe de techniciens passionnés basés à Paris 14e. Depuis plus de 10 ans, nous accompagnons les TPE et PME dans leur transformation numérique avec réactivité et expertise.
+          </p>
+          <div style={{ marginTop: 32 }}>
+            <a href="#" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 15, borderBottom: `2px solid ${t.accent}30` }}>
+              Découvrir notre histoire et notre équipe →
+            </a>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+          {stats.slice(0, 4).map((s, i) => (
+            <div key={i} style={{ background: '#fff', padding: 32, borderRadius: 'var(--radius-lg)', border: '1px solid var(--ink-faint)', boxShadow: 'var(--shadow-card)' }}>
+              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 48, lineHeight: 1, color: 'var(--ink)' }}>{s.v}</div>
+              <div style={{ marginTop: 12, fontSize: 14, fontWeight: 700, color: 'var(--ink)' }}>{s.k}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-mute)', marginTop: 4 }}>{s.sub}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Stats({ t }) {
   const { stats } = window.SAM_DATA;
   return (
@@ -23,16 +56,16 @@ function DarkSection({ t }) {
       <div style={{ position: 'absolute', top: -150, right: -150, width: 500, height: 500, background: `radial-gradient(circle, ${t.accent}30, transparent 60%)`, pointerEvents: 'none' }}></div>
       <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
         <div>
-          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', fontWeight: 600 }}>// POURQUOI SAM NETWORK</div>
+          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', fontWeight: 600 }}>// POURQUOI SAM NETWORK SOLUTIONS</div>
           <h2 style={{ margin: '14px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em' }}>
             Un seul interlocuteur. <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>Aucun jargon.</em>
           </h2>
           <p style={{ marginTop: 22, fontSize: 17, lineHeight: 1.6, opacity: 0.85, maxWidth: 480 }}>
             Pas de hotline qui se renvoie la balle. Pas de devis interminables. Vous appelez, on intervient — souvent le jour même.
           </p>
-          <div style={{ marginTop: 36, display: 'flex', gap: 14 }}>
+          <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 14 }}>
             <a href={`tel:${brand.phoneRaw}`} style={{ background: 'var(--accent)', color: '#fff', padding: '14px 22px', borderRadius: 'var(--radius)', fontWeight: 600, fontSize: 15, display: 'inline-block' }}>Appeler maintenant</a>
-            <a href={`mailto:${brand.email}`} style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', padding: '14px 22px', borderRadius: 'var(--radius)', fontWeight: 500, fontSize: 15, display: 'inline-block', border: '1px solid rgba(255,255,255,0.2)' }}>Écrire un email</a>
+            <a href="#" style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', padding: '14px 22px', borderRadius: 'var(--radius)', fontWeight: 500, fontSize: 15, display: 'inline-block', border: '1px solid rgba(255,255,255,0.2)' }}>Pourquoi nous choisir ? →</a>
           </div>
         </div>
 
@@ -392,4 +425,4 @@ function Footer({ t }) {
   );
 }
 
-Object.assign(window, { Stats, DarkSection, Process, Testimonials, Pricing, FAQ, CTA, Footer });
+Object.assign(window, { AboutUs, Stats, DarkSection, Process, Testimonials, Pricing, FAQ, CTA, Footer });

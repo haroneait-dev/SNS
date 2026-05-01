@@ -119,14 +119,21 @@ function App() {
     <div style={cssVars}>
       <Header t={t} />
       <Hero t={t} />
-      {t.showLogos && <ClientLogos t={t} />}
+      {/* 1. Qui sommes-nous (Stats + Intro) */}
+      <AboutUs t={t} />
+      
+      {/* 2. Nos solutions (Services) */}
       <Services t={t} />
-      {t.showStats && <Stats t={t} />}
-      {t.navySection && <DarkSection t={t} />}
-      {t.showProcess && <Process t={t} />}
+      
+      {/* 3. Pourquoi Sam Network Solutions (DarkSection) */}
+      <DarkSection t={t} />
+      
+      {/* 4. Avis clients */}
       {t.showTestimonials && <Testimonials t={t} />}
-      <Pricing t={t} />
+      
+      {/* 5. FAQ */}
       {t.showFAQ && <FAQ t={t} />}
+      
       <CTA t={t} />
       <Footer t={t} />
 

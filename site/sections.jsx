@@ -578,16 +578,21 @@ function Services({ t }) {
   return (
     <section id="services" style={{ padding: '100px 56px', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60, alignItems: 'end', marginBottom: 56 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60, alignItems: 'start', marginBottom: 56 }}>
           <div>
-            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', fontWeight: 600 }}>// 8 SERVICES</div>
-            <h2 style={{ margin: '12px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', color: "rgb(0, 0, 0)" }}>
-              Tout ce dont votre <em style={{ fontStyle: t.headingItalic ? 'italic' : 'normal', color: "rgb(0, 0, 0)" }}>infrastructure</em> a besoin.
+            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>// NOS SOLUTIONS</div>
+            <h2 style={{ margin: '14px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em' }}>
+              Une expertise <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>360°</em> pour votre IT.
             </h2>
+            <p style={{ marginTop: 18, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: 600 }}>
+              Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques.
+            </p>
+            <div style={{ marginTop: 24 }}>
+              <a href="#" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 14, borderBottom: `2px solid ${t.accent}30` }}>
+                Voir toutes nos solutions en détail →
+              </a>
+            </div>
           </div>
-          <p style={{ margin: 0, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.55, maxWidth: 540 }}>
-            Réseau, téléphonie, vidéosurveillance, sécurité, dépannage, maintenance, matériel, impression. Un seul interlocuteur, une vraie expertise terrain à Paris depuis plus de dix ans.
-          </p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
