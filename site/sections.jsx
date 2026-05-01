@@ -576,27 +576,29 @@ function ClientLogos({ t }) {
 function Services({ t }) {
   const { services } = window.SAM_DATA;
   return (
-    <section id="services" style={{ padding: '100px 0', background: 'var(--bg)' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 56px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60, alignItems: 'start', marginBottom: 56 }}>
-          <div>
-            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>// NOS SOLUTIONS</div>
-            <h2 style={{ margin: '14px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em' }}>
-              Une expertise <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>360°</em> pour votre IT.
-            </h2>
-            <p style={{ marginTop: 18, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: 600 }}>
-              Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques.
-            </p>
-            <div style={{ marginTop: 24 }}>
-              <a href="#" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 14, borderBottom: `2px solid ${t.accent}30` }}>
-                Voir toutes nos solutions en détail →
-              </a>
-            </div>
-          </div>
+    <section id="services" style={{ padding: '90px 0 60px', background: 'var(--bg)' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 56px', textAlign: 'center' }}>
+        <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>// NOS SOLUTIONS</div>
+        <h2 style={{
+          margin: '14px auto 0', fontFamily: 'var(--font-heading)',
+          fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em',
+        }}>
+          Une expertise <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>360°</em> pour votre IT.
+        </h2>
+        <p style={{
+          margin: '18px auto 0', fontSize: 18, color: 'var(--ink-soft)',
+          lineHeight: 1.55, maxWidth: 820,
+        }}>
+          Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques.
+        </p>
+        <div style={{ marginTop: 16 }}>
+          <a href="#" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 14, borderBottom: `2px solid ${t.accent}30`, paddingBottom: 2 }}>
+            Voir toutes nos solutions en détail →
+          </a>
         </div>
       </div>
 
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 64 }}>
         <ElegantCarousel />
       </div>
     </section>);
