@@ -5,7 +5,7 @@ function Header({ t }) {
     <header style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(251,249,244,0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: `1px solid var(--ink-faint)` }}>
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: '12px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
         <a href="#" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          <img src="input/logo.png" alt={brand.name} style={{ height: 44, width: 'auto', display: 'block' }} />
+          <img src="input/logo.png" alt={brand.name} style={{ height: 44, width: 'auto', display: 'block', mixBlendMode: 'multiply' }} />
         </a>
         <DropdownNav t={t} />
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexShrink: 0 }}>
