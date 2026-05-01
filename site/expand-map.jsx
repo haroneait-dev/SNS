@@ -37,6 +37,8 @@ function LocationMap({
     setIsExpanded(!isExpanded);
   };
 
+  const googleMapsUrl = "https://www.google.com/maps/place/5+Rue+Bezout,+75014+Paris";
+
   return (
     <motion.div
       ref={containerRef}
@@ -57,8 +59,8 @@ function LocationMap({
           transformStyle: "preserve-3d",
         }}
         animate={{
-          width: isExpanded ? 400 : 280,
-          height: isExpanded ? 300 : 160,
+          width: isExpanded ? 500 : 300,
+          height: isExpanded ? 400 : 180,
         }}
         transition={{
           type: "spring",
@@ -66,105 +68,71 @@ function LocationMap({
           damping: 35,
         }}
       >
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ff6118]/5 via-transparent to-[#34778f]/10 opacity-40" />
-
         <AnimatePresence>
-          {isExpanded && (
+          {isExpanded ? (
             <motion.div
-              className="absolute inset-0 pointer-events-none"
+              key="expanded-map"
+              className="absolute inset-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
             >
-              <div className="absolute inset-0 bg-[#F2EDE3]" />
-
-              <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
-                {/* Main roads */}
-                <motion.line
-                  x1="0%" y1="35%" x2="100%" y2="35%"
-                  stroke="#ff6118" strokeWidth="4" strokeOpacity="0.2"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                />
-                <motion.line
-                  x1="0%" y1="65%" x2="100%" y2="65%"
-                  stroke="#ff6118" strokeWidth="4" strokeOpacity="0.2"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                />
-
-                {/* Vertical main roads */}
-                <motion.line
-                  x1="30%" y1="0%" x2="30%" y2="100%"
-                  stroke="#34778f" strokeWidth="3" strokeOpacity="0.2"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                />
-                <motion.line
-                  x1="70%" y1="0%" x2="70%" y2="100%"
-                  stroke="#34778f" strokeWidth="3" strokeOpacity="0.2"
-                  initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                />
-
-                {/* Secondary streets */}
-                {[20, 50, 80].map((y, i) => (
-                  <motion.line
-                    key={`h-${i}`}
-                    x1="0%" y1={`${y}%`} x2="100%" y2={`${y}%`}
-                    stroke="#34778f" strokeWidth="1.5" strokeOpacity="0.1"
-                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }}
-                  />
-                ))}
-              </svg>
-
-              {/* Marker */}
-              <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                initial={{ scale: 0, y: -20 }}
-                animate={{ scale: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20, delay: 0.3 }}
-              >
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="drop-shadow-lg">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#ff6118" />
-                  <circle cx="12" cy="9" r="3" fill="white" />
+              {/* Real Google Maps Iframe */}
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2626.544158440013!2d2.3286190768656643!3d48.82882187132832!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e6719602f066b1%3A0x6b772c67623910c!2s5%20Rue%20Bezout%2C%2075014%20Paris!5e0!3m2!1sfr!2sfr!4v1714588000000!5m2!1sfr!2sfr"
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              
+              {/* Footer overlay in expanded state */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-sm border-t border-[#34778f]/10 flex justify-between items-center">
+                <div>
+                  <div className="text-[12px] font-bold text-[#34778f]">{location}</div>
+                  <div className="text-[10px] text-[#34778f]/60">{coordinates}</div>
+                </div>
+                <a 
+                  href={googleMapsUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-[#ff6118] text-white text-[11px] font-bold py-2 px-4 rounded-lg shadow-lg shadow-[#ff6118]/20 hover:scale-105 transition-transform"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Ouvrir dans Google Maps →
+                </a>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="collapsed-card"
+              className="absolute inset-0 p-6 flex flex-col justify-between"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[#ff6118]/5 via-transparent to-[#34778f]/10 opacity-40" />
+              
+              <div className="flex items-start justify-between relative z-10">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff6118" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
                 </svg>
-              </motion.div>
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff6118]/10">
+                  <div className="w-2 h-2 rounded-full bg-[#ff6118]" />
+                  <span className="text-[10px] font-bold text-[#ff6118] uppercase tracking-wider">Sam Network</span>
+                </div>
+              </div>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-40" />
+              <div className="space-y-1 relative z-10">
+                <h3 className="text-[#34778f] font-bold text-base tracking-tight">{location}</h3>
+                <p className="text-[#34778f]/60 text-xs font-mono">{coordinates}</p>
+                <motion.div className="h-1 bg-[#ff6118]/40" initial={{ scaleX: 0.3 }} animate={{ scaleX: isHovered ? 1 : 0.3 }} />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-6">
-          <div className="flex items-start justify-between">
-            <motion.div animate={{ opacity: isExpanded ? 0 : 1 }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff6118" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
-              </svg>
-            </motion.div>
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff6118]/10">
-              <div className="w-2 h-2 rounded-full bg-[#ff6118]" />
-              <span className="text-[11px] font-bold text-[#ff6118] uppercase tracking-wider">Sam Network</span>
-            </div>
-          </div>
-
-          <div className="space-y-1">
-            <h3 className="text-[#34778f] font-bold text-base tracking-tight">{location}</h3>
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.p className="text-[#34778f]/60 text-xs font-mono" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
-                  {coordinates}
-                </motion.p>
-              )}
-            </AnimatePresence>
-            <motion.div className="h-1 bg-[#ff6118]/40" initial={{ scaleX: 0.3 }} animate={{ scaleX: isHovered || isExpanded ? 1 : 0.3 }} />
-          </div>
-        </div>
       </motion.div>
       
       {/* Hint */}
@@ -174,7 +142,7 @@ function LocationMap({
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 5 }}
         >
-          Cliquer pour voir le plan
+          Cliquer pour voir la carte réelle
         </motion.div>
       )}
     </motion.div>
