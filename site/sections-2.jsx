@@ -18,17 +18,176 @@ function AboutUs({ t }) {
             </a>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
-          {stats.slice(0, 4).map((s, i) => (
-            <div key={i} style={{ background: '#fff', padding: 32, borderRadius: 'var(--radius-lg)', border: '1px solid var(--ink-faint)', boxShadow: 'var(--shadow-card)' }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 48, lineHeight: 1, color: 'var(--ink)' }}>{s.v}</div>
-              <div style={{ marginTop: 12, fontSize: 14, fontWeight: 700, color: 'var(--ink)' }}>{s.k}</div>
-              <div style={{ fontSize: 12, color: 'var(--ink-mute)', marginTop: 4 }}>{s.sub}</div>
-            </div>
-          ))}
-        </div>
+        <OrbitingSkills />
       </div>
     </section>
+  );
+}
+
+// 6 chips orbiting around a central SAM brand mark.
+// Inner orbit (orange/accent) = stats clés. Outer orbit (navy) = expertises.
+const ORBIT_INNER = [
+  { value: '89+', label: 'Avis Google', size: 78 },
+  { value: '4,9★', label: 'Note moyenne', size: 84 },
+  { value: '10+', label: 'Ans expérience', size: 78 },
+];
+const ORBIT_OUTER = [
+  { value: '< 4h', label: 'Intervention', size: 86 },
+  { value: '7j/7', label: 'Disponible', size: 80 },
+  { value: '8', label: 'Expertises', size: 82 },
+];
+
+function OrbitingInfo({ t }) {
+  return (
+    <div style={{
+      position: 'relative', width: '100%', maxWidth: 520, aspectRatio: '1 / 1',
+      margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <style>{`
+        @keyframes orbit-cw   { to { transform: rotate(360deg); } }
+        @keyframes orbit-ccw  { to { transform: rotate(-360deg); } }
+        @keyframes orbit-pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 0.85; } }
+        .orbit-ring {
+          position: absolute; top: 50%; left: 50%; border-radius: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+        }
+        .orbit-track {
+          position: absolute; top: 50%; left: 50%;
+          width: 0; height: 0;
+          will-change: transform;
+        }
+        .orbit-track.cw  { animation: orbit-cw  28s linear infinite; }
+        .orbit-track.ccw { animation: orbit-ccw 36s linear infinite; }
+        .orbit-item {
+          position: absolute; top: 0; left: 0;
+          transform-origin: 0 0;
+          will-change: transform;
+        }
+        .orbit-chip {
+          width: 100%; height: 100%; border-radius: 50%;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          background: #fff;
+          box-shadow: 0 8px 24px rgba(14,31,61,0.12), 0 0 0 1px rgba(14,31,61,0.06);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          cursor: default;
+          user-select: none;
+        }
+        .orbit-chip:hover { transform: scale(1.1); }
+        .orbit-chip.accent:hover { box-shadow: 0 12px 36px ${t.accent}40, 0 0 0 1px ${t.accent}40; }
+        .orbit-chip.navy:hover { box-shadow: 0 12px 36px ${t.navy}50, 0 0 0 1px ${t.navy}50; }
+        .orbit-chip-value {
+          font-family: var(--font-heading); font-weight: 800;
+          line-height: 1; letter-spacing: -0.02em;
+        }
+        .orbit-chip.accent .orbit-chip-value { color: ${t.accent}; }
+        .orbit-chip.navy   .orbit-chip-value { color: ${t.navy}; }
+        .orbit-chip-label {
+          margin-top: 4px; font-size: 9px; font-weight: 700;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          color: var(--ink-mute);
+          font-family: var(--font-mono);
+        }
+        @media (max-width: 768px) {
+          .orbit-chip-label { display: none; }
+        }
+      `}</style>
+
+      {/* Soft glow halos */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: `radial-gradient(circle at 30% 30%, ${t.accent}18, transparent 50%), radial-gradient(circle at 70% 70%, ${t.navy}1A, transparent 55%)`,
+        pointerEvents: 'none',
+      }} />
+
+      {/* Orbit rings (decorative) */}
+      <div className="orbit-ring" style={{
+        width: '46%', height: '46%',
+        border: `1px dashed ${t.accent}40`,
+        animation: 'orbit-pulse 4s ease-in-out infinite',
+      }} />
+      <div className="orbit-ring" style={{
+        width: '78%', height: '78%',
+        border: `1px dashed ${t.navy}40`,
+        animation: 'orbit-pulse 4s ease-in-out infinite 1.5s',
+      }} />
+
+      {/* Inner orbit — accent (clockwise) */}
+      <div className="orbit-track cw">
+        {ORBIT_INNER.map((item, i) => {
+          const angle = (i * 360) / ORBIT_INNER.length;
+          return (
+            <div
+              key={item.value}
+              className="orbit-item"
+              style={{
+                transform: `rotate(${angle}deg) translateX(min(120px, 23vw))`,
+                width: item.size, height: item.size, marginLeft: -item.size / 2, marginTop: -item.size / 2,
+              }}
+            >
+              {/* Static counter-angle so the chip is upright at t=0 */}
+              <div style={{ transform: `rotate(${-angle}deg)`, width: '100%', height: '100%' }}>
+                {/* Dynamic counter-rotation cancels the parent track's spin */}
+                <div className="orbit-chip accent" style={{ animation: 'orbit-ccw 28s linear infinite' }}>
+                  <div className="orbit-chip-value" style={{ fontSize: item.size * 0.28 }}>{item.value}</div>
+                  <div className="orbit-chip-label">{item.label}</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Outer orbit — navy (counter-clockwise) */}
+      <div className="orbit-track ccw">
+        {ORBIT_OUTER.map((item, i) => {
+          const angle = (i * 360) / ORBIT_OUTER.length + 60;
+          return (
+            <div
+              key={item.value}
+              className="orbit-item"
+              style={{
+                transform: `rotate(${angle}deg) translateX(min(210px, 40vw))`,
+                width: item.size, height: item.size, marginLeft: -item.size / 2, marginTop: -item.size / 2,
+              }}
+            >
+              <div style={{ transform: `rotate(${-angle}deg)`, width: '100%', height: '100%' }}>
+                <div className="orbit-chip navy" style={{ animation: 'orbit-cw 36s linear infinite' }}>
+                  <div className="orbit-chip-value" style={{ fontSize: item.size * 0.26 }}>{item.value}</div>
+                  <div className="orbit-chip-label">{item.label}</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Central brand mark */}
+      <div style={{
+        position: 'relative', zIndex: 5,
+        width: 110, height: 110, borderRadius: '50%',
+        background: `linear-gradient(135deg, ${t.accent} 0%, ${t.navy} 100%)`,
+        boxShadow: `0 20px 60px -10px ${t.accent}60, 0 0 80px ${t.navy}30`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: '#fff',
+      }}>
+        <div style={{
+          position: 'absolute', inset: -8, borderRadius: '50%',
+          background: `radial-gradient(circle, ${t.accent}40, transparent 70%)`,
+          filter: 'blur(12px)',
+          animation: 'orbit-pulse 3s ease-in-out infinite',
+          zIndex: -1,
+        }} />
+        <div style={{
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 800, fontSize: 24, letterSpacing: '-0.02em',
+          textAlign: 'center', lineHeight: 0.95,
+        }}>
+          SAM<br/>
+          <span style={{ fontSize: 10, fontWeight: 600, opacity: 0.85, letterSpacing: '0.1em' }}>NETWORK</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -69,21 +228,159 @@ function DarkSection({ t }) {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
-          {[
-            ['Local', 'Basés à Paris 14e, ancrés en Île-de-France'],
-            ['Réactif', 'Intervention sous 4h ouvrées en contrat'],
-            ['Multi-services', '8 expertises, un point de contact unique'],
-            ['Transparent', 'Devis détaillés, tarifs publiés'],
-          ].map(([k, v], i) => (
-            <div key={k} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 'var(--radius)', padding: 22 }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontSize: 22, fontWeight: 600, color: 'var(--accent)' }}>{k}</div>
-              <div style={{ marginTop: 8, fontSize: 14, opacity: 0.8, lineHeight: 1.5 }}>{v}</div>
-            </div>
-          ))}
-        </div>
+        <WhyFlipCards t={t} />
       </div>
     </section>
+  );
+}
+
+const WHY_CARDS = [
+  {
+    title: 'Local',
+    subtitle: 'Paris 14e',
+    description: 'Basés à Paris 14e, ancrés en Île-de-France.',
+    badge: '75014',
+    image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1000&q=85&auto=format&fit=crop',
+  },
+  {
+    title: 'Réactif',
+    subtitle: 'Sous 4h ouvrées',
+    description: 'Intervention rapide en contrat de maintenance.',
+    badge: '< 4h',
+    image: 'https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=1000&q=85&auto=format&fit=crop',
+  },
+  {
+    title: 'Multi-services',
+    subtitle: '8 expertises',
+    description: 'Un seul point de contact, toutes les compétences IT.',
+    badge: '8 pôles',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1000&q=85&auto=format&fit=crop',
+  },
+  {
+    title: 'Transparent',
+    subtitle: 'Tarifs publiés',
+    description: 'Devis détaillés, aucune surprise sur la facture.',
+    badge: '0 surprise',
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1000&q=85&auto=format&fit=crop',
+  },
+];
+
+function WhyFlipCards({ t }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+      <style>{`
+        .flip-card { perspective: 1200px; height: 240px; cursor: pointer; }
+        .flip-card-inner {
+          position: relative; width: 100%; height: 100%;
+          transform-style: preserve-3d;
+          transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .flip-card:hover .flip-card-inner,
+        .flip-card:focus-within .flip-card-inner,
+        .flip-card.is-active .flip-card-inner {
+          transform: rotateY(180deg);
+        }
+        .flip-card-face {
+          position: absolute; inset: 0;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          border-radius: var(--radius);
+          overflow: hidden;
+        }
+        .flip-card-back { transform: rotateY(180deg); }
+      `}</style>
+      {WHY_CARDS.map((card) => <FlipCard key={card.title} card={card} t={t} />)}
+    </div>
+  );
+}
+
+function FlipCard({ card, t }) {
+  const [active, setActive] = React.useState(false);
+  return (
+    <div
+      className={`flip-card${active ? ' is-active' : ''}`}
+      tabIndex={0}
+      onClick={() => setActive(a => !a)}
+    >
+      <div className="flip-card-inner">
+        {/* FRONT — image + small title */}
+        <div className="flip-card-face">
+          <img src={card.image} alt="" style={{
+            position: 'absolute', inset: 0,
+            width: '100%', height: '100%', objectFit: 'cover',
+          }} />
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)',
+          }} />
+          <div style={{
+            position: 'absolute', left: 18, right: 18, bottom: 16,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+          }}>
+            <h3 style={{
+              margin: 0, fontFamily: 'var(--font-heading)',
+              fontSize: 22, fontWeight: 700, color: '#fff',
+              letterSpacing: '-0.01em',
+              textShadow: '0 2px 12px rgba(0,0,0,0.4)',
+            }}>{card.title}</h3>
+            <div style={{
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
+              color: '#fff', textTransform: 'uppercase',
+              padding: '4px 9px', borderRadius: 999,
+              border: '1px solid rgba(255,255,255,0.4)',
+              background: 'rgba(255,255,255,0.12)',
+              backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+              fontFamily: 'var(--font-mono)',
+            }}>{card.subtitle}</div>
+          </div>
+          {/* flip hint */}
+          <div style={{
+            position: 'absolute', top: 12, right: 12,
+            width: 28, height: 28, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.18)',
+            border: '1px solid rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff', fontSize: 14, fontWeight: 700,
+          }}>↻</div>
+        </div>
+
+        {/* BACK — detailed content */}
+        <div className="flip-card-face flip-card-back" style={{
+          background: `linear-gradient(135deg, ${t.accent} 0%, ${t.accentDeep} 100%)`,
+          color: '#fff', padding: 22,
+          display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+        }}>
+          <div>
+            <div style={{
+              fontSize: 11, fontWeight: 700, letterSpacing: '0.1em',
+              textTransform: 'uppercase', opacity: 0.85,
+              fontFamily: 'var(--font-mono)', marginBottom: 8,
+            }}>{card.subtitle}</div>
+            <h3 style={{
+              margin: 0, fontFamily: 'var(--font-heading)',
+              fontSize: 24, fontWeight: 700, letterSpacing: '-0.01em',
+            }}>{card.title}</h3>
+            <p style={{
+              margin: '12px 0 0', fontSize: 14, lineHeight: 1.55, opacity: 0.95,
+            }}>{card.description}</p>
+          </div>
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.25)',
+          }}>
+            <div style={{
+              fontSize: 28, fontWeight: 800, fontFamily: 'var(--font-heading)',
+              letterSpacing: '-0.02em', lineHeight: 1,
+            }}>{card.badge}</div>
+            <div style={{
+              fontSize: 11, fontWeight: 600, letterSpacing: '0.05em',
+              textTransform: 'uppercase', opacity: 0.85,
+            }}>↩ retour</div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
