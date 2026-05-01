@@ -377,6 +377,12 @@ function Footer({ t }) {
             </div>
           </div>
         </div>
+        <div style={{ padding: '40px 0 20px', display: 'flex', justifyContent: 'center' }}>
+          <LocationMap 
+            location={brand.address}
+            coordinates="48.8288° N, 2.3308° E"
+          />
+        </div>
         <div style={{ paddingTop: 24, display: 'flex', justifyContent: 'space-between', fontSize: 12, opacity: 0.55 }}>
           <span>© 2026 {brand.name} · SIRET XXX XXX XXX 00000</span>
           <span>Mentions légales · Politique de confidentialité · CGV</span>
