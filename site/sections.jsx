@@ -595,28 +595,8 @@ function Services({ t }) {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
-          {services.map((s, i) =>
-          <div key={s.id} style={{
-            background: '#FFFFFF',
-            borderRadius: 'var(--radius)',
-            padding: 24,
-            boxShadow: 'var(--shadow-card)',
-            transition: 'transform 0.2s, box-shadow 0.2s',
-            cursor: 'pointer',
-            minHeight: 240,
-            display: 'flex', flexDirection: 'column'
-          }} onMouseEnter={(e) => {e.currentTarget.style.transform = 'translateY(-4px)';}} onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)';}}>
-              <div style={{ width: 44, height: 44, borderRadius: 'var(--radius-sm)', background: i % 2 === 0 ? 'var(--accent-soft)' : 'var(--navy-soft)', color: i % 2 === 0 ? 'var(--accent)' : 'var(--navy)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 700, marginBottom: 16 }}>{s.icon}</div>
-              <div style={{ fontSize: 17, fontWeight: 600, marginBottom: 6 }}>{s.title}</div>
-              <div style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.5, flex: 1 }}>{s.desc}</div>
-              <div style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                {s.features.slice(0, 2).map((f) =>
-              <span key={f} style={{ fontSize: 11, padding: '3px 8px', background: 'var(--bg-warm)', borderRadius: 999, color: 'var(--ink-soft)' }}>{f}</span>
-              )}
-              </div>
-            </div>
-          )}
+        <div style={{ marginTop: 24 }}>
+          <ElegantCarousel />
         </div>
       </div>
     </section>);
