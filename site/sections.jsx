@@ -306,7 +306,7 @@ function Hero({ t }) {
   }, [photos.length]);
 
   return (
-    <section style={{ position: 'relative', overflow: 'hidden', background: '#0a0a0b', color: '#fff', fontFamily: 'var(--font-body)' }}>
+    <section style={{ position: 'relative', overflow: 'hidden', background: '#0a0a0b', color: '#fff', fontFamily: 'var(--font-body)', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
       <style>{`
         @keyframes hero-fade-in {
           from { opacity: 0; transform: translateY(20px); }
@@ -358,7 +358,7 @@ function Hero({ t }) {
       {/* dark overlay */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}30, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.85) 100%)` }} />
 
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1240, margin: '0 auto', padding: '90px 32px 80px' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1240, margin: '0 auto', padding: '90px 32px 80px', width: '100%' }}>
         <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 48, alignItems: 'center' }}>
 
           {/* --- LEFT --- */}
