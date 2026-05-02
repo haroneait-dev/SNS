@@ -572,116 +572,430 @@ function ClientLogos({ t }) {
 
 }
 
-function ServiceCard({ svc, index }) {
-  const Motion = window.Motion || window.FramerMotion || {};
-  const motion = Motion.motion;
-  const Wrapper = motion ? motion.a : 'a';
-  const motionProps = motion ? {
-    initial: { opacity: 0, y: 36 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: '-80px' },
-    transition: { duration: 0.55, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] },
-  } : {};
-  return (
-    <Wrapper
-      href="#solutions"
-      {...motionProps}
-      className="svc-card"
-      style={{
-        display: 'flex', flexDirection: 'column',
-        background: '#fff', borderRadius: 20, overflow: 'hidden',
-        border: '1px solid var(--ink-faint)',
-        boxShadow: '0 4px 16px rgba(14,31,61,0.04)',
-        transition: 'transform .35s ease, box-shadow .35s ease, border-color .35s ease',
-        textDecoration: 'none', color: 'inherit',
-      }}
-    >
-      <div style={{ position: 'relative', paddingTop: '60%', overflow: 'hidden', background: 'var(--bg-warm)' }}>
-        <img src={svc.image} alt={svc.title} loading="lazy" className="svc-card-img" style={{
-          position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
-          transition: 'transform .6s ease',
-        }} />
-        <div style={{
-          position: 'absolute', top: 14, left: 14,
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          width: 38, height: 38, borderRadius: 10,
-          background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)',
-          color: 'var(--accent)', fontSize: 18, fontWeight: 700,
-        }}>{svc.icon}</div>
-      </div>
-      <div style={{ padding: '24px 24px 26px', display: 'flex', flexDirection: 'column', gap: 12, flexGrow: 1 }}>
-        <h3 style={{
-          margin: 0, fontFamily: 'var(--font-heading)',
-          fontSize: 19, fontWeight: 700, lineHeight: 1.2, color: 'var(--ink)',
-          letterSpacing: '-0.01em',
-        }}>{svc.title}</h3>
-        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-soft)', flexGrow: 1 }}>
-          {svc.desc}
-        </p>
-        <div style={{
-          marginTop: 6, paddingTop: 14, borderTop: '1px solid var(--ink-faint)',
-          display: 'flex', flexWrap: 'wrap', gap: '6px 10px',
-        }}>
-          {svc.features.slice(0, 3).map((f, i) => (
-            <span key={i} style={{
-              fontSize: 11, fontWeight: 600, color: 'var(--ink-mute)',
-              letterSpacing: '0.02em',
-            }}>
-              {i > 0 && <span style={{ marginRight: 10, opacity: 0.4 }}>·</span>}
-              {f}
-            </span>
-          ))}
-        </div>
-      </div>
-    </Wrapper>
-  );
-}
-
 function Services({ t }) {
+  const { useState, useEffect } = React;
   const { services } = window.SAM_DATA;
   const Motion = window.Motion || window.FramerMotion || {};
   const motion = Motion.motion;
+  const AnimatePresence = Motion.AnimatePresence;
+
+  const [activeId, setActiveId] = useState(services[0].id);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 899px)');
+    const handler = (e) => setIsMobile(e.matches);
+    setIsMobile(mq.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+    const idx = services.findIndex((s) => s.id === activeId);
+    if (idx === -1) return;
+    const id = setTimeout(() => {
+      setActiveId(services[(idx + 1) % services.length].id);
+    }, 5000);
+    return () => clearTimeout(id);
+  }, [activeId, isMobile]);
+
+  const activeService = services.find((s) => s.id === activeId) || services[0];
+
   const HeadingTag = motion ? motion.div : 'div';
-  const headingProps = motion ? {
-    initial: { opacity: 0, y: 24 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: '-60px' },
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  const MotionDiv = motion ? motion.div : 'div';
+
+  const easing = [0.22, 1, 0.36, 1];
+
+  const headingContainerProps = motion ? {
+    initial: 'hidden',
+    whileInView: 'visible',
+    viewport: { once: true, margin: '-80px' },
+    variants: { hidden: {}, visible: {} },
   } : {};
+
+  const kickerProps = motion ? {
+    variants: {
+      hidden: { opacity: 0, y: 16 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easing } },
+    },
+  } : {};
+
+  const titleProps = motion ? {
+    variants: {
+      hidden: { opacity: 0, y: 24 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.65, delay: 0.08, ease: easing } },
+    },
+  } : {};
+
+  const subtitleProps = motion ? {
+    variants: {
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.12, ease: easing } },
+    },
+  } : {};
+
+  const listContainerProps = motion ? {
+    initial: 'hidden',
+    whileInView: 'visible',
+    viewport: { once: true, margin: '-80px' },
+    variants: {
+      hidden: {},
+      visible: { transition: { staggerChildren: 0.07, delayChildren: 0.18 } },
+    },
+  } : {};
+
+  const listItemProps = motion ? {
+    variants: {
+      hidden: { opacity: 0, x: -20 },
+      visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: easing } },
+    },
+  } : {};
+
+  const stageProps = motion ? {
+    initial: { opacity: 0, x: 24 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, margin: '-80px' },
+    transition: { duration: 0.65, delay: 0.22, ease: easing },
+  } : {};
+
+  const stageContentProps = motion ? {
+    key: activeId,
+    initial: { opacity: 0, y: 18 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -12, transition: { duration: 0.22, ease: 'easeIn' } },
+    transition: { duration: 0.45, ease: easing },
+  } : { key: activeId };
+
+  const accordionContentProps = (isOpen) => motion ? {
+    initial: { height: 0, opacity: 0 },
+    animate: isOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 },
+    exit: { height: 0, opacity: 0 },
+    transition: { duration: 0.4, ease: easing },
+    style: { overflow: 'hidden' },
+  } : { style: { display: isOpen ? 'block' : 'none' } };
+
   return (
-    <section id="services" style={{ padding: '100px 0 100px', background: 'var(--bg)' }}>
+    <section id="services" style={{ padding: '100px 0', background: 'var(--bg)' }}>
       <style>{`
-        .svc-card:hover { transform: translateY(-6px); box-shadow: 0 22px 48px -16px rgba(14,31,61,0.18); border-color: rgba(255,97,24,0.25); }
-        .svc-card:hover .svc-card-img { transform: scale(1.06); }
+        .svc-row-btn {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          width: 100%;
+          padding: 22px 0 22px 24px;
+          border: 0;
+          border-bottom: 1px solid var(--ink-faint);
+          background: transparent;
+          cursor: pointer;
+          text-align: left;
+          position: relative;
+          transition: background 0.2s;
+        }
+        .svc-row-btn:last-child { border-bottom: 0; }
+        .svc-row-rail {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background: var(--ink-faint);
+          border-radius: 2px;
+          opacity: 0;
+          transition: opacity 0.25s ease;
+        }
+        .svc-row-btn.is-active .svc-row-rail { opacity: 1; }
+        .svc-row-progress {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 3px;
+          background: var(--accent);
+          border-radius: 2px;
+          height: 0;
+          animation: svcRowProgress 5s linear forwards;
+        }
+        @keyframes svcRowProgress {
+          0%   { height: 0%; }
+          100% { height: 100%; }
+        }
+        .svc-row-num {
+          font-family: var(--font-mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          font-weight: 400;
+          color: var(--ink-mute);
+          transition: color 0.25s;
+        }
+        .svc-row-btn.is-active .svc-row-num {
+          color: var(--accent);
+          font-weight: 700;
+        }
+        .svc-row-title {
+          font-family: var(--font-heading);
+          font-size: 26px;
+          font-weight: 500;
+          line-height: 1.2;
+          letter-spacing: -0.01em;
+          color: var(--ink-mute);
+          transition: color 0.25s, transform 0.2s cubic-bezier(0.22,1,0.36,1);
+          margin: 0;
+        }
+        .svc-row-btn.is-active .svc-row-title { color: var(--ink); }
+        .svc-row-btn:not(.is-active):hover .svc-row-title {
+          color: var(--ink-soft);
+          transform: translateX(4px);
+        }
+        .svc-row-btn:not(.is-active):hover .svc-row-num { color: var(--ink-soft); }
+        .svc-cta-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--accent);
+          text-decoration: none;
+          position: relative;
+          padding-bottom: 2px;
+        }
+        .svc-cta-link::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 1.5px;
+          background: var(--accent);
+          transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
+        }
+        .svc-cta-link:hover::after { width: 100%; }
+        .svc-cta-link:hover .svc-cta-arrow { transform: translateX(5px); }
+        .svc-cta-arrow { display: inline-block; transition: transform 0.2s cubic-bezier(0.22,1,0.36,1); }
+        .svc-chevron { display: inline-block; transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); font-style: normal; }
+        .svc-chevron.is-open { transform: rotate(180deg); }
+        @media (max-width: 1100px) {
+          .svc-row-title { font-size: 22px !important; }
+        }
+        @media (max-width: 899px) {
+          .svc-solutions-grid { grid-template-columns: 1fr !important; }
+          .svc-stage { display: none !important; }
+        }
       `}</style>
+
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 56px' }}>
-        <HeadingTag {...headingProps} style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto' }}>
-          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>// NOS SOLUTIONS</div>
-          <h2 style={{
-            margin: '14px auto 0', fontFamily: 'var(--font-heading)',
-            fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em',
-          }}>
-            Une expertise <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>360°</em> pour votre IT.
-          </h2>
-          <p style={{
-            margin: '18px auto 0', fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.55,
-          }}>
-            Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques sous un seul toit.
-          </p>
+
+        <HeadingTag {...headingContainerProps} style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto' }}>
+          <MotionDiv {...kickerProps} style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>
+            // NOS SOLUTIONS
+          </MotionDiv>
+          <MotionDiv {...titleProps}>
+            <h2 style={{
+              margin: '14px auto 0', fontFamily: 'var(--font-heading)',
+              fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em',
+            }}>
+              Une expertise <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>360°</em> pour votre IT.
+            </h2>
+          </MotionDiv>
+          <MotionDiv {...subtitleProps}>
+            <p style={{ margin: '18px auto 0', fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+              Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques sous un seul toit.
+            </p>
+          </MotionDiv>
         </HeadingTag>
 
-        <div style={{
-          marginTop: 64,
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 24,
-        }}>
-          {services.map((svc, i) => (
-            <ServiceCard key={svc.id} svc={svc} index={i} />
-          ))}
+        <div
+          className="svc-solutions-grid"
+          style={{
+            marginTop: 72,
+            display: 'grid',
+            gridTemplateColumns: '0.9fr 1.1fr',
+            gap: '0 80px',
+            alignItems: 'start',
+          }}
+        >
+          <MotionDiv {...listContainerProps}>
+            {services.map((svc, i) => {
+              const isActive = svc.id === activeId;
+              const num = String(i + 1).padStart(2, '0');
+
+              if (isMobile) {
+                return (
+                  <MotionDiv key={svc.id} {...listItemProps}>
+                    <button
+                      className={'svc-row-btn' + (isActive ? ' is-active' : '')}
+                      onClick={() => setActiveId(isActive ? null : svc.id)}
+                      aria-expanded={isActive}
+                    >
+                      <span className="svc-row-num">{num}</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span className="svc-row-title">{svc.title}</span>
+                        <em className={'svc-chevron' + (isActive ? ' is-open' : '')} style={{ marginLeft: 12, fontSize: 16, color: 'var(--ink-mute)', flexShrink: 0 }}>▾</em>
+                      </div>
+                    </button>
+                    {AnimatePresence ? (
+                      <AnimatePresence initial={false}>
+                        {isActive && (
+                          <MotionDiv {...accordionContentProps(isActive)}>
+                            <div style={{ padding: '16px 24px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                              <img
+                                src={svc.image}
+                                alt={svc.title}
+                                loading="lazy"
+                                style={{ width: '100%', aspectRatio: '16/10', objectFit: 'cover', borderRadius: 12 }}
+                              />
+                              <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontSize: 22, fontWeight: 500, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>{svc.title}</p>
+                              <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{svc.longDesc}</p>
+                              <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                                {svc.features.map((f, fi) => (
+                                  <li key={fi} style={{
+                                    display: 'flex', alignItems: 'center', gap: 10,
+                                    fontSize: 14, color: 'var(--ink-soft)',
+                                    padding: '8px 0',
+                                    borderTop: fi === 0 ? 'none' : '1px solid var(--ink-faint)',
+                                  }}>
+                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--accent)', flexShrink: 0 }}>→</span>
+                                    {f}
+                                  </li>
+                                ))}
+                              </ul>
+                              <a href="#contact" className="svc-cta-link">
+                                Discuter de ce besoin
+                                <span className="svc-cta-arrow">→</span>
+                              </a>
+                            </div>
+                          </MotionDiv>
+                        )}
+                      </AnimatePresence>
+                    ) : (
+                      isActive && (
+                        <div style={{ padding: '16px 24px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                          <img
+                            src={svc.image}
+                            alt={svc.title}
+                            loading="lazy"
+                            style={{ width: '100%', aspectRatio: '16/10', objectFit: 'cover', borderRadius: 12 }}
+                          />
+                          <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontSize: 22, fontWeight: 500, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>{svc.title}</p>
+                          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{svc.longDesc}</p>
+                          <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                            {svc.features.map((f, fi) => (
+                              <li key={fi} style={{
+                                display: 'flex', alignItems: 'center', gap: 10,
+                                fontSize: 14, color: 'var(--ink-soft)',
+                                padding: '8px 0',
+                                borderTop: fi === 0 ? 'none' : '1px solid var(--ink-faint)',
+                              }}>
+                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--accent)', flexShrink: 0 }}>→</span>
+                                {f}
+                              </li>
+                            ))}
+                          </ul>
+                          <a href="#contact" className="svc-cta-link">
+                            Discuter de ce besoin
+                            <span className="svc-cta-arrow">→</span>
+                          </a>
+                        </div>
+                      )
+                    )}
+                  </MotionDiv>
+                );
+              }
+
+              return (
+                <MotionDiv key={svc.id} {...listItemProps}>
+                  <button
+                    className={'svc-row-btn' + (isActive ? ' is-active' : '')}
+                    onClick={() => setActiveId(svc.id)}
+                    aria-pressed={isActive}
+                  >
+                    <span className="svc-row-rail" aria-hidden="true" />
+                    {isActive && <span key={activeId} className="svc-row-progress" aria-hidden="true" />}
+                    <span className="svc-row-num">{num}</span>
+                    <span className="svc-row-title">{svc.title}</span>
+                  </button>
+                </MotionDiv>
+              );
+            })}
+          </MotionDiv>
+
+          <MotionDiv
+            className="svc-stage"
+            {...stageProps}
+            style={{
+              position: 'sticky',
+              top: 100,
+              background: '#fff',
+              border: '1px solid var(--ink-faint)',
+              borderRadius: 20,
+              padding: 28,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 22,
+            }}
+          >
+            {AnimatePresence ? (
+              <AnimatePresence mode="wait">
+                <MotionDiv {...stageContentProps} style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+                  <img
+                    src={activeService.image}
+                    alt={activeService.title}
+                    loading="lazy"
+                    style={{ width: '100%', aspectRatio: '16/10', objectFit: 'cover', borderRadius: 14 }}
+                  />
+                  <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 500, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>{activeService.title}</p>
+                  <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{activeService.longDesc}</p>
+                  <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                    {activeService.features.map((f, fi) => (
+                      <li key={fi} style={{
+                        display: 'flex', alignItems: 'center', gap: 10,
+                        fontSize: 14, color: 'var(--ink-soft)',
+                        padding: '8px 0',
+                        borderTop: fi === 0 ? 'none' : '1px solid var(--ink-faint)',
+                      }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--accent)', flexShrink: 0 }}>→</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="#contact" className="svc-cta-link">
+                    Discuter de ce besoin
+                    <span className="svc-cta-arrow">→</span>
+                  </a>
+                </MotionDiv>
+              </AnimatePresence>
+            ) : (
+              <div key={activeId} style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+                <img
+                  src={activeService.image}
+                  alt={activeService.title}
+                  loading="lazy"
+                  style={{ width: '100%', aspectRatio: '16/10', objectFit: 'cover', borderRadius: 14 }}
+                />
+                <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontSize: 28, fontWeight: 500, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2 }}>{activeService.title}</p>
+                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{activeService.longDesc}</p>
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                  {activeService.features.map((f, fi) => (
+                    <li key={fi} style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      fontSize: 14, color: 'var(--ink-soft)',
+                      padding: '8px 0',
+                      borderTop: fi === 0 ? 'none' : '1px solid var(--ink-faint)',
+                    }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--accent)', flexShrink: 0 }}>→</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a href="#contact" className="svc-cta-link">
+                  Discuter de ce besoin
+                  <span className="svc-cta-arrow">→</span>
+                </a>
+              </div>
+            )}
+          </MotionDiv>
         </div>
 
-        <div style={{ marginTop: 56, textAlign: 'center' }}>
+        <div style={{ marginTop: 72, textAlign: 'center' }}>
           <a href="#solutions" style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
             background: 'var(--accent)', color: '#fff',
@@ -695,8 +1009,8 @@ function Services({ t }) {
           </a>
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
 Object.assign(window, { Header, Hero, ClientLogos, Services, CTAButton, Logo });
