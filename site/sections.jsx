@@ -365,8 +365,8 @@ function Hero({ t }) {
 
             {/* Badge */}
             <div className="hero-fade-in hero-d100">
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, border: '1px solid rgba(56, 189, 248, 0.3)', background: 'rgba(56, 189, 248, 0.1)', padding: '7px 14px', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
-                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#38bdf8', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, border: `1px solid ${t.accent}40`, background: `${t.accent}15`, padding: '7px 14px', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: t.accent, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   {t.badgeText || 'Disponible 7j/7 · 09 75 52 97 43'}
                   <I.star size={13} />
                 </span>
@@ -390,7 +390,7 @@ function Hero({ t }) {
                 if (isAccent) return (
                   <em key={i} style={{
                     fontStyle: t.headingItalic ? 'italic' : 'normal',
-                    background: `linear-gradient(135deg, #7dd3fc 0%, #0284c7 100%)`,
+                    background: `linear-gradient(135deg, ${t.accent} 0%, #38bdf8 100%)`,
                     WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -415,10 +415,10 @@ function Hero({ t }) {
             <div className="hero-fade-in hero-d400" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 8 }}>
               <a href={`tel:${brand.phoneRaw}`} style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                borderRadius: 999, background: '#fff', color: '#0a0a0b',
+                borderRadius: 999, background: t.accent, color: '#fff',
                 padding: '18px 32px', fontSize: 16, fontWeight: 700, letterSpacing: '0.01em',
                 textDecoration: 'none', transition: 'transform 0.15s, background 0.15s',
-              }} onMouseEnter={e => e.currentTarget.style.background = '#e4e4e7'} onMouseLeave={e => e.currentTarget.style.background = '#fff'}>
+              }} onMouseEnter={e => e.currentTarget.style.background = '#e05312'} onMouseLeave={e => e.currentTarget.style.background = t.accent}>
                 {t.ctaCopy}
                 <I.arrow size={18} />
               </a>
