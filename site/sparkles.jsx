@@ -163,7 +163,13 @@ function PartnerCard({ name, local, domain }) {
           alt={name}
           loading="lazy"
           onError={handleError}
-          style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+          style={{
+            maxWidth: '100%',
+            maxHeight: '100%',
+            objectFit: 'contain',
+            // Yealink logo is white, so we invert/brightness-down to make it visible on white cards
+            filter: name === 'Yealink' ? 'brightness(0)' : 'none'
+          }}
         />
       ) : (
         <span style={{ color: '#34778f', fontWeight: 600, fontSize: 14, letterSpacing: 0.3 }}>{name}</span>

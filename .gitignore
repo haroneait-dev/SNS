@@ -4,3 +4,4 @@ node_modules
 dist
 .claude
 package-lock.json
+.vercel
