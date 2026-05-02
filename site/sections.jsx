@@ -355,8 +355,10 @@ function Hero({ t }) {
           /* Zoom removed */
         `}</style>
       </div>
-      {/* dark overlay */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}30, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.85) 100%)` }} />
+      {/* blue tint overlay */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: t.navy, mixBlendMode: 'multiply', opacity: 0.5 }} />
+      {/* gradient overlay */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}40, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.3) 0%, rgba(10,10,11,0.9) 100%)` }} />
 
       <div style={{ position: 'relative', zIndex: 2, maxWidth: 1400, margin: '0 auto', padding: '90px 48px 80px', width: '100%' }}>
         <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64, alignItems: 'center' }}>
