@@ -592,7 +592,7 @@ function Services({ t }) {
           Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques.
         </p>
         <div style={{ marginTop: 16 }}>
-          <a href="#" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 14, borderBottom: `2px solid ${t.accent}30`, paddingBottom: 2 }}>
+          <a href="#solutions" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 14, borderBottom: `2px solid ${t.accent}30`, paddingBottom: 2 }}>
             Voir toutes nos solutions en détail →
           </a>
         </div>

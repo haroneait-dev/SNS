@@ -84,37 +84,21 @@ function TextEffect({ children, per = 'word', preset = 'blur', className, style,
 
 const solutionsSlides = [
   {
-    title: 'Vidéosurveillance',
-    subtitle: 'Sécurité & Protection',
+    title: 'Réseaux, Infogérance & Sécurité',
+    subtitle: 'Expertise 360°',
     description:
-      'Systèmes de caméras haute définition avec intelligence artificielle. Surveillez vos locaux 24h/24, 7j/7 depuis votre smartphone ou centre de contrôle.',
+      'Gestion complète de votre informatique : réseaux, baies de brassage, cybersécurité, et dépannage/maintenance sur site et à distance.',
     accent: '#ff6118',
-    imageUrl: 'input/hero-vid.png',
+    imageUrl: 'input/services-1.jpg',
   },
   {
-    title: 'Infrastructure Réseau',
-    subtitle: 'Connectivité & Performance',
+    title: 'Vidéosurveillance & Alarme',
+    subtitle: 'Protection de vos locaux',
     description:
-      'Câblage structuré, bornes Wi-Fi professionnelles et serveurs haute performance. Une base solide pour tous vos services numériques.',
+      'Sécurisez vos bâtiments avec nos solutions de vidéosurveillance, contrôle d\'accès, et alarmes anti-intrusion.',
     accent: '#34778f',
-    imageUrl: 'input/hero-net.png',
-  },
-  {
-    title: 'Téléphonie IP',
-    subtitle: 'Communication Moderne',
-    description:
-      'Solutions VoIP flexibles et économiques. Gérez vos appels, vos files d\'attente et votre standard depuis n\'importe où.',
-    accent: '#ff6118',
-    imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=80&auto=format&fit=crop',
-  },
-  {
-    title: 'Dépannage & SAV',
-    subtitle: 'Réactivité & Expertise',
-    description:
-      'Intervention rapide sur site ou à distance. Nos techniciens certifiés résolvent vos problèmes matériels et logiciels en un temps record.',
-    accent: '#34778f',
-    imageUrl: 'input/hero-rep.png',
-  },
+    imageUrl: 'input/services-2.jpg',
+  }
 ];
 
 function ElegantCarousel() {

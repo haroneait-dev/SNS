@@ -46,6 +46,7 @@
 <script type="text/babel" src="site/liquid-button.jsx"></script>
 <script type="text/babel" src="site/sections.jsx"></script>
 <script type="text/babel" src="site/sections-2.jsx"></script>
+<script type="text/babel" src="site/solutions-page.jsx"></script>
 <script type="text/babel" src="site/tweaks.jsx"></script>
 <script type="text/babel">
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
@@ -88,6 +89,16 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [route, setRoute] = React.useState(window.location.hash || '#');
+
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      setRoute(window.location.hash || '#');
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const cssVars = {
     '--accent': t.accent,
@@ -123,26 +134,32 @@ function App() {
   return (
     <div style={cssVars}>
       <Header t={t} />
-      <Hero t={t} />
-      {/* 1. Qui sommes-nous (Stats + Intro) */}
-      <AboutUs t={t} />
-      
-      {/* 2. Nos solutions (Services) */}
-      <Services t={t} />
-      
-      {/* 3. Pourquoi Sam Network Solutions (DarkSection) */}
-      <DarkSection t={t} />
-      
-      {/* Partenaires */}
-      <PartnersSection />
-      
-      {/* 4. Avis clients */}
-      {t.showTestimonials && <Testimonials t={t} />}
-      
-      {/* 5. FAQ */}
-      {t.showFAQ && <FAQ t={t} />}
-      
-      <CTA t={t} />
+      {route === '#solutions' ? (
+        <SolutionsPage t={t} />
+      ) : (
+        <>
+          <Hero t={t} />
+          {/* 1. Qui sommes-nous (Stats + Intro) */}
+          <AboutUs t={t} />
+          
+          {/* 2. Nos solutions (Services) */}
+          <Services t={t} />
+          
+          {/* 3. Pourquoi Sam Network Solutions (DarkSection) */}
+          <DarkSection t={t} />
+          
+          {/* Partenaires */}
+          <PartnersSection />
+          
+          {/* 4. Avis clients */}
+          {t.showTestimonials && <Testimonials t={t} />}
+          
+          {/* 5. FAQ */}
+          {t.showFAQ && <FAQ t={t} />}
+          
+          <CTA t={t} />
+        </>
+      )}
       <Footer t={t} />
 
       <SiteTweaks t={t} setTweak={setTweak} />
