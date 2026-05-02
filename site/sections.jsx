@@ -572,33 +572,128 @@ function ClientLogos({ t }) {
 
 }
 
-function Services({ t }) {
-  const { services } = window.SAM_DATA;
+function ServiceCard({ svc, index }) {
+  const Motion = window.Motion || window.FramerMotion || {};
+  const motion = Motion.motion;
+  const Wrapper = motion ? motion.a : 'a';
+  const motionProps = motion ? {
+    initial: { opacity: 0, y: 36 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-80px' },
+    transition: { duration: 0.55, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] },
+  } : {};
   return (
-    <section id="services" style={{ padding: '90px 0 60px', background: 'var(--bg)' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 56px', textAlign: 'center' }}>
-        <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>// NOS SOLUTIONS</div>
-        <h2 style={{
-          margin: '14px auto 0', fontFamily: 'var(--font-heading)',
-          fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em',
-        }}>
-          Une expertise <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>360°</em> pour votre IT.
-        </h2>
-        <p style={{
-          margin: '18px auto 0', fontSize: 18, color: 'var(--ink-soft)',
-          lineHeight: 1.55, maxWidth: 820,
-        }}>
-          Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques.
+    <Wrapper
+      href="#solutions"
+      {...motionProps}
+      className="svc-card"
+      style={{
+        display: 'flex', flexDirection: 'column',
+        background: '#fff', borderRadius: 20, overflow: 'hidden',
+        border: '1px solid var(--ink-faint)',
+        boxShadow: '0 4px 16px rgba(14,31,61,0.04)',
+        transition: 'transform .35s ease, box-shadow .35s ease, border-color .35s ease',
+        textDecoration: 'none', color: 'inherit',
+      }}
+    >
+      <div style={{ position: 'relative', paddingTop: '60%', overflow: 'hidden', background: 'var(--bg-warm)' }}>
+        <img src={svc.image} alt={svc.title} loading="lazy" className="svc-card-img" style={{
+          position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+          transition: 'transform .6s ease',
+        }} />
+        <div style={{
+          position: 'absolute', top: 14, left: 14,
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: 38, height: 38, borderRadius: 10,
+          background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)',
+          color: 'var(--accent)', fontSize: 18, fontWeight: 700,
+        }}>{svc.icon}</div>
+      </div>
+      <div style={{ padding: '24px 24px 26px', display: 'flex', flexDirection: 'column', gap: 12, flexGrow: 1 }}>
+        <h3 style={{
+          margin: 0, fontFamily: 'var(--font-heading)',
+          fontSize: 19, fontWeight: 700, lineHeight: 1.2, color: 'var(--ink)',
+          letterSpacing: '-0.01em',
+        }}>{svc.title}</h3>
+        <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-soft)', flexGrow: 1 }}>
+          {svc.desc}
         </p>
-        <div style={{ marginTop: 16 }}>
-          <a href="#solutions" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 14, borderBottom: `2px solid ${t.accent}30`, paddingBottom: 2 }}>
-            Voir toutes nos solutions en détail →
-          </a>
+        <div style={{
+          marginTop: 6, paddingTop: 14, borderTop: '1px solid var(--ink-faint)',
+          display: 'flex', flexWrap: 'wrap', gap: '6px 10px',
+        }}>
+          {svc.features.slice(0, 3).map((f, i) => (
+            <span key={i} style={{
+              fontSize: 11, fontWeight: 600, color: 'var(--ink-mute)',
+              letterSpacing: '0.02em',
+            }}>
+              {i > 0 && <span style={{ marginRight: 10, opacity: 0.4 }}>·</span>}
+              {f}
+            </span>
+          ))}
         </div>
       </div>
+    </Wrapper>
+  );
+}
 
-      <div style={{ marginTop: 64 }}>
-        <ElegantCarousel />
+function Services({ t }) {
+  const { services } = window.SAM_DATA;
+  const Motion = window.Motion || window.FramerMotion || {};
+  const motion = Motion.motion;
+  const HeadingTag = motion ? motion.div : 'div';
+  const headingProps = motion ? {
+    initial: { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-60px' },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  } : {};
+  return (
+    <section id="services" style={{ padding: '100px 0 100px', background: 'var(--bg)' }}>
+      <style>{`
+        .svc-card:hover { transform: translateY(-6px); box-shadow: 0 22px 48px -16px rgba(14,31,61,0.18); border-color: rgba(255,97,24,0.25); }
+        .svc-card:hover .svc-card-img { transform: scale(1.06); }
+      `}</style>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 56px' }}>
+        <HeadingTag {...headingProps} style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto' }}>
+          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>// NOS SOLUTIONS</div>
+          <h2 style={{
+            margin: '14px auto 0', fontFamily: 'var(--font-heading)',
+            fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em',
+          }}>
+            Une expertise <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>360°</em> pour votre IT.
+          </h2>
+          <p style={{
+            margin: '18px auto 0', fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.55,
+          }}>
+            Du dépannage express à l'infrastructure réseau complexe, nous couvrons tous vos besoins technologiques sous un seul toit.
+          </p>
+        </HeadingTag>
+
+        <div style={{
+          marginTop: 64,
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: 24,
+        }}>
+          {services.map((svc, i) => (
+            <ServiceCard key={svc.id} svc={svc} index={i} />
+          ))}
+        </div>
+
+        <div style={{ marginTop: 56, textAlign: 'center' }}>
+          <a href="#solutions" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: 'var(--accent)', color: '#fff',
+            padding: '16px 28px', borderRadius: 'var(--radius)',
+            fontSize: 15, fontWeight: 600,
+            boxShadow: 'var(--shadow-cta)',
+            transition: 'transform .2s ease',
+          }}>
+            Découvrir toutes nos solutions en détail
+            <span style={{ fontSize: 18 }}>→</span>
+          </a>
+        </div>
       </div>
     </section>);
 
