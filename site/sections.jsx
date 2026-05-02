@@ -365,8 +365,8 @@ function Hero({ t }) {
 
             {/* Badge */}
             <div className="hero-fade-in hero-d100">
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)', padding: '7px 14px', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
-                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#d4d4d8', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, border: '1px solid rgba(56, 189, 248, 0.3)', background: 'rgba(56, 189, 248, 0.1)', padding: '7px 14px', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#38bdf8', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   {t.badgeText || 'Disponible 7j/7 · 09 75 52 97 43'}
                   <I.star size={13} />
                 </span>
@@ -390,7 +390,7 @@ function Hero({ t }) {
                 if (isAccent) return (
                   <em key={i} style={{
                     fontStyle: t.headingItalic ? 'italic' : 'normal',
-                    background: `linear-gradient(135deg, #fff 0%, #fff 40%, ${t.accent} 100%)`,
+                    background: `linear-gradient(135deg, #7dd3fc 0%, #0284c7 100%)`,
                     WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
