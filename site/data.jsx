@@ -78,6 +78,14 @@ window.SAM_DATA = {
     { quote: 'Boutique informatique extraordinaire. Je vous recommande vivement.', author: 'Xavier Fremont', role: 'Avis Google', stars: 5 },
     { quote: 'Intervention rapide, équipe professionnelle. Notre réseau Wi-Fi est enfin stable dans tout le bâtiment.', author: 'Cabinet d\'avocats', role: 'Paris 8e', stars: 5 },
   ],
+  partners: [
+    { label: 'Réseau & Wi-Fi', brands: ['Cisco Meraki', 'Ubiquiti UniFi', 'Aruba', 'MikroTik'] },
+    { label: 'Cybersécurité', brands: ['Fortinet', 'Sophos', 'Bitdefender', 'Stormshield'] },
+    { label: 'Vidéosurveillance', brands: ['Hikvision', 'Dahua', 'Axis', 'Ubiquiti UVC'] },
+    { label: 'Sauvegarde & Stockage', brands: ['Veeam', 'Acronis', 'Synology', 'QNAP'] },
+    { label: 'Cloud & Workspace', brands: ['Microsoft 365', 'Microsoft Azure', 'Google Workspace'] },
+    { label: "Contrôle d'accès", brands: ['Suprema', 'ZKTeco', 'Salto'] },
+  ],
   faqs: [
     { q: 'Intervenez-vous en dehors de Paris ?', a: 'Oui, nous couvrons toute l\'Île-de-France. Pour les départements limitrophes, contactez-nous pour devis.' },
     { q: 'Quels sont vos délais d\'intervention ?', a: 'Sous 4 heures ouvrées à Paris et petite couronne pour les contrats de maintenance. Sous 24h pour les nouveaux clients.' },

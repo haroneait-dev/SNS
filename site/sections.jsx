@@ -554,22 +554,162 @@ function HeroStat({ value, label }) {
 }
 
 function ClientLogos({ t }) {
+  const { partners } = window.SAM_DATA;
+  const Motion = window.Motion || window.FramerMotion || {};
+  const motion = Motion.motion;
+
+  const headerContainerProps = motion ? {
+    initial: 'hidden',
+    whileInView: 'visible',
+    viewport: { once: true, margin: '-80px' },
+    variants: { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } },
+  } : {};
+
+  const kickerVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  };
+  const h2Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  };
+  const paraVariants = {
+    hidden: { opacity: 0, y: 16 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+  };
+
+  const rowsContainerProps = motion ? {
+    initial: 'hidden',
+    whileInView: 'visible',
+    viewport: { once: true, margin: '-60px' },
+    variants: {
+      hidden: {},
+      visible: { transition: { staggerChildren: 0.06, delayChildren: 0.15 } },
+    },
+  } : {};
+
+  const rowVariants = {
+    hidden: { opacity: 0, y: 14 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.05 } },
+  };
+
+  const brandVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.35, ease: 'easeOut' } },
+  };
+
+  const HeaderContainer = motion ? motion.div : 'div';
+  const MotionItem = motion ? motion.div : 'div';
+  const MotionDivider = motion ? motion.div : 'div';
+
   return (
-    <section style={{ padding: '44px 56px', borderTop: '1px solid var(--ink-faint)', borderBottom: '1px solid var(--ink-faint)', background: 'var(--bg)' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <div style={{ fontSize: 12, color: 'var(--ink-mute)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20, textAlign: 'center' }}>Ils nous font confiance · 89 avis Google ★ 4,9/5</div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.55, fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 18, letterSpacing: '-0.01em' }}>
-          <span>◢ Cabinet Lefèvre</span>
-          <span>● Helio Imm.</span>
-          <span style={{ fontStyle: 'italic' }}>Maison Borel</span>
-          <span>◆ Lumen SAS</span>
-          <span>● Veritex</span>
-          <span style={{ fontStyle: 'italic' }}>Atelier Nord</span>
-          <span>▲ Quartz</span>
+    <section id="partenaires" style={{ padding: '100px 0', background: 'var(--bg)', borderTop: '1px solid var(--ink-faint)', borderBottom: '1px solid var(--ink-faint)' }}>
+      <style>{`
+        .brand-name {
+          color: var(--ink-soft);
+          border-bottom: 1px solid transparent;
+          cursor: default;
+          transition: color 0.15s ease, border-bottom-color 0.15s ease;
+          display: inline-block;
+          padding-bottom: 1px;
+        }
+        .brand-name:hover {
+          color: var(--ink);
+          border-bottom-color: currentColor;
+        }
+        .brand-separator {
+          display: inline-block;
+          width: 1px;
+          height: 0.85em;
+          background: var(--ink-faint);
+          margin: 0 16px;
+          vertical-align: middle;
+          flex-shrink: 0;
+        }
+        .stack-row {
+          background: transparent;
+          transition: background 0.2s ease;
+          border-radius: 8px;
+        }
+        .stack-row:hover {
+          background: rgba(14, 31, 61, 0.025);
+        }
+        @media (max-width: 899px) {
+          .stack-grid { grid-template-columns: 1fr !important; }
+          .stack-row { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+          .stack-row-label { width: auto !important; }
+          .brand-name { font-size: 18px !important; }
+        }
+      `}</style>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 56px' }}>
+        <div className="stack-grid" style={{ display: 'grid', gridTemplateColumns: '0.7fr 1.3fr', gap: '64px 80px', alignItems: 'start' }}>
+
+          <HeaderContainer {...headerContainerProps}>
+            <MotionItem variants={motion ? kickerVariants : undefined} style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase' }}>
+              // STACK DÉPLOYÉE
+            </MotionItem>
+            <MotionItem variants={motion ? h2Variants : undefined}>
+              <h2 style={{ margin: '14px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 42, lineHeight: 1.05, letterSpacing: '-0.02em' }}>
+                Les marques que nous <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>maîtrisons</em>.
+              </h2>
+            </MotionItem>
+            <MotionItem variants={motion ? paraVariants : undefined}>
+              <p style={{ marginTop: 18, fontSize: 16, lineHeight: 1.55, color: 'var(--ink-soft)', maxWidth: 360 }}>
+                Pas de marque maison, pas de boîte noire. Les leaders du secteur, installés et maintenus au quotidien.
+              </p>
+            </MotionItem>
+          </HeaderContainer>
+
+          <MotionDivider {...(motion ? rowsContainerProps : {})}>
+            {partners.map((category, rowIndex) => (
+              <React.Fragment key={category.label}>
+                <MotionItem
+                  className="stack-row"
+                  variants={motion ? rowVariants : undefined}
+                  style={{ display: 'flex', alignItems: 'center', gap: 32, padding: '22px 12px' }}
+                >
+                  <span
+                    className="stack-row-label"
+                    style={{ flexShrink: 0, width: 180, fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-mute)', fontWeight: 600 }}
+                  >
+                    {category.label}
+                  </span>
+                  <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                    {category.brands.map((brand, brandIndex) => (
+                      <React.Fragment key={brand}>
+                        {brandIndex > 0 && <span className="brand-separator" />}
+                        <MotionItem
+                          variants={motion ? brandVariants : undefined}
+                          style={{ display: 'inline-block' }}
+                        >
+                          <span
+                            className="brand-name"
+                            style={{ fontFamily: 'var(--font-heading)', fontSize: 22, fontWeight: 500, letterSpacing: '-0.01em' }}
+                          >
+                            {brand}
+                          </span>
+                        </MotionItem>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </MotionItem>
+                {rowIndex < partners.length - 1 && (
+                  <MotionDivider
+                    variants={motion ? {
+                      hidden: { scaleX: 0 },
+                      visible: { scaleX: 1, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: rowIndex * 0.06 + 0.1 } },
+                    } : undefined}
+                    style={{ height: 1, background: 'var(--ink-faint)', transformOrigin: 'left' }}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </MotionDivider>
+
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
 function Services({ t }) {
