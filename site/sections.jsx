@@ -337,8 +337,8 @@ function Hero({ t }) {
         }
       `}</style>
 
-      {/* --- Infinite Carousel Background --- */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      {/* --- Infinite Carousel Background (Monochrome Mode) --- */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: t.navy }}>
         {photos.map((p, i) => (
           <div key={i}
             style={{
@@ -346,19 +346,16 @@ function Hero({ t }) {
               backgroundImage: `url(${p.url})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              opacity: i === index ? 0.45 : 0,
+              opacity: i === index ? 0.85 : 0,
               transition: 'opacity 1.5s ease-in-out',
-              filter: 'contrast(1.1) brightness(0.9)',
+              filter: 'grayscale(100%) contrast(1.1) brightness(1.2)',
+              mixBlendMode: 'multiply',
             }} />
         ))}
-        <style>{`
-          /* Zoom removed */
-        `}</style>
       </div>
-      {/* blue tint overlay */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: t.navy, mixBlendMode: 'multiply', opacity: 0.5 }} />
-      {/* gradient overlay */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}40, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.3) 0%, rgba(10,10,11,0.9) 100%)` }} />
+      
+      {/* Dark gradient overlay to ensure text readability and fade into the next section */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}40, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.1) 0%, rgba(10,10,11,0.95) 100%)` }} />
 
       <div style={{ position: 'relative', zIndex: 2, maxWidth: 1400, margin: '0 auto', padding: '90px 48px 80px', width: '100%' }}>
         <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64, alignItems: 'center' }}>
