@@ -228,7 +228,7 @@ function DarkSection({ t }) {
           </div>
         </div>
 
-        <WhyFlipCards t={t} />
+        <WhyAccordion />
       </div>
     </section>
   );
@@ -265,120 +265,104 @@ const WHY_CARDS = [
   },
 ];
 
-function WhyFlipCards({ t }) {
+function WhyAccordion() {
+  const [active, setActive] = React.useState(WHY_CARDS.length - 1);
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+    <div style={{ width: '100%' }}>
       <style>{`
-        .flip-card { perspective: 1200px; height: 240px; cursor: pointer; }
-        .flip-card-inner {
-          position: relative; width: 100%; height: 100%;
-          transform-style: preserve-3d;
-          transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+        .why-acc { display: flex; gap: 12px; align-items: stretch; height: 460px; width: 100%; }
+        .why-acc-item {
+          position: relative; height: 100%; border-radius: 18px; overflow: hidden;
+          cursor: pointer; flex: 0 0 auto;
+          transition: width 0.7s cubic-bezier(0.4, 0.2, 0.2, 1), box-shadow 0.4s ease;
+          box-shadow: 0 6px 24px rgba(0,0,0,0.25);
         }
-        .flip-card:hover .flip-card-inner,
-        .flip-card:focus-within .flip-card-inner,
-        .flip-card.is-active .flip-card-inner {
-          transform: rotateY(180deg);
-        }
-        .flip-card-face {
+        .why-acc-item.is-active { width: 360px; box-shadow: 0 18px 48px rgba(0,0,0,0.45); }
+        .why-acc-item.is-collapsed { width: 64px; }
+        .why-acc-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .why-acc-overlay {
           position: absolute; inset: 0;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          border-radius: var(--radius);
-          overflow: hidden;
+          background: linear-gradient(180deg, rgba(15,28,46,0.15) 0%, rgba(15,28,46,0.75) 100%);
+          transition: opacity 0.4s ease;
         }
-        .flip-card-back { transform: rotateY(180deg); }
+        .why-acc-item.is-active .why-acc-overlay {
+          background: linear-gradient(180deg, rgba(15,28,46,0.05) 0%, rgba(15,28,46,0.85) 100%);
+        }
+        .why-acc-accent {
+          position: absolute; top: 0; left: 0; right: 0; height: 3px;
+          background: var(--accent); opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+        .why-acc-item.is-active .why-acc-accent { opacity: 1; }
+        .why-acc-collapsed-label {
+          position: absolute; left: 50%; bottom: 24px;
+          transform: translateX(-50%) rotate(-90deg); transform-origin: center;
+          color: #fff; font-family: var(--font-heading); font-weight: 700;
+          font-size: 18px; letter-spacing: -0.01em; white-space: nowrap;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+          transition: opacity 0.3s ease;
+        }
+        .why-acc-item.is-active .why-acc-collapsed-label { opacity: 0; pointer-events: none; }
+        .why-acc-content {
+          position: absolute; inset: 0; padding: 26px 28px;
+          display: flex; flex-direction: column; justify-content: flex-end;
+          color: #fff;
+          opacity: 0; transition: opacity 0.4s ease 0.15s;
+        }
+        .why-acc-item.is-active .why-acc-content { opacity: 1; }
+        .why-acc-badge {
+          display: inline-block; align-self: flex-start;
+          font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          padding: 5px 11px; border-radius: 999px;
+          background: var(--accent); color: #fff;
+          margin-bottom: 14px;
+        }
+        .why-acc-title {
+          margin: 0; font-family: var(--font-heading);
+          font-size: 30px; font-weight: 700; line-height: 1.05; letter-spacing: -0.02em;
+        }
+        .why-acc-subtitle {
+          margin: 8px 0 0; font-size: 14px; font-weight: 600;
+          color: rgba(255,255,255,0.85); letter-spacing: 0.02em;
+        }
+        .why-acc-desc {
+          margin: 14px 0 0; font-size: 14px; line-height: 1.55;
+          color: rgba(255,255,255,0.85);
+          max-width: 290px;
+        }
+        @media (max-width: 1100px) {
+          .why-acc { height: 380px; }
+          .why-acc-item.is-active { width: 280px; }
+          .why-acc-title { font-size: 24px; }
+        }
       `}</style>
-      {WHY_CARDS.map((card) => <FlipCard key={card.title} card={card} t={t} />)}
-    </div>
-  );
-}
-
-function FlipCard({ card, t }) {
-  const [active, setActive] = React.useState(false);
-  return (
-    <div
-      className={`flip-card${active ? ' is-active' : ''}`}
-      tabIndex={0}
-      onClick={() => setActive(a => !a)}
-    >
-      <div className="flip-card-inner">
-        {/* FRONT — image + small title */}
-        <div className="flip-card-face">
-          <img src={card.image} alt="" style={{
-            position: 'absolute', inset: 0,
-            width: '100%', height: '100%', objectFit: 'cover',
-          }} />
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)',
-          }} />
-          <div style={{
-            position: 'absolute', left: 18, right: 18, bottom: 16,
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-          }}>
-            <h3 style={{
-              margin: 0, fontFamily: 'var(--font-heading)',
-              fontSize: 22, fontWeight: 700, color: '#fff',
-              letterSpacing: '-0.01em',
-              textShadow: '0 2px 12px rgba(0,0,0,0.4)',
-            }}>{card.title}</h3>
-            <div style={{
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
-              color: '#fff', textTransform: 'uppercase',
-              padding: '4px 9px', borderRadius: 999,
-              border: '1px solid rgba(255,255,255,0.4)',
-              background: 'rgba(255,255,255,0.12)',
-              backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
-              fontFamily: 'var(--font-mono)',
-            }}>{card.subtitle}</div>
-          </div>
-          {/* flip hint */}
-          <div style={{
-            position: 'absolute', top: 12, right: 12,
-            width: 28, height: 28, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.18)',
-            border: '1px solid rgba(255,255,255,0.3)',
-            backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontSize: 14, fontWeight: 700,
-          }}>↻</div>
-        </div>
-
-        {/* BACK — detailed content */}
-        <div className="flip-card-face flip-card-back" style={{
-          background: `linear-gradient(135deg, ${t.accent} 0%, ${t.accentDeep} 100%)`,
-          color: '#fff', padding: 22,
-          display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-        }}>
-          <div>
-            <div style={{
-              fontSize: 11, fontWeight: 700, letterSpacing: '0.1em',
-              textTransform: 'uppercase', opacity: 0.85,
-              fontFamily: 'var(--font-mono)', marginBottom: 8,
-            }}>{card.subtitle}</div>
-            <h3 style={{
-              margin: 0, fontFamily: 'var(--font-heading)',
-              fontSize: 24, fontWeight: 700, letterSpacing: '-0.01em',
-            }}>{card.title}</h3>
-            <p style={{
-              margin: '12px 0 0', fontSize: 14, lineHeight: 1.55, opacity: 0.95,
-            }}>{card.description}</p>
-          </div>
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.25)',
-          }}>
-            <div style={{
-              fontSize: 28, fontWeight: 800, fontFamily: 'var(--font-heading)',
-              letterSpacing: '-0.02em', lineHeight: 1,
-            }}>{card.badge}</div>
-            <div style={{
-              fontSize: 11, fontWeight: 600, letterSpacing: '0.05em',
-              textTransform: 'uppercase', opacity: 0.85,
-            }}>↩ retour</div>
-          </div>
-        </div>
+      <div className="why-acc">
+        {WHY_CARDS.map((card, i) => {
+          const isActive = i === active;
+          return (
+            <div
+              key={card.title}
+              className={`why-acc-item ${isActive ? 'is-active' : 'is-collapsed'}`}
+              onMouseEnter={() => setActive(i)}
+              onClick={() => setActive(i)}
+              tabIndex={0}
+              onFocus={() => setActive(i)}
+              aria-expanded={isActive}
+            >
+              <img className="why-acc-img" src={card.image} alt="" loading="lazy" />
+              <div className="why-acc-overlay" />
+              <div className="why-acc-accent" />
+              <span className="why-acc-collapsed-label">{card.title}</span>
+              <div className="why-acc-content">
+                <span className="why-acc-badge">{card.badge}</span>
+                <h3 className="why-acc-title">{card.title}</h3>
+                <div className="why-acc-subtitle">{card.subtitle}</div>
+                <p className="why-acc-desc">{card.description}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

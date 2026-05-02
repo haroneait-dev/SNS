@@ -1,5 +1,87 @@
 const { useState, useEffect, useRef, useCallback } = React;
 
+// TextEffect — port of the framer-motion text reveal component.
+// Splits children into segments (word/char) and animates them in with stagger.
+// Re-triggers when its `key` prop (or content) changes.
+function TextEffect({ children, per = 'word', preset = 'blur', className, style, as = 'span', delay = 0, stagger }) {
+  const Motion = window.Motion;
+  if (!Motion || !Motion.motion || typeof children !== 'string') {
+    return React.createElement(as, { className, style }, children);
+  }
+  const motion = Motion.motion;
+
+  const segments = per === 'char'
+    ? children.split('')
+    : per === 'line'
+      ? children.split('\n')
+      : children.split(/(\s+)/);
+
+  const defaultStagger = per === 'char' ? 0.025 : per === 'word' ? 0.05 : 0.1;
+  const stg = stagger ?? defaultStagger;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: stg, delayChildren: delay } },
+  };
+
+  const itemVariants = (() => {
+    switch (preset) {
+      case 'blur':
+        return {
+          hidden: { opacity: 0, filter: 'blur(12px)' },
+          visible: { opacity: 1, filter: 'blur(0px)' },
+        };
+      case 'slide':
+        return {
+          hidden: { opacity: 0, y: 18 },
+          visible: { opacity: 1, y: 0 },
+        };
+      case 'scale':
+        return {
+          hidden: { opacity: 0, scale: 0.6 },
+          visible: { opacity: 1, scale: 1 },
+        };
+      case 'fade':
+      default:
+        return { hidden: { opacity: 0 }, visible: { opacity: 1 } };
+    }
+  })();
+
+  const MotionTag = motion[as] || motion.span;
+
+  const renderSegment = (seg, i) => {
+    if (per === 'char') {
+      return React.createElement(motion.span, {
+        key: i,
+        variants: itemVariants,
+        style: { display: 'inline-block', whiteSpace: 'pre' },
+      }, seg);
+    }
+    if (per === 'line') {
+      return React.createElement(motion.span, {
+        key: i,
+        variants: itemVariants,
+        style: { display: 'block' },
+      }, seg);
+    }
+    // word
+    return React.createElement(motion.span, {
+      key: i,
+      variants: itemVariants,
+      style: { display: 'inline-block', whiteSpace: 'pre' },
+    }, seg);
+  };
+
+  return React.createElement(MotionTag, {
+    initial: 'hidden',
+    animate: 'visible',
+    variants: containerVariants,
+    className,
+    style: { display: as === 'p' || as === 'h2' || as === 'h3' || as === 'div' ? 'block' : 'inline-block', whiteSpace: 'pre-wrap', ...style },
+    'aria-label': children,
+  }, segments.map(renderSegment));
+}
+
 const solutionsSlides = [
   {
     title: 'Vidéosurveillance',
@@ -134,36 +216,57 @@ function ElegantCarousel() {
         <div className="carousel-content">
           <div className="carousel-content-inner">
             {/* Collection number */}
-            <div
-              className={`carousel-collection-num ${isTransitioning ? 'transitioning' : 'visible'}`}
-            >
+            <div className="carousel-collection-num visible">
               <span className="carousel-num-line" />
               <span className="carousel-num-text">
-                {String(currentIndex + 1).padStart(2, '0')} / {String(solutionsSlides.length).padStart(2, '0')}
+                <TextEffect
+                  key={`num-${currentIndex}`}
+                  per="char"
+                  preset="fade"
+                  delay={0}
+                >
+                  {`${String(currentIndex + 1).padStart(2, '0')} / ${String(solutionsSlides.length).padStart(2, '0')}`}
+                </TextEffect>
               </span>
             </div>
 
             {/* Title */}
-            <h2
-              className={`carousel-title ${isTransitioning ? 'transitioning' : 'visible'}`}
+            <TextEffect
+              key={`title-${currentIndex}`}
+              as="h2"
+              per="word"
+              preset="blur"
+              delay={0.05}
+              stagger={0.05}
+              className="carousel-title"
             >
               {currentSlide.title}
-            </h2>
+            </TextEffect>
 
             {/* Subtitle */}
-            <p
-              className={`carousel-subtitle ${isTransitioning ? 'transitioning' : 'visible'}`}
+            <TextEffect
+              key={`sub-${currentIndex}`}
+              as="p"
+              per="word"
+              preset="slide"
+              delay={0.25}
+              className="carousel-subtitle"
               style={{ color: currentSlide.accent }}
             >
               {currentSlide.subtitle}
-            </p>
+            </TextEffect>
 
             {/* Description */}
-            <p
-              className={`carousel-description ${isTransitioning ? 'transitioning' : 'visible'}`}
+            <TextEffect
+              key={`desc-${currentIndex}`}
+              as="p"
+              per="word"
+              preset="blur"
+              delay={0.4}
+              className="carousel-description"
             >
               {currentSlide.description}
-            </p>
+            </TextEffect>
 
             {/* Navigation Arrows */}
             <div className="carousel-nav-arrows">
@@ -189,17 +292,17 @@ function ElegantCarousel() {
           </div>
         </div>
 
-        {/* Right: Image */}
+        {/* Right: Image (all slides stacked, crossfade via opacity) */}
         <div className="carousel-image-container">
-          <div
-            className={`carousel-image-frame ${isTransitioning ? 'transitioning' : 'visible'}`}
-          >
-            <img
-              src={currentSlide.imageUrl}
-              alt={currentSlide.title}
-              className="carousel-image"
-              key={currentSlide.imageUrl}
-            />
+          <div className="carousel-image-frame visible">
+            {solutionsSlides.map((slide, i) => (
+              <img
+                key={slide.imageUrl}
+                src={slide.imageUrl}
+                alt={slide.title}
+                className={`carousel-image ${i === currentIndex ? 'is-active' : ''}`}
+              />
+            ))}
             <div
               className="carousel-image-overlay"
               style={{

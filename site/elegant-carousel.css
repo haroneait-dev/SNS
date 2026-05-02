@@ -60,12 +60,14 @@
 
 .carousel-title {
   font-family: var(--font-heading);
-  font-size: clamp(42px, 4.5vw, 64px);
+  font-size: clamp(32px, 5vw, 64px);
   font-weight: 700;
   line-height: 1.05;
   margin: 0 0 16px;
   color: var(--ink);
   letter-spacing: -0.02em;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .carousel-subtitle {
