@@ -355,7 +355,7 @@ function Hero({ t }) {
       </div>
       
       {/* Dark gradient overlay to ensure text readability and fade into the next section */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, ${t.accent}25, transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}40, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.1) 0%, rgba(10,10,11,0.95) 100%)` }} />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `radial-gradient(ellipse at 30% 20%, rgba(56, 189, 248, 0.15), transparent 50%), radial-gradient(ellipse at 80% 80%, ${t.navy}40, transparent 50%), linear-gradient(180deg, rgba(10,10,11,0.1) 0%, rgba(10,10,11,0.95) 100%)` }} />
 
       <div style={{ position: 'relative', zIndex: 2, maxWidth: 1400, margin: '0 auto', padding: '90px 48px 80px', width: '100%' }}>
         <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64, alignItems: 'center' }}>
@@ -365,8 +365,8 @@ function Hero({ t }) {
 
             {/* Badge */}
             <div className="hero-fade-in hero-d100">
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, border: `1px solid ${t.accent}40`, background: `${t.accent}15`, padding: '7px 14px', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
-                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: t.accent, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, border: '1px solid rgba(56, 189, 248, 0.3)', background: 'rgba(56, 189, 248, 0.1)', padding: '7px 14px', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#38bdf8', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   {t.badgeText || 'Disponible 7j/7 · 09 75 52 97 43'}
                   <I.star size={13} />
                 </span>
@@ -390,7 +390,7 @@ function Hero({ t }) {
                 if (isAccent) return (
                   <em key={i} style={{
                     fontStyle: t.headingItalic ? 'italic' : 'normal',
-                    background: `linear-gradient(135deg, ${t.accent} 0%, #38bdf8 100%)`,
+                    background: `linear-gradient(135deg, #7dd3fc 0%, #0284c7 100%)`,
                     WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
