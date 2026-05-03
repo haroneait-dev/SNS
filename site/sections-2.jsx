@@ -13,7 +13,7 @@ function AboutUs({ t }) {
             Sam Network Solutions est une équipe de techniciens passionnés basés à Paris 14e. Depuis plus de 10 ans, nous accompagnons les TPE et PME dans leur transformation numérique avec réactivité et expertise.
           </p>
           <div style={{ marginTop: 32 }}>
-            <a href="#" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 15, borderBottom: `2px solid ${t.accent}30` }}>
+            <a href="#qui-sommes-nous" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', fontSize: 15, borderBottom: `2px solid ${t.accent}30` }}>
               Découvrir notre histoire et notre équipe →
             </a>
           </div>

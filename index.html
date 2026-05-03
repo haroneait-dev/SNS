@@ -47,6 +47,7 @@
 <script type="text/babel" src="site/sections.jsx"></script>
 <script type="text/babel" src="site/sections-2.jsx"></script>
 <script type="text/babel" src="site/solutions-page.jsx"></script>
+<script type="text/babel" src="site/about-page.jsx"></script>
 <script type="text/babel" src="site/tweaks.jsx"></script>
 <script type="text/babel">
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
@@ -136,6 +137,8 @@ function App() {
       <Header t={t} />
       {route === '#solutions' ? (
         <SolutionsPage t={t} />
+      ) : route === '#qui-sommes-nous' ? (
+        <AboutPage t={t} />
       ) : (
         <>
           <Hero t={t} />
