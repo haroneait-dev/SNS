@@ -399,7 +399,7 @@ function AboutValues({ t }) {
   ];
 
   return (
-    <section style={{ padding: '120px 56px', background: 'var(--bg)' }}>
+    <section id="about-values" style={{ padding: '120px 56px', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 1180, margin: '0 auto' }}>
         <div style={{ maxWidth: 720, marginBottom: 64 }}>
           <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 600, textTransform: 'uppercase' }}>
@@ -524,7 +524,7 @@ function AboutTeam({ t }) {
   } : {};
 
   return (
-    <section style={{ padding: '120px 56px', background: 'var(--bg-warm)', borderTop: `1px solid ${t.ink}10` }}>
+    <section id="about-team" style={{ padding: '120px 56px', background: 'var(--bg-warm)', borderTop: `1px solid ${t.ink}10` }}>
       <div style={{ maxWidth: 1180, margin: '0 auto' }}>
         <div style={{ maxWidth: 720, marginBottom: 64 }}>
           <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 600, textTransform: 'uppercase' }}>
@@ -674,7 +674,28 @@ function AboutTeam({ t }) {
   );
 }
 
-function AboutPage({ t }) {
+function AboutPage({ t, anchor }) {
+  // Deep-link : si on arrive depuis #qui-sommes-nous/<section>, on scrolle après le mount
+  React.useEffect(() => {
+    if (!anchor) return;
+    // Map court → id réel des sections
+    const targets = {
+      histoire: 'about-story',
+      story: 'about-story',
+      valeurs: 'about-values',
+      values: 'about-values',
+      equipe: 'about-team',
+      team: 'about-team',
+    };
+    const id = targets[anchor] || anchor;
+    // Léger délai pour laisser le DOM se peindre
+    const timer = setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+    return () => clearTimeout(timer);
+  }, [anchor]);
+
   return (
     <>
       <AboutHero t={t} />

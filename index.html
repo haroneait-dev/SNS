@@ -46,7 +46,10 @@
 <script type="text/babel" src="site/liquid-button.jsx"></script>
 <script type="text/babel" src="site/sections.jsx"></script>
 <script type="text/babel" src="site/sections-2.jsx"></script>
+<script type="text/babel" src="site/scroll-expand-media.jsx"></script>
+<script type="text/babel" src="site/bento-scroll.jsx"></script>
 <script type="text/babel" src="site/solutions-page.jsx"></script>
+<script type="text/babel" src="site/solution-detail-page.jsx"></script>
 <script type="text/babel" src="site/about-page.jsx"></script>
 <script type="text/babel" src="site/tweaks.jsx"></script>
 <script type="text/babel">
@@ -137,8 +140,10 @@ function App() {
       <Header t={t} />
       {route === '#solutions' ? (
         <SolutionsPage t={t} />
-      ) : route === '#qui-sommes-nous' ? (
-        <AboutPage t={t} />
+      ) : route.startsWith('#solution/') ? (
+        <SolutionDetailPage t={t} id={route.slice('#solution/'.length)} />
+      ) : route === '#qui-sommes-nous' || route.startsWith('#qui-sommes-nous/') ? (
+        <AboutPage t={t} anchor={route.startsWith('#qui-sommes-nous/') ? route.slice('#qui-sommes-nous/'.length) : null} />
       ) : (
         <>
           <Hero t={t} />

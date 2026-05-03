@@ -1,13 +1,24 @@
 // Sections part 1: Header, Hero, ClientLogos, Services
 function Header({ t }) {
   const { brand } = window.SAM_DATA;
+  const headerRef = React.useRef(null);
+  const [headerHeight, setHeaderHeight] = React.useState(68);
+
+  React.useEffect(() => {
+    if (!headerRef.current) return;
+    const measure = () => setHeaderHeight(headerRef.current.offsetHeight);
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
   return (
-    <header style={{ position: 'sticky', top: 0, zIndex: 50, background: '#FBF9F4', borderBottom: `1px solid var(--ink-faint)` }}>
+    <header ref={headerRef} style={{ position: 'sticky', top: 0, zIndex: 50, background: '#FBF9F4', borderBottom: `1px solid var(--ink-faint)` }}>
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: '12px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
         <a href="#" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
           <img src="input/logo.png" alt={brand.name} style={{ height: 44, width: 'auto', display: 'block', mixBlendMode: 'multiply' }} />
         </a>
-        <DropdownNav t={t} />
+        <DropdownNav t={t} headerHeight={headerHeight} />
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexShrink: 0 }}>
           <a href={`tel:${brand.phoneRaw}`} style={{ fontSize: 14, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{brand.phone}</a>
           <CTAButton t={t} small>Devis gratuit →</CTAButton>
@@ -39,13 +50,14 @@ const NavI = {
 const NAV_ITEMS = [
   { id: 1, label: 'Accueil', link: '#' },
   {
-    id: 2, label: "L'entreprise",
+    id: 2, label: "L'entreprise", link: '#qui-sommes-nous',
     subMenus: [
       {
         title: 'À propos',
         items: [
-          { label: 'Notre méthode', description: '4 étapes : audit, devis, mise en œuvre, suivi.', icon: NavI.cog, href: '#process' },
-          { label: 'Notre équipe', description: 'Techniciens certifiés à Paris 14e.', icon: NavI.users, href: '#' },
+          { label: 'Notre histoire', description: '10 ans à Paris 14e — 2014 à aujourd\'hui.', icon: NavI.building, href: '#qui-sommes-nous/histoire' },
+          { label: 'Nos valeurs', description: 'Réactivité, transparence, proximité.', icon: NavI.cog, href: '#qui-sommes-nous/valeurs' },
+          { label: 'Notre équipe', description: 'Samuel Tesfahiwet, fondateur.', icon: NavI.users, href: '#qui-sommes-nous/equipe' },
         ],
       },
       {
@@ -59,29 +71,28 @@ const NAV_ITEMS = [
     ],
   },
   {
-    id: 3, label: 'Nos solutions',
+    id: 3, label: 'Nos solutions', link: '#solutions',
     subMenus: [
       {
         title: 'Infrastructure',
         items: [
-          { label: 'Équipements réseau', description: 'Switches, Wi-Fi pro, VPN.', icon: NavI.network, href: '#services' },
-          { label: 'Téléphonie VOIP', description: 'IPBX cloud, intégration CRM.', icon: NavI.phone, href: '#services' },
-          { label: 'Photocopieurs', description: 'MFP A3/A4 sécurisés.', icon: NavI.printer, href: '#services' },
+          { label: 'Réseaux & Baie de Brassage', description: 'Câblage, switches, Wi-Fi pro multi-bornes.', icon: NavI.network, href: '#solution/reseaux' },
+          { label: 'Infogérance Informatique', description: 'Supervision 24/7, helpdesk illimité.', icon: NavI.cog, href: '#solution/infogerance' },
         ],
       },
       {
         title: 'Sécurité',
         items: [
-          { label: 'Vidéosurveillance', description: 'Caméras IP, NVR, RGPD.', icon: NavI.cam, href: '#services' },
-          { label: 'Sécurité informatique', description: 'Firewall, antivirus, sauvegarde.', icon: NavI.shield, href: '#services' },
+          { label: 'Cyber Sécurité', description: 'Pare-feu, EDR, audit, anti-phishing.', icon: NavI.shield, href: '#solution/cyber' },
+          { label: 'Vidéosurveillance', description: 'Caméras IP 4K, NVR, conformité RGPD.', icon: NavI.cam, href: '#solution/video' },
+          { label: "Contrôle d'accès & Alarme", description: 'Badges, biométrie, télésurveillance.', icon: NavI.building, href: '#solution/acces' },
         ],
       },
       {
         title: 'Services IT',
         items: [
-          { label: 'Dépannage', description: 'Intervention < 4h, 7j/7.', icon: NavI.wrench, href: '#services' },
-          { label: 'Maintenance', description: 'Helpdesk, supervision 24/7.', icon: NavI.monitor, href: '#services' },
-          { label: 'Vente de matériel', description: 'PC pro, serveurs, périphériques.', icon: NavI.building, href: '#services' },
+          { label: 'Dépannage & Maintenance', description: 'Intervention < 4h, 7j/7.', icon: NavI.wrench, href: '#solution/depannage' },
+          { label: 'Voir toutes les solutions', description: 'Index complet des 6 expertises.', icon: NavI.monitor, href: '#solutions' },
         ],
       },
     ],
@@ -89,7 +100,7 @@ const NAV_ITEMS = [
   { id: 4, label: 'Nous contacter', link: '#contact' },
 ];
 
-function DropdownNav({ t }) {
+function DropdownNav({ t, headerHeight = 68 }) {
   const [openMenu, setOpenMenu] = React.useState(null);
   const [hoverBg, setHoverBg] = React.useState(null);
   const itemRefs = React.useRef({});
@@ -131,7 +142,7 @@ function DropdownNav({ t }) {
             >
               <a
                 href={item.link || '#'}
-                onClick={(e) => { if (item.subMenus) e.preventDefault(); }}
+                onClick={(e) => { if (item.subMenus && !item.link) e.preventDefault(); }}
                 style={{
                   position: 'relative', zIndex: 1,
                   display: 'inline-flex', alignItems: 'center', gap: 7,
@@ -151,7 +162,7 @@ function DropdownNav({ t }) {
               </a>
 
               {item.subMenus && isOpen && (
-                <DropdownPanel item={item} t={t} />
+                <DropdownPanel item={item} t={t} headerHeight={headerHeight} />
               )}
             </li>
           );
@@ -161,68 +172,144 @@ function DropdownNav({ t }) {
   );
 }
 
-function DropdownPanel({ item, t }) {
+function DropdownPanel({ item, t, headerHeight = 68 }) {
+  // Mega-menu pleine largeur : ancré sous le header, fixed left:0 right:0
   return (
     <div style={{
-      position: 'absolute', left: 0, top: '100%', paddingTop: 10, zIndex: 20,
+      position: 'fixed',
+      top: headerHeight,
+      left: 0, right: 0,
+      zIndex: 20,
+      pointerEvents: 'none', // wrapper ne capte pas — seul le panel intérieur le fait
     }}>
       <style>{`
-        @keyframes nav-panel-in {
-          from { opacity: 0; transform: translateY(-6px); }
+        @keyframes nav-mega-in {
+          from { opacity: 0; transform: translateY(-8px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
+
+      {/* Bandeau pleine largeur (fond + ombre s'étendent jusqu'aux bords) */}
       <div style={{
         background: '#fff',
-        border: '1px solid var(--ink-faint)',
-        borderRadius: 16,
-        padding: 22,
+        borderTop: '1px solid var(--ink-faint)',
+        borderBottom: '1px solid var(--ink-faint)',
         boxShadow: '0 24px 60px -12px rgba(14,31,61,0.18), 0 4px 12px rgba(14,31,61,0.06)',
-        animation: 'nav-panel-in 0.22s ease-out forwards',
-        display: 'flex', gap: 36, whiteSpace: 'nowrap',
+        animation: 'nav-mega-in 0.22s ease-out forwards',
+        pointerEvents: 'auto',
       }}>
-        {item.subMenus.map((sub) => (
-          <div key={sub.title} style={{ minWidth: 200 }}>
+        {/* Contenu centré, contraint à la largeur du header */}
+        <div style={{
+          maxWidth: 1320,
+          margin: '0 auto',
+          padding: '32px 40px 36px',
+          display: 'grid',
+          gridTemplateColumns: `minmax(220px, 280px) 1fr`,
+          gap: 56,
+          alignItems: 'start',
+        }}>
+          {/* Bloc gauche : titre du menu + lien direct */}
+          <div>
+            <div style={{
+              fontSize: 11, fontFamily: 'var(--font-mono)',
+              color: 'var(--accent)', letterSpacing: '0.18em',
+              textTransform: 'uppercase', fontWeight: 700,
+            }}>
+              // {item.label}
+            </div>
             <h3 style={{
-              margin: '0 0 14px', fontSize: 11, fontWeight: 600,
-              letterSpacing: '0.08em', textTransform: 'uppercase',
-              color: 'var(--ink-mute)',
-            }}>{sub.title}</h3>
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 18 }}>
-              {sub.items.map((it) => (
-                <li key={it.label}>
-                  <a href={it.href || '#'} style={{
-                    display: 'flex', alignItems: 'flex-start', gap: 12,
-                    textDecoration: 'none', color: 'inherit',
-                  }}
-                  onMouseEnter={(e) => {
-                    const icon = e.currentTarget.querySelector('[data-nav-icon]');
-                    if (icon) { icon.style.background = 'var(--accent)'; icon.style.color = '#fff'; icon.style.borderColor = 'var(--accent)'; }
-                  }}
-                  onMouseLeave={(e) => {
-                    const icon = e.currentTarget.querySelector('[data-nav-icon]');
-                    if (icon) { icon.style.background = 'transparent'; icon.style.color = 'var(--ink)'; icon.style.borderColor = 'var(--ink-faint)'; }
-                  }}>
-                    <div data-nav-icon style={{
-                      flexShrink: 0,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      width: 36, height: 36, borderRadius: 8,
-                      border: '1px solid var(--ink-faint)',
-                      color: 'var(--ink)',
-                      transition: 'background 0.2s, color 0.2s, border-color 0.2s',
-                    }}>
-                      <it.icon size={18} />
-                    </div>
-                    <div style={{ lineHeight: 1.35 }}>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>{it.label}</div>
-                      <div style={{ fontSize: 12, color: 'var(--ink-mute)', marginTop: 2 }}>{it.description}</div>
-                    </div>
-                  </a>
-                </li>
-              ))}
-            </ul>
+              margin: '10px 0 12px',
+              fontFamily: 'var(--font-heading)',
+              fontSize: 26, fontWeight: 700,
+              letterSpacing: '-0.02em',
+              color: 'var(--ink)',
+              lineHeight: 1.1,
+            }}>
+              {item.label === "L'entreprise" ? "Qui sommes-nous." : item.label === "Nos solutions" ? "6 expertises, 1 interlocuteur." : item.label}
+            </h3>
+            <p style={{
+              margin: 0, fontSize: 13, lineHeight: 1.55,
+              color: 'var(--ink-soft)', maxWidth: 240,
+            }}>
+              {item.label === "L'entreprise"
+                ? "Une équipe à Paris 14e, depuis 2014. Des techniciens, pas des commerciaux."
+                : item.label === "Nos solutions"
+                ? "Réseau, sécurité, vidéo, dépannage — toute votre infra IT par une seule équipe."
+                : "Découvrez nos services."}
+            </p>
+            {item.link && (
+              <a href={item.link} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                marginTop: 18,
+                fontSize: 13, fontWeight: 700,
+                color: 'var(--accent)',
+                textDecoration: 'none',
+                letterSpacing: '0.02em',
+                fontFamily: 'var(--font-mono)',
+              }}>
+                Voir la page complète →
+              </a>
+            )}
           </div>
-        ))}
+
+          {/* Bloc droit : colonnes du sous-menu réparties uniformément */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${item.subMenus.length}, 1fr)`,
+            gap: 32,
+            borderLeft: '1px solid var(--ink-faint)',
+            paddingLeft: 56,
+          }}>
+            {item.subMenus.map((sub) => (
+              <div key={sub.title}>
+                <h4 style={{
+                  margin: '0 0 18px', fontSize: 11, fontWeight: 700,
+                  letterSpacing: '0.14em', textTransform: 'uppercase',
+                  color: 'var(--ink-mute)',
+                  fontFamily: 'var(--font-mono)',
+                }}>{sub.title}</h4>
+                <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {sub.items.map((it) => (
+                    <li key={it.label}>
+                      <a href={it.href || '#'} style={{
+                        display: 'flex', alignItems: 'flex-start', gap: 12,
+                        padding: '8px 10px', margin: '-8px -10px',
+                        borderRadius: 10,
+                        textDecoration: 'none', color: 'inherit',
+                        transition: 'background 0.18s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'var(--bg-warm)';
+                        const icon = e.currentTarget.querySelector('[data-nav-icon]');
+                        if (icon) { icon.style.background = 'var(--accent)'; icon.style.color = '#fff'; icon.style.borderColor = 'var(--accent)'; }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        const icon = e.currentTarget.querySelector('[data-nav-icon]');
+                        if (icon) { icon.style.background = 'transparent'; icon.style.color = 'var(--ink)'; icon.style.borderColor = 'var(--ink-faint)'; }
+                      }}>
+                        <div data-nav-icon style={{
+                          flexShrink: 0,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          width: 36, height: 36, borderRadius: 8,
+                          border: '1px solid var(--ink-faint)',
+                          color: 'var(--ink)',
+                          transition: 'background 0.2s, color 0.2s, border-color 0.2s',
+                        }}>
+                          <it.icon size={18} />
+                        </div>
+                        <div style={{ lineHeight: 1.35, minWidth: 0 }}>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>{it.label}</div>
+                          <div style={{ fontSize: 12, color: 'var(--ink-mute)', marginTop: 2 }}>{it.description}</div>
+                        </div>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

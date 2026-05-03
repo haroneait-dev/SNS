@@ -157,65 +157,195 @@ function SolutionRow({ svc, index, t }) {
   );
 }
 
-function SolutionsPage({ t }) {
-  const { services } = window.SAM_DATA;
+// Hero background for the index — a wide IT operations / Paris office vibe
+const SOLUTIONS_HERO_BG = 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=2000&q=85&auto=format&fit=crop';
+const SOLUTIONS_HERO_MEDIA = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=85&auto=format&fit=crop';
+
+function SolutionPickerCard({ svc, t, index }) {
   const Motion = window.Motion || window.FramerMotion || {};
   const motion = Motion.motion;
-  const Header = motion ? motion.div : 'div';
-  const headerProps = motion ? {
-    initial: { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  const Card = motion ? motion.a : 'a';
+
+  const motionProps = motion ? {
+    initial: { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-60px' },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: (index % 3) * 0.08 },
+    whileHover: { y: -8, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
   } : {};
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '80vh' }}>
+    <Card
+      href={`#solution/${svc.id}`}
+      {...motionProps}
+      className="solution-picker-card"
+      style={{
+        position: 'relative',
+        display: 'flex', flexDirection: 'column',
+        background: '#fff',
+        borderRadius: 'var(--radius-lg)',
+        overflow: 'hidden',
+        textDecoration: 'none', color: 'inherit',
+        boxShadow: '0 12px 32px rgba(14,31,61,0.08), 0 0 0 1px rgba(14,31,61,0.05)',
+        transition: 'box-shadow 0.3s ease',
+        cursor: 'pointer',
+      }}
+    >
+      <div style={{
+        position: 'relative',
+        width: '100%', aspectRatio: '16 / 10',
+        overflow: 'hidden',
+        background: 'var(--bg-warm)',
+      }}>
+        <img
+          src={svc.image}
+          alt={svc.title}
+          className="solution-picker-img"
+          style={{
+            width: '100%', height: '100%',
+            objectFit: 'cover',
+            transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
+        />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 100%)',
+        }} />
+        <div style={{
+          position: 'absolute', top: 14, left: 14,
+          fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+          color: '#fff', letterSpacing: '0.18em',
+          background: 'rgba(255,255,255,0.15)',
+          backdropFilter: 'blur(8px)',
+          padding: '5px 10px', borderRadius: 999,
+          border: '1px solid rgba(255,255,255,0.25)',
+        }}>
+          {String(index + 1).padStart(2, '0')}
+        </div>
+      </div>
+
+      <div style={{ padding: '24px 26px 28px', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+        <h3 style={{
+          margin: 0,
+          fontFamily: 'var(--font-heading)',
+          fontWeight: t.headingWeight,
+          fontSize: 22,
+          letterSpacing: '-0.02em',
+          color: 'var(--ink)',
+          lineHeight: 1.15,
+        }}>
+          {svc.title}
+        </h3>
+        <p style={{
+          margin: 0, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-soft)',
+          flex: 1,
+        }}>
+          {svc.desc}
+        </p>
+        <div className="solution-picker-cta" style={{
+          marginTop: 8,
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+          color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase',
+          transition: 'gap 0.25s ease',
+        }}>
+          Découvrir <span className="solution-picker-arrow" style={{ transition: 'transform 0.25s ease', display: 'inline-block' }}>→</span>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function SolutionsPage({ t }) {
+  const { services } = window.SAM_DATA;
+
+  // The expanded-content body (revealed once the hero finishes its scroll-expand)
+  const body = (
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
       <style>{`
-        @media (max-width: 880px) {
-          .solution-row { grid-template-columns: 1fr !important; gap: 40px !important; padding: 50px 0 !important; }
-          .solution-row > *:first-child { order: 1 !important; }
-          .solution-row > *:last-child { order: 2 !important; }
-        }
+        .solution-picker-card:hover { box-shadow: 0 24px 60px rgba(14,31,61,0.14), 0 0 0 1px rgba(14,31,61,0.08) !important; }
+        .solution-picker-card:hover .solution-picker-img { transform: scale(1.06); }
+        .solution-picker-card:hover .solution-picker-cta { gap: 14px !important; }
+        .solution-picker-card:hover .solution-picker-arrow { transform: translateX(4px); }
+        .solutions-grid { display: grid; gap: 28px; grid-template-columns: 1fr; }
+        @media (min-width: 720px) { .solutions-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1080px) { .solutions-grid { grid-template-columns: repeat(3, 1fr); } }
       `}</style>
 
-      {/* Hero header */}
-      <section style={{
-        padding: '140px 24px 80px',
-        textAlign: 'center', position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', top: -200, left: '50%', transform: 'translateX(-50%)',
-          width: 700, height: 700, borderRadius: '50%',
-          background: `radial-gradient(circle, ${t.accent}18 0%, transparent 70%)`,
-          pointerEvents: 'none',
-        }} />
-        <Header {...headerProps} style={{ position: 'relative', maxWidth: 820, margin: '0 auto' }}>
-          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700 }}>
-            // CATALOGUE COMPLET
-          </div>
-          <h1 style={{
-            margin: '14px 0 0', fontFamily: 'var(--font-heading)',
-            fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: t.headingWeight,
-            letterSpacing: '-0.03em', lineHeight: 1.05, color: 'var(--ink)',
-          }}>
-            Toutes nos <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>solutions</em>.
-          </h1>
-          <p style={{
-            margin: '24px auto 0', fontSize: 19, color: 'var(--ink-mute)',
-            lineHeight: 1.55, maxWidth: 600,
-          }}>
-            Six expertises pour répondre à tous vos besoins IT — de l'infrastructure à la cybersécurité, du dépannage à la vidéosurveillance.
-          </p>
-        </Header>
-      </section>
+      <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 56px' }}>
+        <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase' }}>
+          // 6 expertises · 1 interlocuteur
+        </div>
+        <h2 style={{
+          margin: '14px 0 0',
+          fontFamily: 'var(--font-heading)',
+          fontWeight: t.headingWeight,
+          fontSize: 'clamp(32px, 4.5vw, 56px)',
+          lineHeight: 1.05,
+          letterSpacing: '-0.03em',
+          color: 'var(--ink)',
+        }}>
+          Choisissez votre <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>terrain de jeu</em>.
+        </h2>
+        <p style={{
+          margin: '20px auto 0', fontSize: 17, lineHeight: 1.6, color: 'var(--ink-soft)',
+          maxWidth: 580,
+        }}>
+          Cliquez sur une solution pour explorer son périmètre, nos partenaires techniques et nos délais d'intervention.
+        </p>
+      </div>
 
-      {/* Alternating rows */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 56px 80px' }}>
+      <div className="solutions-grid">
         {services.map((svc, i) => (
-          <SolutionRow key={svc.id} svc={svc} index={i} t={t} />
+          <SolutionPickerCard key={svc.id} svc={svc} t={t} index={i} />
         ))}
       </div>
+
+      {/* Secondary CTA */}
+      <div style={{
+        marginTop: 80, padding: '48px 40px',
+        background: 'var(--bg-warm)',
+        borderRadius: 'var(--radius-lg)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: 32, flexWrap: 'wrap',
+      }}>
+        <div style={{ maxWidth: 540 }}>
+          <h3 style={{
+            margin: 0, fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight,
+            fontSize: 26, letterSpacing: '-0.02em', color: 'var(--ink)',
+          }}>
+            Pas sûr de votre besoin ?
+          </h3>
+          <p style={{ margin: '8px 0 0', fontSize: 15, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
+            On vient sur site, on regarde, on vous propose. Audit gratuit en moins de 24h.
+          </p>
+        </div>
+        <a href="#contact" style={{
+          background: 'var(--accent)', color: '#fff',
+          padding: '14px 26px', borderRadius: 'var(--radius)',
+          fontWeight: 700, fontSize: 15, letterSpacing: '0.02em',
+          boxShadow: 'var(--shadow-cta)', textDecoration: 'none',
+          whiteSpace: 'nowrap',
+        }}>
+          Demander un audit gratuit →
+        </a>
+      </div>
     </div>
+  );
+
+  return (
+    <ScrollExpandMedia
+      mediaType="image"
+      mediaSrc={SOLUTIONS_HERO_MEDIA}
+      bgImageSrc={SOLUTIONS_HERO_BG}
+      title="Nos solutions"
+      date="6 expertises · Paris & Île-de-France"
+      scrollToExpand="Scrollez pour découvrir"
+      textBlend={false}
+      accent={t.accent}
+    >
+      {body}
+    </ScrollExpandMedia>
   );
 }
 
