@@ -73,7 +73,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "ctaCopy": "Demander un devis gratuit",
   "heroTitle": "L'infrastructure IT qui se voit à ce qu'on ne la voit pas.",
   "heroSubtitle": "Réseau, téléphonie, vidéosurveillance, sécurité informatique. Sam Network Solutions intervient à Paris et en Île-de-France, 7 jours sur 7.",
-  "badgeText": "Disponible 7j\/7 · 09 75 52 97 43",
+  "badgeText": "Disponible 7j\/7 · 09 83 72 40 97",
   "showBadge": true,
   "showHaloOrange": true,
   "showHaloNavy": true,
@@ -161,6 +161,9 @@ function App() {
           
           {/* 4. Avis clients */}
           {t.showTestimonials && <Testimonials t={t} />}
+          
+          {/* 4b. Nos grands clients */}
+          <ClientsSection t={t} />
           
           {/* 5. FAQ */}
           {t.showFAQ && <FAQ t={t} />}

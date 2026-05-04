@@ -104,7 +104,7 @@ const partners = [
   { name: "Cisco Meraki",       local: "input/partners/meraki.svg",    domain: "meraki.com" },
   { name: "D-Link",             local: "input/partners/dlink.svg",     domain: "dlink.com" },
   { name: "Microsoft",          local: "input/partners/microsoft.svg", domain: "microsoft.com" },
-  { name: "Epilink",            local: "input/partners/epilink.png",   domain: "epilink.fr" },
+  { name: "TP-Link",            local: "input/partners/tplink.png",    domain: "tp-link.com" },
   { name: "Bouygues Telecom",   local: "input/partners/bouygues.svg",  domain: "bouyguestelecom.fr" },
   { name: "Elecom",             local: "input/partners/elecom.svg",    domain: "elecom.co.jp" },
   { name: "Yealink",            local: "input/partners/yealink.png",   domain: "yealink.com" },

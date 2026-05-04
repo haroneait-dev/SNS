@@ -21,7 +21,7 @@ function Header({ t }) {
         <DropdownNav t={t} headerHeight={headerHeight} />
         <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexShrink: 0 }}>
           <a href={`tel:${brand.phoneRaw}`} style={{ fontSize: 14, fontFamily: 'var(--font-mono)', fontWeight: 500 }}>{brand.phone}</a>
-          <CTAButton t={t} small>Devis gratuit →</CTAButton>
+          <CTAButton t={t} small onClick={() => { const el = document.getElementById('contact'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }}>Devis gratuit →</CTAButton>
         </div>
       </div>
     </header>
@@ -162,7 +162,11 @@ function DropdownNav({ t, headerHeight = 68 }) {
               </a>
 
               {item.subMenus && isOpen && (
-                <DropdownPanel item={item} t={t} headerHeight={headerHeight} />
+                <>
+                  {/* Bridge element to prevent hover gap between trigger and panel */}
+                  <div style={{ position: 'absolute', left: 0, right: 0, top: '100%', height: 8, zIndex: 19 }} />
+                  <DropdownPanel item={item} t={t} headerHeight={headerHeight} />
+                </>
               )}
             </li>
           );
@@ -380,9 +384,12 @@ function Hero({ t }) {
 
   const [index, setIndex] = React.useState(0);
   const photos = [
-    { url: 'input/hero-vid.png', label: 'Vidéosurveillance', icon: I.cam },
-    { url: 'input/hero-net.png', label: 'Infrastructure réseau', icon: I.network },
-    { url: 'input/hero-rep.png', label: 'Dépannage & SAV', icon: I.wrench },
+    { url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1400&q=85&auto=format&fit=crop', label: 'Infogérance', icon: I.network },
+    { url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=85&auto=format&fit=crop', label: 'Cybersécurité', icon: I.network },
+    { url: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1400&q=85&auto=format&fit=crop', label: 'Dépannage & Maintenance', icon: I.wrench },
+    { url: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1400&q=85&auto=format&fit=crop', label: 'Baie de brassage', icon: I.network },
+    { url: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=1400&q=85&auto=format&fit=crop', label: 'Vidéosurveillance', icon: I.cam },
+    { url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=85&auto=format&fit=crop', label: 'Réseaux informatique', icon: I.network },
   ];
 
   React.useEffect(() => {
@@ -500,7 +507,7 @@ function Hero({ t }) {
 
             {/* CTAs */}
             <div className="hero-fade-in hero-d400" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 8 }}>
-              <a href={`tel:${brand.phoneRaw}`} style={{
+              <a href="#contact" onClick={(e) => { e.preventDefault(); const el = document.getElementById('contact'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 borderRadius: 999, background: t.accent, color: '#fff',
                 padding: '18px 32px', fontSize: 16, fontWeight: 700, letterSpacing: '0.01em',

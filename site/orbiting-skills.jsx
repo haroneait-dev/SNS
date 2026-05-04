@@ -18,10 +18,6 @@ const orbitCss = `
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
-.orbit-container:has(.orbit-item-content:hover) .orbit-item-wrapper,
-.orbit-container:has(.orbit-item-content:hover) .orbit-item-content {
-  animation-play-state: paused !important;
-}
 .orbit-item-wrapper {
   position: absolute;
   top: 50%;
@@ -51,70 +47,65 @@ const orbitCss = `
   width: var(--size);
   height: var(--size);
   position: relative;
-  transition: transform 0.3s ease;
+  transition: border-radius 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s ease,
+              box-shadow 0.5s ease;
+  overflow: hidden;
 }
-.orbit-item-wrapper:has(.orbit-item-content:hover) {
+.orbit-item-content.is-expanded {
+  border-radius: 16px !important;
+  width: 110px !important;
+  height: 110px !important;
+  box-shadow: 0 15px 40px rgba(255,97,24,0.25);
   z-index: 100;
 }
-.orbit-item-content:hover {
-  transform: scale(1.15);
+.orbit-item-wrapper:has(.orbit-item-content.is-expanded) {
   z-index: 100;
-  box-shadow: 0 15px 40px rgba(255,97,24,0.2);
 }
-.orbit-label {
+.orbit-expanded-label {
   position: absolute;
-  top: calc(100% + 8px);
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--ink);
-  color: #fff;
-  padding: 4px 10px;
-  border-radius: 99px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  font-family: var(--font-mono);
   white-space: nowrap;
   opacity: 0;
+  transition: opacity 0.3s ease 0.15s;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.orbit-item-content:hover .orbit-label {
-  opacity: 0; /* Hide small label when card shows */
-}
-.orbit-card {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(15px);
-  width: 240px;
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  border: 1px solid var(--ink-faint);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  text-align: center;
-}
-.orbit-item-content:hover .orbit-card {
+.orbit-item-content.is-expanded .orbit-expanded-label {
   opacity: 1;
-  transform: translateX(-50%) translateY(25px);
 }
-.orbit-card h4 {
-  margin: 0;
+.orbit-expanded-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
   font-family: var(--font-heading);
-  color: var(--ink);
-  font-size: 16px;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.1s;
+  pointer-events: none;
 }
-.orbit-card p {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--ink-soft);
+.orbit-item-content.is-expanded .orbit-expanded-value {
+  opacity: 1;
+}
+.orbit-icon-inner {
+  transition: opacity 0.25s ease, transform 0.3s ease;
+}
+.orbit-item-content.is-expanded .orbit-icon-inner {
+  opacity: 0;
+  transform: scale(0.5);
 }
 `;
 
@@ -150,19 +141,40 @@ const Icons = {
 
 const orbitItems = [
   // Inner Orbit
-  { id: '1', radius: 100, size: 48, speed: 12, icon: 'Award', label: '10+ Ans Exp.', angle: 0, desc: "Une décennie de savoir-faire technique au service des professionnels." },
-  { id: '2', radius: 100, size: 48, speed: 12, icon: 'MapPin', label: 'Basés à Paris', angle: 120, desc: "Intervention rapide en Île-de-France depuis nos locaux du 14ème arrondissement." },
-  { id: '3', radius: 100, size: 48, speed: 12, icon: 'ThumbsUp', label: '89+ Avis 4.9★', angle: 240, desc: "La satisfaction de nos clients est notre meilleure carte de visite." },
+  { id: '1', radius: 100, size: 48, speed: 12, icon: 'Award', label: '10+ Ans Exp.', value: '10+', angle: 0, desc: "Une décennie de savoir-faire technique au service des professionnels." },
+  { id: '2', radius: 100, size: 48, speed: 12, icon: 'MapPin', label: 'Paris 14e', value: '75014', angle: 120, desc: "Intervention rapide en Île-de-France depuis nos locaux du 14ème arrondissement." },
+  { id: '3', radius: 100, size: 48, speed: 12, icon: 'ThumbsUp', label: '89+ Avis', value: '4,9★', angle: 240, desc: "La satisfaction de nos clients est notre meilleure carte de visite." },
   
   // Outer Orbit
-  { id: '4', radius: 180, size: 56, speed: 20, icon: 'Headset', label: 'Infogérance', angle: 45, reverse: true, desc: "Maintenance préventive, sauvegardes et support technique dédié pour votre TPE/PME." },
-  { id: '5', radius: 180, size: 56, speed: 20, icon: 'Eye', label: 'Vidéosurveillance', angle: 165, reverse: true, desc: "Installation de caméras IP haute définition avec accès sécurisé sur smartphone." },
-  { id: '6', radius: 180, size: 56, speed: 20, icon: 'Zap', label: 'Intervention < 4h', angle: 285, reverse: true, desc: "En cas d'urgence critique, nos techniciens sont sur place en un temps record." },
+  { id: '4', radius: 180, size: 56, speed: 20, icon: 'Headset', label: 'Infogérance', value: '24/7', angle: 45, reverse: true, desc: "Maintenance préventive, sauvegardes et support technique dédié pour votre TPE/PME." },
+  { id: '5', radius: 180, size: 56, speed: 20, icon: 'Eye', label: 'Vidéosurveillance', value: '4K', angle: 165, reverse: true, desc: "Installation de caméras IP haute définition avec accès sécurisé sur smartphone." },
+  { id: '6', radius: 180, size: 56, speed: 20, icon: 'Zap', label: 'Intervention', value: '<4h', angle: 285, reverse: true, desc: "En cas d'urgence critique, nos techniciens sont sur place en un temps record." },
 ];
 
 function OrbitingSkills() {
   const innerRadius = 100;
   const outerRadius = 180;
+  const [expandedIndex, setExpandedIndex] = useState(-1);
+
+  // Every 3 seconds, expand one item at a time in sequence
+  useEffect(() => {
+    let currentIdx = 0;
+    
+    // Start with a small delay
+    const startTimeout = setTimeout(() => {
+      setExpandedIndex(0);
+    }, 1000);
+    
+    const interval = setInterval(() => {
+      currentIdx = (currentIdx + 1) % orbitItems.length;
+      setExpandedIndex(currentIdx);
+    }, 3000);
+
+    return () => {
+      clearTimeout(startTimeout);
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div className="orbit-container" style={{ position: 'relative', width: '100%', height: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'visible' }}>
@@ -184,13 +196,11 @@ function OrbitingSkills() {
       <div className="orbit-path" style={{ width: outerRadius * 2, height: outerRadius * 2 }}></div>
 
       {/* Items */}
-      {orbitItems.map((item) => {
+      {orbitItems.map((item, itemIndex) => {
         const Icon = Icons[item.icon];
         const delay = -1 * (item.angle / 360) * item.speed;
-        
-        // If reverse, we use negative duration for CSS animation? 
-        // Actually, animation-direction: reverse is cleaner.
         const spinDirection = item.reverse ? 'reverse' : 'normal';
+        const isExpanded = expandedIndex === itemIndex;
 
         return (
           <div key={item.id} className="orbit-item-wrapper" style={{
@@ -199,18 +209,18 @@ function OrbitingSkills() {
             animationDirection: spinDirection
           }}>
             <div className="orbit-item-inner" style={{ '--radius': `${item.radius}px` }}>
-              <div className="orbit-item-content" style={{ 
-                '--size': `${item.size}px`,
-                animationDirection: spinDirection 
-              }}>
-                <Icon />
-                <div className="orbit-label">{item.label}</div>
-                
-                {/* Mini fiche */}
-                <div className="orbit-card">
-                  <h4>{item.label}</h4>
-                  <p>{item.desc}</p>
-                </div>
+              <div 
+                className={`orbit-item-content${isExpanded ? ' is-expanded' : ''}`}
+                style={{ 
+                  '--size': `${item.size}px`,
+                  animationDirection: spinDirection 
+                }}
+              >
+                <span className="orbit-icon-inner">
+                  <Icon />
+                </span>
+                <span className="orbit-expanded-value">{item.value}</span>
+                <span className="orbit-expanded-label">{item.label}</span>
               </div>
             </div>
           </div>

@@ -89,7 +89,7 @@ const solutionsSlides = [
     description:
       'Gestion complète de votre informatique : réseaux, baies de brassage, cybersécurité, et dépannage/maintenance sur site et à distance.',
     accent: '#ff6118',
-    imageUrl: 'input/services-1.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1400&q=85&auto=format&fit=crop',
   },
   {
     title: 'Vidéosurveillance & Alarme',
@@ -97,7 +97,7 @@ const solutionsSlides = [
     description:
       'Sécurisez vos bâtiments avec nos solutions de vidéosurveillance, contrôle d\'accès, et alarmes anti-intrusion.',
     accent: '#34778f',
-    imageUrl: 'input/services-2.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=1400&q=85&auto=format&fit=crop',
   }
 ];
 
