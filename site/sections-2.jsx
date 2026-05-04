@@ -817,10 +817,10 @@ function Footer({ t }) {
 function ClientsSection({ t }) {
   const clientLogos = [
     { name: 'Monnot & Associés', domain: 'monnot-associes.com', logo: 'input/clients/monnot.png' },
-    { name: '3N Formation', domain: '3nformation.fr', logo: 'input/clients/3nformation.png' },
-    { name: 'SF Partners', domain: 'sfpartners.fr', logo: null },
+    { name: '3N Formation', domain: '3nformation.fr', logo: null },
+    { name: 'SF Partners', domain: 'sfpartners.fr', logo: 'input/clients/sfpartners.png' },
     { name: 'FEOC ARCSUD', domain: 'feocarcsud.fr', logo: 'input/clients/feocarcsud.png' },
-    { name: 'BC2S Sécurité', domain: 'bc2s-securite.fr', logo: null },
+    { name: 'BC2S Sécurité', domain: 'bc2s-securite.fr', logo: 'input/clients/bc2s.png' },
     { name: 'Auto-École Gold Driving', domain: 'golddriving.fr', logo: 'input/clients/golddriving.png' },
     { name: 'Logiprox', domain: 'logiprox.fr', logo: 'input/clients/logiprox.png' },
   ];
