@@ -133,7 +133,7 @@ function DropdownNav({ t, headerHeight = 68 }) {
             <li
               key={item.id}
               ref={el => (itemRefs.current[item.id] = el)}
-              style={{ position: 'relative' }}
+              style={{ position: 'relative', paddingBottom: item.subMenus ? 12 : 0, marginBottom: item.subMenus ? -12 : 0 }}
               onMouseEnter={() => {
                 updateBg(item.id);
                 if (item.subMenus) setOpenMenu(item.label);
@@ -163,8 +163,15 @@ function DropdownNav({ t, headerHeight = 68 }) {
 
               {item.subMenus && isOpen && (
                 <>
-                  {/* Bridge element to prevent hover gap between trigger and panel */}
-                  <div style={{ position: 'absolute', left: 0, right: 0, top: '100%', height: 8, zIndex: 19 }} />
+                  {/* Invisible bridge to keep menu open while moving mouse down */}
+                  <div style={{ 
+                    position: 'absolute', 
+                    top: '100%', 
+                    left: 0, 
+                    right: 0, 
+                    height: 30, 
+                    zIndex: 15 
+                  }} />
                   <DropdownPanel item={item} t={t} headerHeight={headerHeight} />
                 </>
               )}
@@ -436,14 +443,15 @@ function Hero({ t }) {
         {photos.map((p, i) => (
           <div key={i}
             style={{
-              position: 'absolute', inset: 0,
+              position: 'absolute', inset: '-15%',
               backgroundImage: `url(${p.url})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundPosition: 'center 40%',
               opacity: i === index ? 0.85 : 0,
               transition: 'opacity 1.5s ease-in-out',
               filter: 'grayscale(100%) contrast(1.1) brightness(1.2)',
               mixBlendMode: 'multiply',
+              transform: 'scale(0.8)',
             }} />
         ))}
       </div>
@@ -577,6 +585,7 @@ function Hero({ t }) {
                 </div>
 
                 {/* Pills */}
+                {/* Pills */}
                 <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 12 }}>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 999, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', color: '#d4d4d8' }}>
                     <span style={{ position: 'relative', width: 10, height: 10 }}>
@@ -590,6 +599,27 @@ function Hero({ t }) {
                     PARIS · IDF
                   </span>
                 </div>
+              </div>
+
+              {/* Floating UK Badge - Bottom Right of Hero content area */}
+              <div style={{ 
+                position: 'absolute', 
+                bottom: 0, 
+                right: 0, 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 12, 
+                background: 'rgba(255,255,255,0.03)', 
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                padding: '12px 20px',
+                borderRadius: 20,
+                zIndex: 10,
+                boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+              }}>
+                <img src="input/uk-flag.png" alt="UK" style={{ width: 28, height: 18, borderRadius: 3, objectFit: 'cover', boxShadow: '0 2px 4px rgba(0,0,0,0.3)' }} />
+                <span style={{ fontSize: 13, fontWeight: 800, color: '#fff', letterSpacing: '0.05em', fontFamily: 'var(--font-mono)' }}>WE SPEAK ENGLISH</span>
               </div>
             </div>
 

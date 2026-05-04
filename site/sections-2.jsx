@@ -816,12 +816,12 @@ function Footer({ t }) {
 
 function ClientsSection({ t }) {
   const clientLogos = [
-    { name: 'Monnot & Associés', image: null },
-    { name: '3N Formation', image: null },
-    { name: 'SF Partners', image: null },
-    { name: 'FEOC ARCSUD', image: null },
-    { name: 'Auto-École Gold Driving', image: null },
-    { name: 'Logiprox', image: null },
+    { name: 'Monnot & Associés', domain: 'monnot-associes.com' },
+    { name: '3N Formation', domain: '3nformation.fr' },
+    { name: 'SF Partners', domain: 'sfpartners.fr' },
+    { name: 'FEOC ARCSUD', domain: 'feocarcsud.fr' },
+    { name: 'Auto-École Gold Driving', domain: 'golddriving.fr' },
+    { name: 'Logiprox', domain: 'logiprox.fr' },
   ];
 
   return (
@@ -838,34 +838,64 @@ function ClientsSection({ t }) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 900, margin: '0 auto' }}>
           {clientLogos.map((client, i) => (
-            <div key={i} style={{
-              background: '#fff',
-              border: '1px solid var(--ink-faint)',
-              borderRadius: 'var(--radius-lg)',
-              padding: '32px 24px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minHeight: 100,
-              boxShadow: '0 2px 12px rgba(14,31,61,0.05)',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(14,31,61,0.1)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(14,31,61,0.05)'; }}
-            >
-              <span style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 18,
-                fontWeight: 600,
-                color: 'var(--ink)',
-                letterSpacing: '-0.01em',
-                textAlign: 'center',
-              }}>{client.name}</span>
-            </div>
+            <ClientLogoCard key={i} name={client.name} domain={client.domain} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function ClientLogoCard({ name, domain }) {
+  const [imgSrc, setImgSrc] = React.useState(`https://logo.clearbit.com/${domain}?size=200`);
+  const [showText, setShowText] = React.useState(false);
+
+  return (
+    <div style={{
+      background: '#fff',
+      border: '1px solid var(--ink-faint)',
+      borderRadius: 'var(--radius-lg)',
+      padding: '28px 24px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: 120,
+      gap: 10,
+      boxShadow: '0 2px 12px rgba(14,31,61,0.05)',
+      transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+    }}
+    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(14,31,61,0.1)'; }}
+    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(14,31,61,0.05)'; }}
+    >
+      {!showText ? (
+        <img
+          src={imgSrc}
+          alt={name}
+          loading="lazy"
+          onError={() => {
+            if (imgSrc.includes('clearbit')) {
+              setImgSrc(`https://www.google.com/s2/favicons?domain=${domain}&sz=128`);
+            } else {
+              setShowText(true);
+            }
+          }}
+          style={{
+            maxWidth: 140,
+            maxHeight: 60,
+            objectFit: 'contain',
+          }}
+        />
+      ) : null}
+      <span style={{
+        fontFamily: 'var(--font-heading)',
+        fontSize: showText ? 17 : 11,
+        fontWeight: 600,
+        color: showText ? 'var(--ink)' : 'var(--ink-mute)',
+        letterSpacing: showText ? '-0.01em' : '0.02em',
+        textAlign: 'center',
+      }}>{name}</span>
+    </div>
   );
 }
 
