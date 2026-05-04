@@ -28,7 +28,7 @@ function AboutUs({ t }) {
 // Inner orbit (orange/accent) = stats clés. Outer orbit (navy) = expertises.
 const ORBIT_INNER = [
   { value: '89+', label: 'Avis Google', size: 78 },
-  { value: '4,9★', label: 'Note moyenne', size: 84 },
+  { value: '5★', label: 'Note moyenne', size: 84 },
   { value: '10+', label: 'Ans expérience', size: 78 },
 ];
 const ORBIT_OUTER = [
@@ -210,26 +210,174 @@ function Stats({ t }) {
 
 function DarkSection({ t }) {
   const { brand } = window.SAM_DATA;
+  const Motion = window.Motion || window.FramerMotion || {};
+  const motion = Motion.motion;
+  const MotionDiv = motion ? motion.div : 'div';
+  const MotionH2 = motion ? motion.h2 : 'h2';
+  const MotionP = motion ? motion.p : 'p';
+  const MotionA = motion ? motion.a : 'a';
+
+  const fadeUp = motion ? {
+    initial: { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.3 },
+  } : {};
+
   return (
-    <section style={{ background: 'var(--navy)', color: '#fff', padding: '110px 56px', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', top: -150, right: -150, width: 500, height: 500, background: `radial-gradient(circle, ${t.accent}30, transparent 60%)`, pointerEvents: 'none' }}></div>
+    <section style={{
+      background: 'linear-gradient(135deg, #1f4e60 0%, var(--navy) 45%, #0f2e3a 100%)',
+      color: '#fff',
+      padding: '120px 56px',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Globe wireframe en fond */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+        <div style={{
+          position: 'absolute',
+          right: '-18%',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '85vh',
+          height: '85vh',
+          maxWidth: 920,
+          maxHeight: 920,
+        }}>
+          {window.DotGlobe ? <window.DotGlobe rotationSpeed={0.0022} color={t.accent || '#ff6118'} opacity={0.22} radius={1.4} /> : null}
+        </div>
+        {/* Halos lumineux */}
+        <div style={{ position: 'absolute', top: '20%', left: '10%', width: 380, height: 380, background: `radial-gradient(circle, ${t.accent}22, transparent 65%)`, filter: 'blur(40px)' }} />
+        <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: 280, height: 280, background: 'radial-gradient(circle, rgba(52,119,143,0.35), transparent 65%)', filter: 'blur(40px)' }} />
+        {/* Grain / vignette */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)' }} />
+      </div>
+
       <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
         <div>
-          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', fontWeight: 600 }}>// POURQUOI SAM NETWORK SOLUTIONS</div>
-          <h2 style={{ margin: '14px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em' }}>
-            Un seul interlocuteur. <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>Aucun jargon.</em>
-          </h2>
-          <p style={{ marginTop: 22, fontSize: 17, lineHeight: 1.6, opacity: 0.85, maxWidth: 480 }}>
+          {/* Badge "réseau global" */}
+          <MotionDiv
+            {...(motion ? { initial: { opacity: 0, scale: 0.92 }, whileInView: { opacity: 1, scale: 1 }, viewport: { once: true }, transition: { duration: 0.5 } } : {})}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              padding: '8px 16px',
+              borderRadius: 999,
+              background: `linear-gradient(90deg, ${t.accent}25, ${t.accent}10, ${t.accent}25)`,
+              border: `1px solid ${t.accent}55`,
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              boxShadow: `0 8px 24px ${t.accent}1a`,
+            }}>
+            <span style={{
+              width: 8, height: 8, borderRadius: 999,
+              background: t.accent,
+              boxShadow: `0 0 0 0 ${t.accent}80`,
+              animation: 'sns-ping 1.8s cubic-bezier(0,0,.2,1) infinite',
+            }} />
+            <span style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: t.accent, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
+              Pourquoi Sam Network Solutions
+            </span>
+          </MotionDiv>
+
+          <MotionH2
+            {...(motion ? { ...fadeUp, transition: { duration: 0.7, delay: 0.1 } } : {})}
+            style={{
+              margin: '22px 0 0',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: t.headingWeight,
+              fontSize: 60,
+              lineHeight: 1,
+              letterSpacing: '-0.03em',
+            }}>
+            Un seul interlocuteur.{' '}
+            <span style={{
+              background: `linear-gradient(135deg, ${t.accent} 0%, #ffb487 100%)`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontStyle: t.headingItalic ? 'italic' : 'normal',
+            }}>
+              Aucun jargon.
+            </span>
+          </MotionH2>
+
+          <MotionP
+            {...(motion ? { ...fadeUp, transition: { duration: 0.7, delay: 0.2 } } : {})}
+            style={{ marginTop: 22, fontSize: 18, lineHeight: 1.65, opacity: 0.88, maxWidth: 500 }}>
             Pas de hotline qui se renvoie la balle. Pas de devis interminables. Vous appelez, on intervient — souvent le jour même.
-          </p>
-          <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 14 }}>
-            <a href={`tel:${brand.phoneRaw}`} style={{ background: 'var(--accent)', color: '#fff', padding: '14px 22px', borderRadius: 'var(--radius)', fontWeight: 600, fontSize: 15, display: 'inline-block' }}>Appeler maintenant</a>
-            <a href="#" style={{ background: 'rgba(255,255,255,0.1)', color: '#fff', padding: '14px 22px', borderRadius: 'var(--radius)', fontWeight: 500, fontSize: 15, display: 'inline-block', border: '1px solid rgba(255,255,255,0.2)' }}>Pourquoi nous choisir ? →</a>
-          </div>
+          </MotionP>
+
+          {/* Mini-stats */}
+          <MotionDiv
+            {...(motion ? { ...fadeUp, transition: { duration: 0.7, delay: 0.3 } } : {})}
+            style={{ marginTop: 32, display: 'flex', gap: 28, flexWrap: 'wrap' }}>
+            {[
+              { v: '10+', k: 'ans à Paris' },
+              { v: '< 4h', k: 'd\'intervention' },
+              { v: '5★', k: 'sur Google' },
+            ].map((s, i) => (
+              <div key={i} style={{ borderLeft: `2px solid ${t.accent}`, paddingLeft: 14 }}>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: 26, fontWeight: 700, lineHeight: 1 }}>{s.v}</div>
+                <div style={{ fontSize: 12, opacity: 0.7, marginTop: 4, letterSpacing: '0.04em' }}>{s.k}</div>
+              </div>
+            ))}
+          </MotionDiv>
+
+          <MotionDiv
+            {...(motion ? { ...fadeUp, transition: { duration: 0.7, delay: 0.4 } } : {})}
+            style={{ marginTop: 38, display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+            <MotionA
+              href={`tel:${brand.phoneRaw}`}
+              {...(motion ? { whileHover: { y: -2, scale: 1.02 }, whileTap: { scale: 0.98 } } : {})}
+              style={{
+                position: 'relative',
+                background: `linear-gradient(135deg, ${t.accent} 0%, #e54f0d 100%)`,
+                color: '#fff',
+                padding: '15px 26px',
+                borderRadius: 'var(--radius)',
+                fontWeight: 700,
+                fontSize: 15,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                boxShadow: `0 12px 28px ${t.accent}40, inset 0 1px 0 rgba(255,255,255,0.25)`,
+                overflow: 'hidden',
+              }}>
+              <span style={{ fontSize: 16 }}>📞</span>
+              <span>Appeler maintenant</span>
+            </MotionA>
+            <MotionA
+              href="#pourquoi-nous-choisir"
+              {...(motion ? { whileHover: { y: -2, scale: 1.02, backgroundColor: 'rgba(255,255,255,0.16)' }, whileTap: { scale: 0.98 } } : {})}
+              style={{
+                background: 'rgba(255,255,255,0.06)',
+                color: '#fff',
+                padding: '15px 26px',
+                borderRadius: 'var(--radius)',
+                fontWeight: 600,
+                fontSize: 15,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                border: '1px solid rgba(255,255,255,0.22)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+              }}>
+              <span>Découvrir pourquoi nous choisir</span>
+              <span style={{ transition: 'transform 0.3s ease' }}>→</span>
+            </MotionA>
+          </MotionDiv>
         </div>
 
         <WhyAccordion />
       </div>
+
+      <style>{`
+        @keyframes sns-ping {
+          0%   { box-shadow: 0 0 0 0 ${t.accent}80; }
+          70%  { box-shadow: 0 0 0 12px ${t.accent}00; }
+          100% { box-shadow: 0 0 0 0 ${t.accent}00; }
+        }
+      `}</style>
     </section>
   );
 }
@@ -238,30 +386,30 @@ const WHY_CARDS = [
   {
     title: 'Local',
     subtitle: 'Paris 14e',
-    description: 'Basés à Paris 14e, ancrés en Île-de-France.',
+    description: 'Boutique-atelier au 43 rue Froidevaux, ancrés en Île-de-France.',
     badge: '75014',
-    image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1000&q=85&auto=format&fit=crop',
+    image: 'input/sns/sns-08.jpg',
   },
   {
     title: 'Réactif',
     subtitle: 'Sous 4h ouvrées',
     description: 'Intervention rapide en contrat de maintenance.',
     badge: '< 4h',
-    image: 'https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=1000&q=85&auto=format&fit=crop',
+    image: 'input/sns/sns-07.jpg',
   },
   {
     title: 'Multi-services',
     subtitle: '8 expertises',
     description: 'Un seul point de contact, toutes les compétences IT.',
     badge: '8 pôles',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1000&q=85&auto=format&fit=crop',
+    image: 'input/sns/sns-05.jpg',
   },
   {
     title: 'Transparent',
     subtitle: 'Tarifs publiés',
     description: 'Devis détaillés, aucune surprise sur la facture.',
     badge: '0 surprise',
-    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1000&q=85&auto=format&fit=crop',
+    image: 'input/sns/sns-04.jpg',
   },
 ];
 
@@ -456,7 +604,7 @@ function GoogleG({ size = 22 }) {
   );
 }
 
-function GoogleReviewsBadge({ rating = 4.9, count = 89 }) {
+function GoogleReviewsBadge({ rating = 5, count = 89 }) {
   const full = Math.floor(rating);
   const half = rating - full >= 0.25 && rating - full < 0.75;
   const link = 'https://www.google.com/search?q=Sam+Network+Solutions+Paris+avis';
@@ -511,7 +659,7 @@ function Testimonials({ t }) {
       `}</style>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 40, maxWidth: 620, marginInline: 'auto' }}>
-          <GoogleReviewsBadge rating={4.9} count={89} />
+          <GoogleReviewsBadge rating={5} count={89} />
 
           <h2 style={{ margin: '18px 0 0', fontFamily: 'var(--font-heading)', fontWeight: t.headingWeight, fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em' }}>
             Ce que disent nos <em style={{ color: 'var(--accent)', fontStyle: t.headingItalic ? 'italic' : 'normal' }}>clients</em>.
@@ -656,13 +804,6 @@ function CTA({ t }) {
                 <div>
                   <a href={`tel:${brand.phoneRaw}`} style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>{brand.phone}</a>
                   <span style={{ opacity: 0.6, marginLeft: 12 }}>Fixe</span>
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 15 }}>
-                <span style={{ color: 'var(--accent)', fontSize: 20 }}>📱</span>
-                <div>
-                  <a href={`tel:${brand.phoneMobileRaw}`} style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>{brand.phoneMobile}</a>
-                  <span style={{ opacity: 0.6, marginLeft: 12 }}>Portable</span>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 15 }}>
@@ -816,13 +957,12 @@ function Footer({ t }) {
 
 function ClientsSection({ t }) {
   const clientLogos = [
-    { name: 'Monnot & Associés', domain: 'monnot-associes.com', logo: 'input/clients/monnot.png' },
-    { name: '3N Formation', domain: '3nformation.fr', logo: null },
-    { name: 'SF Partners', domain: 'sfpartners.fr', logo: 'input/clients/sfpartners.png' },
-    { name: 'FEOC ARCSUD', domain: 'feocarcsud.fr', logo: 'input/clients/feocarcsud.png' },
-    { name: 'BC2S Sécurité', domain: 'bc2s-securite.fr', logo: 'input/clients/bc2s.png' },
-    { name: 'Auto-École Gold Driving', domain: 'golddriving.fr', logo: 'input/clients/golddriving.png' },
-    { name: 'Logiprox', domain: 'logiprox.fr', logo: 'input/clients/logiprox.png' },
+    { name: 'Monnot & Associés', domain: 'monnot-associes.com', logo: 'input/clients/monnot.jpg', sector: 'Cabinet d\'avocats' },
+    { name: '3N Formation', domain: '3nformation.fr', logo: 'input/clients/3nformation.jpg', sector: 'Centre de formation' },
+    { name: 'SF Partners', domain: 'sfpartners.fr', logo: 'input/clients/sfpartners.png', sector: 'Conseil en gestion' },
+    { name: 'BC2S Sécurité', domain: 'bc2s-securite.fr', logo: 'input/clients/bc2s.png', sector: 'Sécurité privée' },
+    { name: 'Auto-École Gold Driving', domain: 'golddriving.fr', logo: 'input/clients/golddriving.webp', sector: 'Auto-école' },
+    { name: 'Logiprox', domain: 'logiprox.fr', logo: 'input/clients/logiprox.png', sector: 'Logistique' },
   ];
 
   return (
@@ -837,9 +977,9 @@ function ClientsSection({ t }) {
             Ils nous font confiance pour gérer leur infrastructure IT au quotidien.
           </p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 980, margin: '0 auto' }}>
           {clientLogos.map((client, i) => (
-            <ClientLogoCard key={i} name={client.name} domain={client.domain} logo={client.logo} />
+            <ClientLogoCard key={i} name={client.name} domain={client.domain} logo={client.logo} sector={client.sector} />
           ))}
         </div>
       </div>
@@ -847,71 +987,94 @@ function ClientsSection({ t }) {
   );
 }
 
-function ClientLogoCard({ name, domain, logo }) {
-  // Priorité au logo local (fourni explicitement par l'utilisateur), sinon Clearbit,
-  // sinon favicon Google, sinon fallback texte uniquement.
-  const sources = [
-    logo,
-    `https://logo.clearbit.com/${domain}?size=256`,
-    `https://www.google.com/s2/favicons?domain=${domain}&sz=128`,
-  ].filter(Boolean);
-  const [srcIndex, setSrcIndex] = React.useState(0);
+function ClientLogoCard({ name, domain, logo, sector }) {
   const [failed, setFailed] = React.useState(false);
-  const currentSrc = sources[srcIndex];
-  const isLocal = currentSrc && currentSrc.startsWith('input/');
+  const showLogo = !!logo && !failed;
+
+  // Initiales pour le fallback (max 2 caractères, sans articles/symboles)
+  const initials = React.useMemo(() => {
+    const cleaned = name
+      .replace(/[&\-,'\.]/g, ' ')
+      .replace(/\b(?:de|du|des|le|la|les|et|of|the|sa|sas|sarl|associés|sécurité|partners|formation)\b/gi, '')
+      .split(/\s+/)
+      .filter(Boolean);
+    if (cleaned.length === 0) return name.slice(0, 2).toUpperCase();
+    if (cleaned.length === 1) return cleaned[0].slice(0, 2).toUpperCase();
+    return (cleaned[0][0] + cleaned[1][0]).toUpperCase();
+  }, [name]);
 
   return (
     <div style={{
       background: '#fff',
       border: '1px solid var(--ink-faint)',
       borderRadius: 'var(--radius-lg)',
-      padding: '24px 20px 20px',
+      padding: '22px 18px 18px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: 140,
-      gap: 14,
+      justifyContent: 'space-between',
+      minHeight: 156,
+      gap: 12,
       boxShadow: '0 2px 12px rgba(14,31,61,0.05)',
-      transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+      transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
     }}
-    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(14,31,61,0.1)'; }}
-    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(14,31,61,0.05)'; }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = 'translateY(-3px)';
+      e.currentTarget.style.boxShadow = '0 10px 28px rgba(14,31,61,0.12)';
+      e.currentTarget.style.borderColor = 'var(--accent)';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = 'translateY(0)';
+      e.currentTarget.style.boxShadow = '0 2px 12px rgba(14,31,61,0.05)';
+      e.currentTarget.style.borderColor = 'var(--ink-faint)';
+    }}
     >
-      {!failed && currentSrc ? (
-        <div style={{
-          height: 56,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-        }}>
+      <div style={{
+        height: 64,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+      }}>
+        {showLogo ? (
           <img
-            src={currentSrc}
+            src={logo}
             alt={name}
             loading="lazy"
-            onError={() => {
-              if (srcIndex < sources.length - 1) setSrcIndex(srcIndex + 1);
-              else setFailed(true);
-            }}
-            style={{
-              maxWidth: '90%',
-              maxHeight: isLocal ? 44 : 52,
-              objectFit: 'contain',
-              imageRendering: isLocal ? 'auto' : 'auto',
-            }}
+            onError={() => setFailed(true)}
+            style={{ maxWidth: '85%', maxHeight: 56, objectFit: 'contain' }}
           />
-        </div>
-      ) : null}
-      <span style={{
-        fontFamily: 'var(--font-heading)',
-        fontSize: failed ? 17 : 13,
-        fontWeight: 600,
-        color: failed ? 'var(--ink)' : 'var(--ink-soft)',
-        letterSpacing: '-0.005em',
-        textAlign: 'center',
-        lineHeight: 1.3,
-      }}>{name}</span>
+        ) : (
+          <div style={{
+            width: 56, height: 56, borderRadius: 14,
+            background: 'linear-gradient(135deg, var(--navy) 0%, #1e4a5b 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff',
+            fontFamily: 'var(--font-heading)',
+            fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.15)',
+          }}>{initials}</div>
+        )}
+      </div>
+      <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <span style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: 14,
+          fontWeight: 700,
+          color: 'var(--ink)',
+          letterSpacing: '-0.005em',
+          lineHeight: 1.25,
+        }}>{name}</span>
+        {sector ? (
+          <span style={{
+            fontSize: 11,
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--ink-mute)',
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+          }}>{sector}</span>
+        ) : null}
+      </div>
     </div>
   );
 }

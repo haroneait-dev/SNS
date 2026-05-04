@@ -6,8 +6,6 @@ window.SAM_DATA = {
     tagline: 'Solutions IT pour entreprises',
     phone: '09 83 72 40 97',
     phoneRaw: '+33983724097',
-    phoneMobile: '06 25 68 71 62',
-    phoneMobileRaw: '+33625687162',
     email: 'contact@samnetworksolutions.fr',
     address: '43 rue Froidevaux, 75014 Paris',
     hours: '7 jours sur 7 · 8h–20h',
@@ -58,7 +56,7 @@ window.SAM_DATA = {
     },
   ],
   stats: [
-    { v: '89+', k: 'avis Google', sub: 'Note 4,9/5' },
+    { v: '89+', k: 'avis Google', sub: 'Note 5/5' },
     { v: '< 4h', k: 'intervention', sub: 'À Paris & IDF' },
     { v: '7j/7', k: 'disponibilité', sub: 'Astreinte téléphonique' },
     { v: '10 ans+', k: 'd\'expertise', sub: 'Au service des PME' },

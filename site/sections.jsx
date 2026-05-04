@@ -63,7 +63,7 @@ const NAV_ITEMS = [
       {
         title: 'Confiance',
         items: [
-          { label: 'Avis clients', description: '89+ avis Google · ★ 4,9/5', icon: NavI.star, href: '#avis' },
+          { label: 'Avis clients', description: '89+ avis Google · ★ 5/5', icon: NavI.star, href: '#avis' },
           { label: 'Tarifs', description: 'Forfaits transparents dès 89 €HT/h.', icon: NavI.euro, href: '#tarifs' },
           { label: 'FAQ', description: 'Réponses aux questions fréquentes.', icon: NavI.building, href: '#faq' },
         ],
@@ -552,7 +552,7 @@ function Hero({ t }) {
                   </div>
                   <div>
                     <div style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.02em', color: '#fff', lineHeight: 1.1 }}>89+</div>
-                    <div style={{ fontSize: 15, color: '#a1a1aa', marginTop: 4 }}>Avis Google · ★ 4,9/5</div>
+                    <div style={{ fontSize: 15, color: '#a1a1aa', marginTop: 4 }}>Avis Google · ★ 5/5</div>
                   </div>
                 </div>
 

@@ -203,7 +203,7 @@ function AboutHero({ t }) {
         {...imageProps}
         style={{
           backgroundImage:
-            'linear-gradient(180deg, rgba(52,119,143,0.08) 0%, rgba(52,119,143,0.18) 100%), url(https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1400&q=85&auto=format&fit=crop)',
+            'linear-gradient(180deg, rgba(52,119,143,0.05) 0%, rgba(52,119,143,0.18) 100%), url(input/sns/sns-02.jpg)',
         }}
       />
     </Section>
@@ -233,7 +233,7 @@ function AboutStory({ t }) {
     { year: '2014', title: 'Les débuts', desc: "Samuel lance Sam Network Solutions à Paris 14e — un atelier, une camionnette, et l'envie de faire propre." },
     { year: '2018', title: '500 clients accompagnés', desc: "Le bouche-à-oreille fonctionne : commerces, cabinets médicaux, restaurants, agences. Le réseau s'étend à toute l'Île-de-France." },
     { year: '2021', title: 'Sécurité & vidéosurveillance', desc: "Ajout des pôles cybersécurité et vidéosurveillance IP. On devient l'interlocuteur unique des PME pour leur IT." },
-    { year: '2024', title: '89+ avis · ★ 4,9/5', desc: "Une équipe de techniciens certifiés, une astreinte 7j/7, et des interventions sous 4h sur Paris intra-muros." },
+    { year: '2024', title: '89+ avis · ★ 5/5', desc: "Une équipe de techniciens certifiés, une astreinte 7j/7, et des interventions sous 4h sur Paris intra-muros." },
   ];
 
   return (
@@ -579,7 +579,7 @@ function AboutTeam({ t }) {
               }
             `}</style>
 
-            {/* Avatar à initiales (pas de photo fabriquée) */}
+            {/* Photo du fondateur */}
             <div
               className="founder-avatar-wrap"
               style={{
@@ -590,27 +590,22 @@ function AboutTeam({ t }) {
               }}
             >
               <div
-                className="founder-glow"
-                style={{
-                  position: 'absolute', inset: 0,
-                  background: `radial-gradient(circle at 30% 20%, ${t.accent}40, transparent 60%)`,
-                }}
-              />
-              <div
                 className="founder-avatar"
                 style={{
                   position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: 'clamp(80px, 14vw, 140px)',
-                  fontWeight: 700,
-                  letterSpacing: '-0.04em',
-                  color: '#fff',
-                  textShadow: '0 4px 30px rgba(0,0,0,0.25)',
+                  backgroundImage: 'url(input/sns/sns-04.jpg)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: '22% center',
                 }}
-              >
-                {founder.initials}
-              </div>
+              />
+              <div
+                className="founder-glow"
+                style={{
+                  position: 'absolute', inset: 0,
+                  background: `linear-gradient(180deg, transparent 40%, rgba(15,46,58,0.55) 100%), radial-gradient(circle at 30% 20%, ${t.accent}25, transparent 55%)`,
+                  pointerEvents: 'none',
+                }}
+              />
               <div style={{
                 position: 'absolute', bottom: 18, left: 20,
                 fontFamily: 'var(--font-mono)', fontSize: 11,

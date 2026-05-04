@@ -24,6 +24,7 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/framer-motion@12.4.7/dist/framer-motion.js"></script>
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -44,6 +45,7 @@
 <script type="text/babel" src="site/orbiting-skills.jsx"></script>
 <script type="text/babel" src="site/sparkles.jsx"></script>
 <script type="text/babel" src="site/liquid-button.jsx"></script>
+<script type="text/babel" src="site/dot-globe.jsx"></script>
 <script type="text/babel" src="site/sections.jsx"></script>
 <script type="text/babel" src="site/sections-2.jsx"></script>
 <script type="text/babel" src="site/scroll-expand-media.jsx"></script>
@@ -51,6 +53,7 @@
 <script type="text/babel" src="site/solutions-page.jsx"></script>
 <script type="text/babel" src="site/solution-detail-page.jsx"></script>
 <script type="text/babel" src="site/about-page.jsx"></script>
+<script type="text/babel" src="site/why-page.jsx"></script>
 <script type="text/babel" src="site/tweaks.jsx"></script>
 <script type="text/babel">
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
@@ -144,6 +147,8 @@ function App() {
         <SolutionDetailPage t={t} id={route.slice('#solution/'.length)} />
       ) : route === '#qui-sommes-nous' || route.startsWith('#qui-sommes-nous/') ? (
         <AboutPage t={t} anchor={route.startsWith('#qui-sommes-nous/') ? route.slice('#qui-sommes-nous/'.length) : null} />
+      ) : route === '#pourquoi-nous-choisir' ? (
+        <WhyPage t={t} />
       ) : (
         <>
           <Hero t={t} />

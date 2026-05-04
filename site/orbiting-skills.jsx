@@ -143,7 +143,7 @@ const orbitItems = [
   // Inner Orbit
   { id: '1', radius: 100, size: 48, speed: 12, icon: 'Award', label: '10+ Ans Exp.', value: '10+', angle: 0, desc: "Une décennie de savoir-faire technique au service des professionnels." },
   { id: '2', radius: 100, size: 48, speed: 12, icon: 'MapPin', label: 'Paris 14e', value: '75014', angle: 120, desc: "Intervention rapide en Île-de-France depuis nos locaux du 14ème arrondissement." },
-  { id: '3', radius: 100, size: 48, speed: 12, icon: 'ThumbsUp', label: '89+ Avis', value: '4,9★', angle: 240, desc: "La satisfaction de nos clients est notre meilleure carte de visite." },
+  { id: '3', radius: 100, size: 48, speed: 12, icon: 'ThumbsUp', label: '89+ Avis', value: '5★', angle: 240, desc: "La satisfaction de nos clients est notre meilleure carte de visite." },
   
   // Outer Orbit
   { id: '4', radius: 180, size: 56, speed: 20, icon: 'Headset', label: 'Infogérance', value: '24/7', angle: 45, reverse: true, desc: "Maintenance préventive, sauvegardes et support technique dédié pour votre TPE/PME." },
