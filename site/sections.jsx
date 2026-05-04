@@ -441,13 +441,11 @@ function Hero({ t }) {
               position: 'absolute', inset: 0,
               backgroundImage: `url(${p.url})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center 45%',
+              backgroundPosition: 'center',
               opacity: i === index ? 0.85 : 0,
               transition: 'opacity 1.5s ease-in-out',
               filter: 'grayscale(100%) contrast(1.1) brightness(1.2)',
               mixBlendMode: 'multiply',
-              transform: 'scale(0.7)',
-              transformOrigin: 'center center',
             }} />
         ))}
       </div>

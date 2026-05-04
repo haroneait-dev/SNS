@@ -817,9 +817,10 @@ function Footer({ t }) {
 function ClientsSection({ t }) {
   const clientLogos = [
     { name: 'Monnot & Associés', domain: 'monnot-associes.com', logo: 'input/clients/monnot.png' },
-    { name: '3N Formation', domain: '3nformation.fr' },
-    { name: 'SF Partners', domain: 'sfpartners.fr' },
+    { name: '3N Formation', domain: '3nformation.fr', logo: 'input/clients/3nformation.png' },
+    { name: 'SF Partners', domain: 'sfpartners.fr', logo: null },
     { name: 'FEOC ARCSUD', domain: 'feocarcsud.fr', logo: 'input/clients/feocarcsud.png' },
+    { name: 'BC2S Sécurité', domain: 'bc2s-securite.fr', logo: null },
     { name: 'Auto-École Gold Driving', domain: 'golddriving.fr', logo: 'input/clients/golddriving.png' },
     { name: 'Logiprox', domain: 'logiprox.fr', logo: 'input/clients/logiprox.png' },
   ];
@@ -836,7 +837,7 @@ function ClientsSection({ t }) {
             Ils nous font confiance pour gérer leur infrastructure IT au quotidien.
           </p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, maxWidth: 1100, margin: '0 auto' }}>
           {clientLogos.map((client, i) => (
             <ClientLogoCard key={i} name={client.name} domain={client.domain} logo={client.logo} />
           ))}
