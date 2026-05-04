@@ -1,0 +1,281 @@
+/* ==============================================================
+   Mobile responsive layer — site/mobile.css
+   Surclasse les styles inline via !important.
+   Important : React sérialise les styles inline sans quotes
+   ('padding: 120px 56px' et non '"120px 56px"'), donc les
+   sélecteurs d'attribut sont écrits en conséquence.
+   ============================================================== */
+
+/* -------------------- Tablet (<= 1024px) -------------------- */
+@media (max-width: 1024px) {
+  section {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+  /* Footer 4 cols → 2 cols */
+  footer [style*="grid-template-columns: 1.5fr 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 36px !important;
+  }
+}
+
+/* -------------------- Mobile (<= 768px) -------------------- */
+@media (max-width: 768px) {
+
+  /* ============ Header ============ */
+  header > div {
+    padding: 10px 14px !important;
+    gap: 10px !important;
+  }
+  header img[alt] {
+    height: 34px !important;
+  }
+  header a[href^="tel:"] {
+    font-size: 12px !important;
+  }
+  /* CTA "Devis gratuit →" plus compact */
+  header button {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+
+  /* ============ Sections : padding ============ */
+  section {
+    padding: 56px 18px !important;
+  }
+
+  /* ============ Headings ============ */
+  section h1 {
+    font-size: clamp(34px, 9vw, 48px) !important;
+    line-height: 1.1 !important;
+  }
+  section h2 {
+    font-size: clamp(26px, 7vw, 38px) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+  }
+  section h3 {
+    font-size: clamp(17px, 5vw, 22px) !important;
+  }
+
+  /* ============ Grilles 2 cols → 1 col ============ */
+  section [style*="grid-template-columns: 1fr 1fr"],
+  section [style*="grid-template-columns: 1fr 1.2fr"],
+  section [style*="grid-template-columns: 1.2fr 1fr"],
+  section [style*="grid-template-columns: 1fr 1.5fr"],
+  main [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* ============ Grilles repeat(N) ============ */
+  /* repeat(4, 1fr) → 2 cols */
+  section [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 18px !important;
+  }
+  /* repeat(3, 1fr) → 2 cols (clients, pricing reste à 1 col plus bas) */
+  section [style*="grid-template-columns: repeat(3, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+  /* Pricing : 1 col empilée */
+  #tarifs [style*="grid-template-columns: repeat(3, 1fr)"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Stats band : retirer la séparation verticale qui ne marche pas en grid 2 cols */
+  section [style*="grid-template-columns: repeat(4, 1fr)"] > div {
+    border-left: none !important;
+    padding-left: 0 !important;
+  }
+
+  /* ============ Globe / hero overlays : moins gourmand ============ */
+  /* DarkSection — globe à droite */
+  section[style*="linear-gradient(135deg, #1f4e60"] [style*="right: -18%"] {
+    right: -45% !important;
+    width: 80vw !important;
+    height: 80vw !important;
+    top: 30% !important;
+  }
+
+  /* Why-page hero : globe centré, plus petit */
+  main > section:first-child [style*="min(120vh, 1100px)"] {
+    width: min(140vw, 700px) !important;
+    height: min(140vw, 700px) !important;
+  }
+
+  /* WhyFinalCTA : demi-globe en bas */
+  section[style*="background: linear-gradient(135deg, var(--navy)"] [style*="bottom: -60%"] {
+    bottom: -30% !important;
+    width: 140vw !important;
+    height: 140vw !important;
+  }
+
+  /* ============ Hero (homepage) ============ */
+  section[style*="padding: 90px 48px 80px"] {
+    padding: 70px 18px 60px !important;
+  }
+  /* Photo strip déjà couverte par le @media existant */
+
+  /* ============ Boutons / CTA ============ */
+  section a[style*="padding: 17px 30px"],
+  section a[style*="padding: 15px 26px"],
+  section a[style*="padding: 14px 22px"] {
+    padding: 13px 20px !important;
+    font-size: 14px !important;
+  }
+  /* CTA stack vertical sur mobile pour éviter débordement */
+  section [style*="display: flex"][style*="gap: 16px"][style*="flex-wrap: wrap"][style*="justify-content: center"] > a,
+  main > section:first-child [style*="margin-top: 44px"] > a {
+    width: 100% !important;
+    max-width: 320px !important;
+    justify-content: center !important;
+  }
+
+  /* ============ Trust strip (Why hero) ============ */
+  main > section:first-child [style*="border-top: 1px solid rgba(255,255,255,0.12)"] {
+    gap: 16px !important;
+    justify-content: space-around !important;
+  }
+
+  /* ============ FAQ ============ */
+  #faq button[style*="padding: 20px 26px"] {
+    padding: 16px 18px !important;
+    font-size: 15px !important;
+  }
+  #faq div[style*="padding: 0 26px 22px"] {
+    padding: 0 18px 18px !important;
+  }
+
+  /* ============ Footer ============ */
+  footer {
+    padding: 48px 20px 24px !important;
+  }
+  footer [style*="grid-template-columns: 1.5fr 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    padding-bottom: 32px !important;
+  }
+  footer [style*="display: flex"][style*="justify-content: space-between"] {
+    flex-direction: column !important;
+    gap: 14px !important;
+    text-align: center !important;
+  }
+
+  /* ============ Contact (#contact) ============ */
+  #contact > div {
+    padding: 40px 22px !important;
+  }
+  #contact [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  /* iOS : empêche le zoom au focus en gardant la police >= 16px */
+  #contact input,
+  #contact textarea {
+    padding: 12px 14px !important;
+    font-size: 16px !important;
+  }
+
+  /* ============ About page ============ */
+  .about-hero .about-hero__content {
+    padding: 32px 20px !important;
+  }
+  .about-hero .about-hero__image {
+    min-height: 240px !important;
+  }
+  #about-story, #about-values, #about-team {
+    padding: 56px 18px !important;
+  }
+  /* Founder card : passer en 1 colonne */
+  #about-team [style*="minmax(220px, 280px) 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  #about-team .founder-avatar-wrap {
+    aspect-ratio: 16 / 11 !important;
+  }
+
+  /* ============ WhyAccordion : stack vertical ============ */
+  .why-acc {
+    flex-direction: column !important;
+    height: auto !important;
+    gap: 10px !important;
+  }
+  .why-acc-item,
+  .why-acc-item.is-active,
+  .why-acc-item.is-collapsed {
+    width: 100% !important;
+    height: 200px !important;
+  }
+  .why-acc-item.is-collapsed {
+    height: 80px !important;
+  }
+  .why-acc-collapsed-label {
+    writing-mode: horizontal-tb !important;
+    transform: none !important;
+    text-orientation: mixed !important;
+  }
+  .why-acc-content {
+    padding: 18px !important;
+  }
+  .why-acc-title {
+    font-size: 22px !important;
+  }
+
+  /* ============ WhyCompare : table → cards stack ============ */
+  main > section [style*="grid-template-columns: 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  main > section [style*="grid-template-columns: 1fr 1fr 1fr"] > div {
+    padding: 14px 18px !important;
+    font-size: 13px !important;
+  }
+  main > section [style*="grid-template-columns: 1fr 1fr 1fr"] > div:first-child {
+    background: var(--bg-warm) !important;
+    font-weight: 700 !important;
+    color: var(--ink) !important;
+  }
+}
+
+/* -------------------- Smartphone serré (<= 480px) -------------------- */
+@media (max-width: 480px) {
+  section {
+    padding: 48px 14px !important;
+  }
+  section h1 {
+    font-size: clamp(28px, 10vw, 40px) !important;
+  }
+  section h2 {
+    font-size: clamp(22px, 8vw, 30px) !important;
+  }
+
+  /* Stats : numbers plus petits */
+  section [style*="grid-template-columns: repeat(4, 1fr)"] [style*="font-size: 64px"],
+  section [style*="grid-template-columns: repeat(4, 1fr)"] [style*="font-size: 56px"] {
+    font-size: 38px !important;
+  }
+
+  /* Process : 1 col */
+  #process [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hide heavy decorative blurs to save GPU */
+  section [style*="filter: blur(60px)"],
+  section [style*="filter: blur(50px)"],
+  section [style*="filter: blur(40px)"] {
+    opacity: 0.4 !important;
+  }
+}
+
+/* -------------------- Touch (sans hover) -------------------- */
+@media (hover: none) {
+  section a:hover,
+  section button:hover,
+  section [style*="cursor: pointer"]:hover {
+    transform: none !important;
+  }
+}
