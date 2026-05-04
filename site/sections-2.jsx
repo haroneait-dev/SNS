@@ -816,12 +816,12 @@ function Footer({ t }) {
 
 function ClientsSection({ t }) {
   const clientLogos = [
-    { name: 'Monnot & Associés', domain: 'monnot-associes.com' },
+    { name: 'Monnot & Associés', domain: 'monnot-associes.com', logo: 'input/clients/monnot.png' },
     { name: '3N Formation', domain: '3nformation.fr' },
     { name: 'SF Partners', domain: 'sfpartners.fr' },
-    { name: 'FEOC ARCSUD', domain: 'feocarcsud.fr' },
-    { name: 'Auto-École Gold Driving', domain: 'golddriving.fr' },
-    { name: 'Logiprox', domain: 'logiprox.fr' },
+    { name: 'FEOC ARCSUD', domain: 'feocarcsud.fr', logo: 'input/clients/feocarcsud.png' },
+    { name: 'Auto-École Gold Driving', domain: 'golddriving.fr', logo: 'input/clients/golddriving.png' },
+    { name: 'Logiprox', domain: 'logiprox.fr', logo: 'input/clients/logiprox.png' },
   ];
 
   return (
@@ -838,7 +838,7 @@ function ClientsSection({ t }) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 900, margin: '0 auto' }}>
           {clientLogos.map((client, i) => (
-            <ClientLogoCard key={i} name={client.name} domain={client.domain} />
+            <ClientLogoCard key={i} name={client.name} domain={client.domain} logo={client.logo} />
           ))}
         </div>
       </div>
@@ -846,54 +846,70 @@ function ClientsSection({ t }) {
   );
 }
 
-function ClientLogoCard({ name, domain }) {
-  const [imgSrc, setImgSrc] = React.useState(`https://logo.clearbit.com/${domain}?size=200`);
-  const [showText, setShowText] = React.useState(false);
+function ClientLogoCard({ name, domain, logo }) {
+  // Priorité au logo local (fourni explicitement par l'utilisateur), sinon Clearbit,
+  // sinon favicon Google, sinon fallback texte uniquement.
+  const sources = [
+    logo,
+    `https://logo.clearbit.com/${domain}?size=256`,
+    `https://www.google.com/s2/favicons?domain=${domain}&sz=128`,
+  ].filter(Boolean);
+  const [srcIndex, setSrcIndex] = React.useState(0);
+  const [failed, setFailed] = React.useState(false);
+  const currentSrc = sources[srcIndex];
+  const isLocal = currentSrc && currentSrc.startsWith('input/');
 
   return (
     <div style={{
       background: '#fff',
       border: '1px solid var(--ink-faint)',
       borderRadius: 'var(--radius-lg)',
-      padding: '28px 24px',
+      padding: '24px 20px 20px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      minHeight: 120,
-      gap: 10,
+      minHeight: 140,
+      gap: 14,
       boxShadow: '0 2px 12px rgba(14,31,61,0.05)',
       transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     }}
     onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(14,31,61,0.1)'; }}
     onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(14,31,61,0.05)'; }}
     >
-      {!showText ? (
-        <img
-          src={imgSrc}
-          alt={name}
-          loading="lazy"
-          onError={() => {
-            if (imgSrc.includes('clearbit')) {
-              setImgSrc(`https://www.google.com/s2/favicons?domain=${domain}&sz=128`);
-            } else {
-              setShowText(true);
-            }
-          }}
-          style={{
-            maxWidth: 140,
-            maxHeight: 60,
-            objectFit: 'contain',
-          }}
-        />
+      {!failed && currentSrc ? (
+        <div style={{
+          height: 56,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+        }}>
+          <img
+            src={currentSrc}
+            alt={name}
+            loading="lazy"
+            onError={() => {
+              if (srcIndex < sources.length - 1) setSrcIndex(srcIndex + 1);
+              else setFailed(true);
+            }}
+            style={{
+              maxWidth: '90%',
+              maxHeight: isLocal ? 44 : 52,
+              objectFit: 'contain',
+              imageRendering: isLocal ? 'auto' : 'auto',
+            }}
+          />
+        </div>
       ) : null}
       <span style={{
         fontFamily: 'var(--font-heading)',
-        fontSize: showText ? 17 : 11,
+        fontSize: failed ? 17 : 13,
         fontWeight: 600,
-        color: showText ? 'var(--ink)' : 'var(--ink-mute)',
-        letterSpacing: showText ? '-0.01em' : '0.02em',
+        color: failed ? 'var(--ink)' : 'var(--ink-soft)',
+        letterSpacing: '-0.005em',
         textAlign: 'center',
+        lineHeight: 1.3,
       }}>{name}</span>
     </div>
   );

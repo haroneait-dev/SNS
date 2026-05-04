@@ -162,18 +162,7 @@ function DropdownNav({ t, headerHeight = 68 }) {
               </a>
 
               {item.subMenus && isOpen && (
-                <>
-                  {/* Invisible bridge to keep menu open while moving mouse down */}
-                  <div style={{ 
-                    position: 'absolute', 
-                    top: '100%', 
-                    left: 0, 
-                    right: 0, 
-                    height: 30, 
-                    zIndex: 15 
-                  }} />
-                  <DropdownPanel item={item} t={t} headerHeight={headerHeight} />
-                </>
+                <DropdownPanel item={item} t={t} headerHeight={headerHeight} />
               )}
             </li>
           );
@@ -185,13 +174,16 @@ function DropdownNav({ t, headerHeight = 68 }) {
 
 function DropdownPanel({ item, t, headerHeight = 68 }) {
   // Mega-menu pleine largeur : ancré sous le header, fixed left:0 right:0
+  // Le wrapper s'étend 24px au-dessus du header pour absorber la zone vide
+  // entre les items du menu et le panneau (évite la fermeture en transit).
+  const bridgeOffset = 24;
   return (
     <div style={{
       position: 'fixed',
-      top: headerHeight,
+      top: headerHeight - bridgeOffset,
       left: 0, right: 0,
       zIndex: 20,
-      pointerEvents: 'none', // wrapper ne capte pas — seul le panel intérieur le fait
+      pointerEvents: 'none', // wrapper ne capte pas — seuls les enfants explicites le font
     }}>
       <style>{`
         @keyframes nav-mega-in {
@@ -199,6 +191,9 @@ function DropdownPanel({ item, t, headerHeight = 68 }) {
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
+
+      {/* Bridge invisible plein-largeur : capte le hover dans le gap menu → panneau */}
+      <div style={{ height: bridgeOffset, pointerEvents: 'auto' }} />
 
       {/* Bandeau pleine largeur (fond + ombre s'étendent jusqu'aux bords) */}
       <div style={{
@@ -443,15 +438,16 @@ function Hero({ t }) {
         {photos.map((p, i) => (
           <div key={i}
             style={{
-              position: 'absolute', inset: '-15%',
+              position: 'absolute', inset: 0,
               backgroundImage: `url(${p.url})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center 40%',
+              backgroundPosition: 'center 45%',
               opacity: i === index ? 0.85 : 0,
               transition: 'opacity 1.5s ease-in-out',
               filter: 'grayscale(100%) contrast(1.1) brightness(1.2)',
               mixBlendMode: 'multiply',
-              transform: 'scale(0.8)',
+              transform: 'scale(0.7)',
+              transformOrigin: 'center center',
             }} />
         ))}
       </div>
@@ -598,29 +594,13 @@ function Hero({ t }) {
                     <I.crown size={13} />
                     PARIS · IDF
                   </span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 999, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', color: '#d4d4d8' }}>
+                    <img src="input/uk-flag.png" alt="UK" style={{ width: 18, height: 12, borderRadius: 2, objectFit: 'cover', display: 'block' }} />
+                    WE SPEAK ENGLISH
+                  </span>
                 </div>
               </div>
 
-              {/* Floating UK Badge - Bottom Right of Hero content area */}
-              <div style={{ 
-                position: 'absolute', 
-                bottom: 0, 
-                right: 0, 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: 12, 
-                background: 'rgba(255,255,255,0.03)', 
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                padding: '12px 20px',
-                borderRadius: 20,
-                zIndex: 10,
-                boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
-              }}>
-                <img src="input/uk-flag.png" alt="UK" style={{ width: 28, height: 18, borderRadius: 3, objectFit: 'cover', boxShadow: '0 2px 4px rgba(0,0,0,0.3)' }} />
-                <span style={{ fontSize: 13, fontWeight: 800, color: '#fff', letterSpacing: '0.05em', fontFamily: 'var(--font-mono)' }}>WE SPEAK ENGLISH</span>
-              </div>
             </div>
 
             {/* Marquee card */}
@@ -654,6 +634,7 @@ function Hero({ t }) {
           </div>
         </div>
       </div>
+
     </section>
   );
 }

@@ -81,7 +81,7 @@ window.SAM_DATA = {
     { quote: 'Intervention rapide, équipe professionnelle. Notre réseau Wi-Fi est enfin stable dans tout le bâtiment.', author: 'Cabinet d\'avocats', role: 'Paris 8e', stars: 5 },
   ],
   partners: [
-    { label: 'Réseau & Wi-Fi', brands: ['Cisco Meraki', 'Ubiquiti UniFi', 'Aruba', 'MikroTik'] },
+    { label: 'Réseau & Wi-Fi', brands: ['Cisco Meraki', 'Ubiquiti UniFi', 'TP-Link', 'Aruba', 'MikroTik'] },
     { label: 'Cybersécurité', brands: ['Fortinet', 'Sophos', 'Bitdefender', 'Stormshield'] },
     { label: 'Vidéosurveillance', brands: ['Hikvision', 'Dahua', 'Axis', 'Ubiquiti UVC'] },
     { label: 'Sauvegarde & Stockage', brands: ['Veeam', 'Acronis', 'Synology', 'QNAP'] },
