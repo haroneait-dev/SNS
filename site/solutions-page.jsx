@@ -158,8 +158,8 @@ function SolutionRow({ svc, index, t }) {
 }
 
 // Hero background for the index — a wide IT operations / Paris office vibe
-const SOLUTIONS_HERO_BG = 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=2000&q=85&auto=format&fit=crop';
-const SOLUTIONS_HERO_MEDIA = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=85&auto=format&fit=crop';
+const SOLUTIONS_HERO_BG = 'input/sns/solutions-hero.jpg';
+const SOLUTIONS_HERO_MEDIA = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80&auto=format&fit=crop';
 
 function SolutionPickerCard({ svc, t, index }) {
   const Motion = window.Motion || window.FramerMotion || {};

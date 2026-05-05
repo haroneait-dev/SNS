@@ -388,7 +388,7 @@ function Hero({ t }) {
   const photos = [
     { url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1400&q=85&auto=format&fit=crop', label: 'Infogérance', icon: I.network },
     { url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=85&auto=format&fit=crop', label: 'Cybersécurité', icon: I.network },
-    { url: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1400&q=85&auto=format&fit=crop', label: 'Dépannage & Maintenance', icon: I.wrench },
+    { url: 'input/sns/solutions-hero.jpg', label: 'Dépannage & Maintenance', icon: I.wrench },
     { url: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1400&q=85&auto=format&fit=crop', label: 'Baie de brassage', icon: I.network },
     { url: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=1400&q=85&auto=format&fit=crop', label: 'Vidéosurveillance', icon: I.cam },
     { url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&q=85&auto=format&fit=crop', label: 'Réseaux informatique', icon: I.network },
