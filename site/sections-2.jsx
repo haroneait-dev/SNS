@@ -235,7 +235,7 @@ function DarkSection({ t }) {
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         <div style={{
           position: 'absolute',
-          right: '-18%',
+          left: '-15%',
           top: '50%',
           transform: 'translateY(-50%)',
           width: '85vh',
@@ -414,7 +414,15 @@ const WHY_CARDS = [
 ];
 
 function WhyAccordion() {
-  const [active, setActive] = React.useState(WHY_CARDS.length - 1);
+  const [active, setActive] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setActive(prev => (prev + 1) % WHY_CARDS.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div style={{ width: '100%' }}>
       <style>{`
@@ -977,6 +985,45 @@ function ClientsSection({ t }) {
             Ils nous font confiance pour gérer leur infrastructure IT au quotidien.
           </p>
         </div>
+        <style>{`
+          .sns-glow-card {
+            --glow-x: 50%;
+            --glow-y: 50%;
+            --glow-opacity: 0;
+            --glow-color-rgb: 14, 165, 233;
+            position: relative;
+            isolation: isolate;
+            transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+          }
+          .sns-glow-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(220px 220px at var(--glow-x) var(--glow-y), rgba(var(--glow-color-rgb), 0.16), transparent 65%);
+            opacity: var(--glow-opacity);
+            transition: opacity .35s ease;
+            pointer-events: none;
+            z-index: 0;
+          }
+          .sns-glow-card::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: radial-gradient(180px 180px at var(--glow-x) var(--glow-y), rgba(var(--glow-color-rgb), 0.85), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+            opacity: var(--glow-opacity);
+            transition: opacity .35s ease;
+            pointer-events: none;
+            z-index: 1;
+          }
+          .sns-glow-card > * { position: relative; z-index: 2; }
+        `}</style>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 980, margin: '0 auto' }}>
           {clientLogos.map((client, i) => (
             <ClientLogoCard key={i} name={client.name} domain={client.domain} logo={client.logo} sector={client.sector} />
@@ -1004,30 +1051,36 @@ function ClientLogoCard({ name, domain, logo, sector }) {
   }, [name]);
 
   return (
-    <div style={{
-      background: '#fff',
-      border: '1px solid var(--ink-faint)',
-      borderRadius: 'var(--radius-lg)',
-      padding: '22px 18px 18px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      minHeight: 156,
-      gap: 12,
-      boxShadow: '0 2px 12px rgba(14,31,61,0.05)',
-      transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.transform = 'translateY(-3px)';
-      e.currentTarget.style.boxShadow = '0 10px 28px rgba(14,31,61,0.12)';
-      e.currentTarget.style.borderColor = 'var(--accent)';
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = '0 2px 12px rgba(14,31,61,0.05)';
-      e.currentTarget.style.borderColor = 'var(--ink-faint)';
-    }}
+    <div
+      className="sns-glow-card"
+      style={{
+        background: '#fff',
+        border: '1px solid var(--ink-faint)',
+        borderRadius: 'var(--radius-lg)',
+        padding: '22px 18px 18px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        minHeight: 156,
+        gap: 12,
+        boxShadow: '0 2px 12px rgba(14,31,61,0.05)',
+      }}
+      onPointerMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty('--glow-x', `${e.clientX - r.left}px`);
+        e.currentTarget.style.setProperty('--glow-y', `${e.clientY - r.top}px`);
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-3px)';
+        e.currentTarget.style.boxShadow = '0 10px 28px rgba(14,31,61,0.12)';
+        e.currentTarget.style.setProperty('--glow-opacity', '1');
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 12px rgba(14,31,61,0.05)';
+        e.currentTarget.style.setProperty('--glow-opacity', '0');
+      }}
     >
       <div style={{
         height: 64,
