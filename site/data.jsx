@@ -24,14 +24,14 @@ window.SAM_DATA = {
       desc: 'Supervision et gestion complète de votre parc informatique pour assurer la continuité de votre activité.',
       longDesc: "Concentrez-vous sur votre métier, on s'occupe du reste. Supervision proactive 24/7, mises à jour automatisées, helpdesk réactif, sauvegardes pilotées : votre parc est sous contrôle. Vous appelez un seul numéro, vous payez un forfait clair, vous dormez tranquille.",
       features: ['Supervision 24/7 proactive', 'Mises à jour & patchs', 'Helpdesk illimité', 'Sauvegarde & restauration'],
-      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1400&q=85&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1573165850883-9b0e18c44bd2?w=1400&q=85&auto=format&fit=crop',
     },
     {
       id: 'cyber', icon: '△', title: 'Cyber Sécurité',
       desc: 'Protection de vos données et de votre réseau contre les menaces numériques et intrusions.',
       longDesc: "Une attaque coûte en moyenne 400 000€ à une PME. La cybersécurité n'est plus optionnelle. On audite votre exposition, on déploie pare-feu nouvelle génération, antivirus EDR et politiques d'accès, on forme vos équipes au phishing. Mieux vaut prévenir que rançonner.",
       features: ['Pare-feu nouvelle génération', 'Antivirus EDR', 'Audit de sécurité complet', 'Protection ransomware'],
-      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=85&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1400&q=85&auto=format&fit=crop',
     },
     {
       id: 'video', icon: '□', title: 'Vidéosurveillance',
@@ -45,14 +45,14 @@ window.SAM_DATA = {
       desc: "Sécurisez les accès à vos bâtiments et protégez-vous contre les effractions.",
       longDesc: "Qui rentre, quand, et avec quel droit ? Badges, codes, biométrie : maîtrisez chaque accès depuis une interface unique. Couplé à une alarme anti-intrusion télésurveillée, votre bâtiment est protégé 24/7 — avec intervention en cas d'alerte.",
       features: ['Badges, codes & biométrie', 'Gestion centralisée des accès', 'Alarme anti-intrusion', 'Télésurveillance 24/7'],
-      image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=1400&q=85&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1633265486064-086b219458ec?w=1400&q=85&auto=format&fit=crop',
     },
     {
       id: 'depannage', icon: '×', title: 'Dépannage & Maintenance Informatique',
       desc: 'Intervention rapide sur site ou à distance pour résoudre toutes vos pannes informatiques.',
       longDesc: "Quand ça casse, vous appelez. On intervient sous 4h ouvrées en région parisienne — souvent dans la journée. Diagnostic précis, devis transparent, réparation propre. Pour éviter le sinistre, prenez un contrat de maintenance : on prévient au lieu de guérir.",
       features: ['Intervention sous 4h', 'Diagnostic précis & transparent', 'Réparation matérielle & logicielle', 'Contrats de maintenance flexibles'],
-      image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1400&q=85&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1568234928966-359c35dd8327?w=1400&q=85&auto=format&fit=crop',
     },
   ],
   stats: [
